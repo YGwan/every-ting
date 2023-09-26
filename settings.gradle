@@ -1,1 +1,5 @@
 rootProject.name = 'everyTing'
+include 'module-mysql'
+include 'module-member'
+include 'module-core'
+

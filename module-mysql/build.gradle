@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':module-core')
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
+}
+
+test {
+    useJUnitPlatform()
+}

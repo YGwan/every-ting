@@ -1,1 +1,4 @@
 rootProject.name = 'everyTing'
+include 'module-mariadb'
+include 'module-member'
+include 'module-core'

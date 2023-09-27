@@ -1,0 +1,14 @@
+dependencies {
+    implementation project(':module-core')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    runtimeOnly 'com.h2database:h2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar { enabled = false }
+
+jar { enabled = true }

@@ -1,4 +1,4 @@
-package com.everyTing;
+package com.everyTing.member;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

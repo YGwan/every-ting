@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${RDB_URL}
+    username: ${RDB_USERNAME}
+    password: ${RDB_PASSWORD}
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: create
+  sql.init.mode: always
+

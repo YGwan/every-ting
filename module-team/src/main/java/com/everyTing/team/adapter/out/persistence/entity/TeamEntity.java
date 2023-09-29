@@ -1,7 +1,7 @@
 package com.everyTing.team.adapter.out.persistence.entity;
 
-import com.everyTing.team.adapter.out.persistence.entity.common.AuditingFields;
-import com.everyTing.team.adapter.out.persistence.entity.common.Gender;
+import com.everyTing.core.domain.AuditingFields;
+import com.everyTing.core.domain.Gender;
 import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.common;
+package com.everyTing.core.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

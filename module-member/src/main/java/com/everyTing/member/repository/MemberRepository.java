@@ -1,6 +1,6 @@
-package com.everyTing.repository;
+package com.everyTing.member.repository;
 
-import com.everyTing.domain.Member;
+import com.everyTing.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {

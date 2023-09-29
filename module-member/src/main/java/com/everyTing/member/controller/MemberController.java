@@ -1,4 +1,4 @@
-package com.everyTing.controller;
+package com.everyTing.member.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

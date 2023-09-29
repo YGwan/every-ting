@@ -1,4 +1,4 @@
-package com.everyTing.domain;
+package com.everyTing.member.domain;
 
 import com.everyTing.type.Gender;
 

@@ -1,4 +1,4 @@
-package com.everyTing.service;
+package com.everyTing.member.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.everyTing.member.domain;
 
-import com.everyTing.type.Gender;
+import com.everyTing.core.domain.Gender;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

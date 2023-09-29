@@ -202,4 +202,7 @@ gradle-app.setting
 ### application-dev.yaml
 **/application-dev.yaml
 
+### IntelliJ out
+**/module-*/out/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij,java,gradle

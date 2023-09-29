@@ -5,8 +5,6 @@ spring:
     password: ${RDB_PASSWORD}
 
   jpa:
-    properties:
-      hibernate.dialect: org.hibernate.dialect.MariaDBDialect
     defer-datasource-initialization: true
   sql.init.mode: always
 

@@ -1,6 +1,6 @@
 package com.everyTing.team.adapter.out.persistence.entity.embedded;
 
-import static com.everyTing.team.common.constraints.RegionConstraints.REGIONS;
+import static com.everyTing.team.common.constraints.TeamConstraints.REGIONS;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_003;
 
 import com.everyTing.core.exception.TingApplicationException;

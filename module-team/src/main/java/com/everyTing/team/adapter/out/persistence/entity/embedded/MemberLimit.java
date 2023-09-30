@@ -1,7 +1,7 @@
 package com.everyTing.team.adapter.out.persistence.entity.embedded;
 
-import static com.everyTing.team.common.constraints.LimitConstraints.MEMBER_MAX_LIMIT;
-import static com.everyTing.team.common.constraints.LimitConstraints.MEMBER_MIN_LIMIT;
+import static com.everyTing.team.common.constraints.TeamConstraints.MEMBER_MAX_LIMIT;
+import static com.everyTing.team.common.constraints.TeamConstraints.MEMBER_MIN_LIMIT;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_002;
 
 import com.everyTing.core.exception.TingApplicationException;

@@ -1,7 +1,7 @@
 package com.everyTing.team.adapter.out.persistence.entity.embedded;
 
-import static com.everyTing.team.common.constraints.LimitConstraints.NAME_MAX_LENGTH;
-import static com.everyTing.team.common.constraints.LimitConstraints.NAME_MIN_LENGTH;
+import static com.everyTing.team.common.constraints.TeamConstraints.NAME_MAX_LENGTH;
+import static com.everyTing.team.common.constraints.TeamConstraints.NAME_MIN_LENGTH;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_001;
 
 import com.everyTing.core.exception.TingApplicationException;

@@ -14,6 +14,20 @@ public class Response<T> {
     private Meta meta;
     private T data;
 
+    private Response(T data) {
+        this.data = data;
+    }
+
+    private Response(Meta meta, T data) {
+        this.meta = meta;
+        this.data = data;
+    }
+
+    private Response(String errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
+    }
+
     private Response(String errorCode, String message, Meta meta, T data) {
         this.errorCode = errorCode;
         this.message = message;
@@ -22,15 +36,7 @@ public class Response<T> {
     }
 
     public static <T> Response<T> error(String errorCode, String message) {
-        if (errorCode == null) {
-            return null;
-        }
-
-        return new Response<>(errorCode, message, null, null);
-    }
-
-    public static <T> Response<T> success() {
-        return null;
+        return new Response<>(errorCode, message);
     }
 
     public static <T> Response<T> success(T data) {
@@ -40,10 +46,18 @@ public class Response<T> {
             Meta meta = new Meta(page.getPageable()
                                      .getPageNumber(), page.getSize(), page.getTotalElements(),
                 page.getTotalPages());
-            return new Response<>(null, null, meta, (T) page.getContent());
+            return new Response<>(meta, (T) page.getContent());
         }
 
-        return new Response<>(null, null, null, data);
+        return new Response<>(data);
+    }
+
+    public static <T> Response<T> error() {
+        return null;
+    }
+
+    public static <T> Response<T> success() {
+        return null;
     }
 
     public static class Meta {

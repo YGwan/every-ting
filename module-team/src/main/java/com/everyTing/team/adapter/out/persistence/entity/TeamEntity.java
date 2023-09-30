@@ -2,12 +2,19 @@ package com.everyTing.team.adapter.out.persistence.entity;
 
 import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.Code;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.Major;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.MemberLimit;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.Name;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.Region;
+import com.everyTing.team.adapter.out.persistence.entity.embedded.University;
 import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,27 +23,27 @@ import javax.persistence.Table;
 public class TeamEntity extends AuditingFields {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Column(length = 20)
-    private String name;
+    private Name name;
 
     @NotNull
-    private String region;
+    private Region region;
 
     @NotNull
-    private String university;
+    private University university;
 
     @NotNull
-    private String major;
+    private Major major;
 
     @NotNull
-    private String code;
+    private Code code;
 
     @NotNull
-    private Short memberLimit;
+    private MemberLimit memberLimit;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -47,12 +54,50 @@ public class TeamEntity extends AuditingFields {
 
     private TeamEntity(String name, String region, String university, String major, String code,
         Short memberLimit, Gender gender) {
-        this.name = name;
-        this.region = region;
-        this.university = university;
-        this.major = major;
-        this.code = code;
-        this.memberLimit = memberLimit;
+        this.name = Name.from(name);
+        this.region = Region.from(region);
+        this.university = University.from(university);
+        this.major = Major.from(major);
+        this.code = Code.from(code);
+        this.memberLimit = MemberLimit.from(memberLimit);
         this.gender = gender;
+    }
+
+    public static TeamEntity from(String name, String region, String university, String major,
+        String code,
+        Short memberLimit, Gender gender) {
+        return new TeamEntity(name, region, university, major, code, memberLimit, gender);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name.getValue();
+    }
+
+    public String getRegion() {
+        return region.getValue();
+    }
+
+    public String getUniversity() {
+        return university.getValue();
+    }
+
+    public String getMajor() {
+        return major.getValue();
+    }
+
+    public String getCode() {
+        return code.getValue();
+    }
+
+    public Short getMemberLimit() {
+        return memberLimit.getValue();
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 }

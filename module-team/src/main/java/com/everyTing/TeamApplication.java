@@ -1,11 +1,9 @@
-package com.everyTing.team;
+package com.everyTing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(
-    scanBasePackages = {"com.everyTing.core", "com.everyTing.team"}
-)
+@SpringBootApplication
 public class TeamApplication {
 
     public static void main(String[] args) {

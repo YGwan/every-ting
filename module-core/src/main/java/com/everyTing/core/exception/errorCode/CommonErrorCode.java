@@ -2,14 +2,14 @@ package com.everyTing.core.exception.errorCode;
 
 import org.springframework.http.HttpStatus;
 
-public enum CoreErrorCode implements ApplicationErrorCode {
+public enum CommonErrorCode implements ApplicationErrorCode {
 
     ;
 
     private String message;
     private HttpStatus status;
 
-    CoreErrorCode(String message, HttpStatus status) {
+    CommonErrorCode(String message, HttpStatus status) {
         this.message = message;
         this.status = status;
     }

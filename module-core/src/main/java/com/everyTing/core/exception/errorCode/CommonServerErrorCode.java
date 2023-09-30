@@ -1,6 +1,6 @@
 package com.everyTing.core.exception.errorCode;
 
-public enum CoreServerErrorCode implements ServerErrorCode {
+public enum CommonServerErrorCode implements ServerErrorCode {
 
     CSER_001("TingApplicationException 생성자 에러 발생"),
     CSER_002("TingServerException 생성자 에러 발생"),
@@ -8,7 +8,7 @@ public enum CoreServerErrorCode implements ServerErrorCode {
 
     private String message;
 
-    CoreServerErrorCode(String message) {
+    CommonServerErrorCode(String message) {
         this.message = message;
     }
 

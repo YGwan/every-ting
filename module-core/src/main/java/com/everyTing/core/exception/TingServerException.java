@@ -1,6 +1,6 @@
 package com.everyTing.core.exception;
 
-import static com.everyTing.core.exception.errorCode.CoreServerErrorCode.CSER_002;
+import static com.everyTing.core.exception.errorCode.CommonServerErrorCode.CSER_002;
 
 import com.everyTing.core.exception.errorCode.ServerErrorCode;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -1,3 +1,5 @@
 spring:
   profiles:
-    include: db
+    include:
+      - db
+      - constraint

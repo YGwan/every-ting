@@ -9,6 +9,9 @@ import com.everyTing.team.adapter.out.persistence.entity.embedded.Name;
 import com.everyTing.team.adapter.out.persistence.entity.embedded.Region;
 import com.everyTing.team.adapter.out.persistence.entity.embedded.University;
 import com.sun.istack.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,6 +19,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Table(name = "team")
@@ -47,6 +51,9 @@ public class TeamEntity extends AuditingFields {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    List<TeamHashtagEntity> hashtags = new ArrayList<>();
 
     protected TeamEntity() {
     }

@@ -27,7 +27,6 @@ public class TeamEntity extends AuditingFields {
     private Long id;
 
     @NotNull
-    @Column(length = 20)
     private Name name;
 
     @NotNull

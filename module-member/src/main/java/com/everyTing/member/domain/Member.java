@@ -1,6 +1,7 @@
 package com.everyTing.member.domain;
 
 import com.everyTing.core.domain.Gender;
+import com.everyTing.member.dto.request.SignUpRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -62,4 +63,33 @@ public class Member {
 
     @NotNull
     private String profilePhoto;
+
+    public Member(String username, Gender gender, LocalDate birth, String socialEmail, String universityEmail,
+                  String university, String major, String kakaoId, double height, double weight) {
+        this.username = username;
+        this.gender = gender;
+        this.birth = birth;
+        this.socialEmail = socialEmail;
+        this.universityEmail = universityEmail;
+        this.university = university;
+        this.major = major;
+        this.kakaoId = kakaoId;
+        this.height = height;
+        this.weight = weight;
+    }
+
+    public static Member from(SignUpRequest request) {
+        return new Member(
+                request.getUsername(),
+                request.getGender(),
+                request.getBirth(),
+                request.getSocialEmail(),
+                request.getUniversityEmail(),
+                request.getUniversity(),
+                request.getMajor(),
+                request.getKakaoId(),
+                request.getHeight(),
+                request.getWeight()
+        );
+    }
 }

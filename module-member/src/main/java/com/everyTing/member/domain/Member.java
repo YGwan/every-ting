@@ -61,8 +61,10 @@ public class Member {
     @NotNull
     private double weight;
 
-    @NotNull
     private String profilePhoto;
+
+    public Member() {
+    }
 
     public Member(String username, Gender gender, LocalDate birth, String socialEmail, String universityEmail,
                   String university, String major, String kakaoId, double height, double weight) {

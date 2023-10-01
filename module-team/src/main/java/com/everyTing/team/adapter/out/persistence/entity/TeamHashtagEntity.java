@@ -2,7 +2,6 @@ package com.everyTing.team.adapter.out.persistence.entity;
 
 import com.everyTing.core.domain.CreatedDateFields;
 import com.everyTing.team.adapter.out.persistence.entity.embedded.Hashtag;
-import com.sun.istack.NotNull;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,6 @@ public class TeamHashtagEntity extends CreatedDateFields {
     @JoinColumn(name = "team_id")
     private TeamEntity team;
 
-    @NotNull
     private Hashtag content;
 
     protected TeamHashtagEntity() {

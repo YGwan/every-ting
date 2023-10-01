@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Hashtag {
 
-    @Column(name = "content", length = 10)
+    @Column(name = "content", nullable = false, length = 10)
     private String value;
 
     protected Hashtag() {

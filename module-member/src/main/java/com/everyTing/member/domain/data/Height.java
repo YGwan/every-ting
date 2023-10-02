@@ -27,7 +27,7 @@ public class Height {
     }
 
     public static Height from(double value) {
-        double height = Math.round((value * 10) / 10.0);
+        final double height = Math.round((value * 10) / 10.0);
         validate(height);
         return new Height(height);
     }

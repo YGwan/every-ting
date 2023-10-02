@@ -15,6 +15,8 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_008;
 @Embeddable
 public class Password {
 
+    public static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}";
+
     @NotNull
     @Column(name = "password")
     private String value;
@@ -33,9 +35,8 @@ public class Password {
     }
 
     public static void validate(String value) {
-        String passwordPattern = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}";
-        Pattern pattern = Pattern.compile(passwordPattern);
-        Matcher matcher = pattern.matcher(value);
+        final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+        final Matcher matcher = pattern.matcher(value);
         if (!matcher.matches()) {
             throw new TingApplicationException(MEMBER_008);
         }

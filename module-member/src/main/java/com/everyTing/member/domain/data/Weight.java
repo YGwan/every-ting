@@ -27,7 +27,7 @@ public class Weight {
     }
 
     public static Weight from(double value) {
-        double weight = Math.round((value * 10) / 10.0);
+        final double weight = Math.round((value * 10) / 10.0);
         validate(weight);
         return new Weight(weight);
     }

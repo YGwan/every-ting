@@ -10,7 +10,9 @@ public enum TokenErrorCode implements ApplicationErrorCode {
     TOKEN_001("Is not expired token"),
     TOKEN_002("Invalid JWT token"),
     TOKEN_003("Invalid JWT signature."),
-    TOKEN_004("Unsupported JWT token.")
+    TOKEN_004("Unsupported JWT token."),
+    TOKEN_005("Header is null or invalid"),
+    TOKEN_006("Reissue request is invalid")
     ;
 
     private final String message;

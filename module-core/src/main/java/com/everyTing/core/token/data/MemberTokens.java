@@ -1,4 +1,4 @@
-package com.everyTing.core.token.type;
+package com.everyTing.core.token.data;
 
 import lombok.Getter;
 

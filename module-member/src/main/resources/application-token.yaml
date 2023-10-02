@@ -1,4 +1,4 @@
-# JWT token cache
+# JWT token
 jwt:
   secretKey: ThisIsSkeletonCodeOfMeThankYouSoMuch!!
 
@@ -8,17 +8,14 @@ auth:
     token:
       access:
         key: accessToken
+        ttl:
+          time: 30 # 30 minutes
+
       refresh:
         key: refreshToken
+        ttl:
+          time: 259200 # 3 days
 
     # Member token payload
     payload:
       key: userId
-
-    # JWT TTL
-    access:
-      ttl:
-        time: 1800 # 30 minutes
-      refresh:
-        ttl:
-          time: 259200 # 3 days

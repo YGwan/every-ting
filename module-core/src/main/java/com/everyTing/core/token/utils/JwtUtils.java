@@ -1,6 +1,6 @@
 package com.everyTing.core.token.utils;
 
-import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.token.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class JwtUtils {
         if (isExpired(key, token)) {
             return;
         }
-        throw new TingApplicationException(TOKEN_001);
+        throw new TokenException(TOKEN_001);
     }
 
     public static boolean isExpired(Key key, String token) {
@@ -42,7 +42,7 @@ public class JwtUtils {
         } catch (ExpiredJwtException e) {
             return true;
         } catch (Exception e) {
-            throw new TingApplicationException(TOKEN_002);
+            throw new TokenException(TOKEN_002);
         }
     }
 
@@ -50,18 +50,18 @@ public class JwtUtils {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new TingApplicationException(TOKEN_003);
+            throw new TokenException(TOKEN_003);
         } catch (ExpiredJwtException e) {
-            throw new TingApplicationException(TOKEN_001);
+            throw new TokenException(TOKEN_001);
         } catch (UnsupportedJwtException e) {
-            throw new TingApplicationException(TOKEN_004);
+            throw new TokenException(TOKEN_004);
         } catch (Exception e) {
-            throw new TingApplicationException(TOKEN_002);
+            throw new TokenException(TOKEN_002);
         }
     }
 
     public static Long tokenValue(Key key, String claimName, String token) {
-        return tokenValue(key, token, claimName, false);
+        return tokenValue(key, claimName, token, false);
     }
 
     public static Long tokenValue(Key key, String claimName, String token, boolean ignoreExpired) {
@@ -71,7 +71,7 @@ public class JwtUtils {
             if (ignoreExpired) {
                 return e.getClaims().get(claimName, Long.class);
             }
-            throw new TingApplicationException(TOKEN_002);
+            throw new TokenException(TOKEN_002);
         }
     }
 }

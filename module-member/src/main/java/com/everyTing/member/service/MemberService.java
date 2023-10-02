@@ -1,11 +1,13 @@
 package com.everyTing.member.service;
 
 import com.everyTing.core.token.service.TokenService;
-import com.everyTing.core.token.type.MemberTokens;
+import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class MemberService {
@@ -21,5 +23,13 @@ public class MemberService {
     public MemberTokens addMember(SignUpRequest request) {
         Member newMember = memberRepository.save(Member.from(request));
         return tokenService.issue(newMember.getId());
+    }
+
+    public MemberTokens reissueToken(HttpServletRequest request) {
+        return tokenService.reissue(request);
+    }
+
+    public Long test(HttpServletRequest request) {
+        return tokenService.memberInfoByAccessToken(request);
     }
 }

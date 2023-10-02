@@ -35,12 +35,12 @@ public class Member {
     @Email
     @NotNull
     @Column(unique = true, nullable = false, length = 100)
-    private String socialEmail;
-
-    @Email
-    @NotNull
-    @Column(unique = true, nullable = false, length = 100)
     private String universityEmail;
+
+    @NotNull
+    @Size(min = 4, max = 100)
+    @Column(unique = true, nullable = false, length = 100)
+    private String password;
 
     @NotNull
     @Size(max = 70)
@@ -68,13 +68,13 @@ public class Member {
     public Member() {
     }
 
-    public Member(String username, Gender gender, LocalDate birth, String socialEmail, String universityEmail,
+    public Member(String username, Gender gender, LocalDate birth, String universityEmail, String password,
                   String university, String major, String kakaoId, double height, double weight) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
-        this.socialEmail = socialEmail;
         this.universityEmail = universityEmail;
+        this.password = password;
         this.university = university;
         this.major = major;
         this.kakaoId = kakaoId;
@@ -87,8 +87,8 @@ public class Member {
                 request.getUsername(),
                 request.getGender(),
                 request.getBirth(),
-                request.getSocialEmail(),
                 request.getUniversityEmail(),
+                request.getPassword(),
                 request.getUniversity(),
                 request.getMajor(),
                 request.getKakaoId(),

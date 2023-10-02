@@ -14,9 +14,9 @@ public class SignUpRequest {
 
     private LocalDate birth;
 
-    private String socialEmail;
-
     private String universityEmail;
+
+    private String password;
 
     private String kakaoId;
 
@@ -31,13 +31,13 @@ public class SignUpRequest {
     public SignUpRequest() {
     }
 
-    public SignUpRequest(String username, Gender gender, LocalDate birth, String socialEmail, String universityEmail,
+    public SignUpRequest(String username, Gender gender, LocalDate birth, String universityEmail, String password,
                          String kakaoId, double height, double weight, String university, String major) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
-        this.socialEmail = socialEmail;
         this.universityEmail = universityEmail;
+        this.password = password;
         this.kakaoId = kakaoId;
         this.height = height;
         this.weight = weight;

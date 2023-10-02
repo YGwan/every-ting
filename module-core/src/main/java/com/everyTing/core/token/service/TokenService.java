@@ -64,7 +64,7 @@ public class TokenService {
 
     public Long memberInfoByAccessToken(HttpServletRequest request) {
         final String accessToken = getAccessTokenFromHeader(request);
-        final Long userId = JwtUtils.tokenValue(key, tokenKey, accessToken);
+        final Long userId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
         return userId;
     }
 

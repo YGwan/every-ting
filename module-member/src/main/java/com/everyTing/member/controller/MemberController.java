@@ -1,6 +1,8 @@
 package com.everyTing.member.controller;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -32,8 +34,8 @@ public class MemberController {
     }
 
     @GetMapping("/test")
-    public Response<Long> test(HttpServletRequest request) {
-        Long userId = memberService.test(request);
-        return Response.success(userId);
+    public Response<Long> test(@LoginMember LoginMemberInfo memberInfo) {
+        final Long memberId = memberInfo.getId();
+        return Response.success(memberId);
     }
 }

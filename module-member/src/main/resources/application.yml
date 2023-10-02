@@ -3,3 +3,4 @@ spring:
     include:
       - db
       - token
+      - constraint

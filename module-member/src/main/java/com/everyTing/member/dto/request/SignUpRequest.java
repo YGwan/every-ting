@@ -1,8 +1,10 @@
 package com.everyTing.member.dto.request;
 
 import com.everyTing.core.domain.Gender;
+import com.everyTing.member.domain.data.*;
 import lombok.Getter;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Getter
@@ -18,7 +20,7 @@ public class SignUpRequest {
 
     private String password;
 
-    private String kakaoId;
+    private String  kakaoId;
 
     private double height;
 

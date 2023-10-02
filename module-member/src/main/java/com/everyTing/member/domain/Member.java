@@ -1,13 +1,12 @@
 package com.everyTing.member.domain;
 
 import com.everyTing.core.domain.Gender;
+import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.request.SignUpRequest;
 import lombok.Getter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Getter
@@ -18,50 +17,28 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(min = 4, max = 100)
-    @Column(unique = true, nullable = false, length = 100)
-    private String username;
+    private Username username;
 
     @NotNull
-    @Column(nullable = false, length = 5)
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @NotNull
-    @Column(nullable = false)
     private LocalDate birth;
 
-    @Email
-    @NotNull
-    @Column(unique = true, nullable = false, length = 100)
-    private String universityEmail;
+    private UniversityEmail universityEmail;
 
-    @NotNull
-    @Size(min = 4, max = 100)
-    @Column(unique = true, nullable = false, length = 100)
-    private String password;
+    private Password password;
 
-    @NotNull
-    @Size(max = 70)
-    @Column(length = 70, nullable = false)
-    private String university;
+    private University university;
 
-    @NotNull
-    @Size(max = 50)
-    @Column(length = 50, nullable = false)
-    private String major;
+    private Major major;
 
-    @NotNull
-    @Size(min = 4, max = 100)
-    @Column(unique = true, nullable = false, length = 100)
-    private String kakaoId;
+    private KakaoId kakaoId;
 
-    @NotNull
-    private double height;
+    private Height height;
 
-    @NotNull
-    private double weight;
+    private Weight weight;
 
     private String profilePhoto;
 
@@ -70,16 +47,16 @@ public class Member {
 
     public Member(String username, Gender gender, LocalDate birth, String universityEmail, String password,
                   String university, String major, String kakaoId, double height, double weight) {
-        this.username = username;
+        this.username = Username.from(username);
         this.gender = gender;
         this.birth = birth;
-        this.universityEmail = universityEmail;
-        this.password = password;
-        this.university = university;
-        this.major = major;
-        this.kakaoId = kakaoId;
-        this.height = height;
-        this.weight = weight;
+        this.universityEmail = UniversityEmail.from(universityEmail);
+        this.password = Password.from(password);
+        this.university = University.from(university);
+        this.major = Major.from(major);
+        this.kakaoId = KakaoId.from(kakaoId);
+        this.height = Height.from(height);
+        this.weight = Weight.from(weight);
     }
 
     public static Member from(SignUpRequest request) {

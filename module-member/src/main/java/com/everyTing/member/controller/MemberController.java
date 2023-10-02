@@ -9,6 +9,7 @@ import com.everyTing.member.service.MemberService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RequestMapping("/api/member")
 @RestController
@@ -21,7 +22,7 @@ public class MemberController {
     }
 
     @PostMapping("/signUp")
-    public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
+    public Response<MemberTokens> signUp(@RequestBody @Valid SignUpRequest request) {
         MemberTokens memberTokens = memberService.addMember(request);
         return Response.success(memberTokens);
     }

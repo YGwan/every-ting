@@ -1,0 +1,14 @@
+username:
+  length:
+    min: 2
+    max: 10
+
+height:
+  limit:
+    min: 100
+    max: 300
+
+weight:
+  limit:
+    min: 20
+    max: 300

@@ -2,6 +2,7 @@ package com.everyTing.member.domain;
 
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.dto.request.SignUpRequest;
+import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+@Getter
 @Entity
 public class Member {
 

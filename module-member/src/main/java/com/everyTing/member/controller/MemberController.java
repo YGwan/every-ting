@@ -1,6 +1,7 @@
 package com.everyTing.member.controller;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.token.type.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,8 @@ public class MemberController {
     }
 
     @PostMapping("/signUp")
-    public Response<Void> signUp(@RequestBody SignUpRequest request) {
-        memberService.addMember(request);
-        return Response.success();
+    public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
+        MemberTokens memberTokens = memberService.addMember(request);
+        return Response.success(memberTokens);
     }
 }

@@ -53,6 +53,9 @@ public class TeamEntity extends AuditingFields {
     private Gender gender;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    List<TeamMemberEntity> members = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<TeamHashtagEntity> hashtags = new ArrayList<>();
 
     protected TeamEntity() {

@@ -3,7 +3,6 @@ package com.everyTing.core.token.utils;
 import com.everyTing.core.token.exception.TokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -27,11 +26,10 @@ public class JwtUtils {
         return Jwts.builder().setHeaderParam(Header.TYPE, Header.JWT_TYPE).setClaims(payloads).setExpiration(expiration).setSubject(SUBJECT).signWith(key).compact();
     }
 
-    public static void requireExpired(Key key, String token) {
-        if (isExpired(key, token)) {
-            return;
+    public static void throwIfNotExpired(Key key, String token) {
+        if (!isExpired(key, token)) {
+            throw new TokenException(TOKEN_001);
         }
-        throw new TokenException(TOKEN_001);
     }
 
     public static boolean isExpired(Key key, String token) {

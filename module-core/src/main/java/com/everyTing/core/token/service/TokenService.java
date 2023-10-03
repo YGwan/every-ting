@@ -48,7 +48,7 @@ public class TokenService {
 
     public MemberTokens reissue(HttpServletRequest request) {
         final String accessToken = getAccessTokenFromHeader(request);
-        JwtUtils.requireExpired(key, accessToken);
+        JwtUtils.throwIfNotExpired(key, accessToken);
 
         final String refreshToken = getRefreshTokenFromHeader(request);
         JwtUtils.validate(key, refreshToken);

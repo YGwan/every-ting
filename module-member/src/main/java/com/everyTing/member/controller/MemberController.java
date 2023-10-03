@@ -6,12 +6,12 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.service.MemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
-@RequestMapping("/api/member")
+@RequestMapping("/api/v1/member")
 @RestController
 public class MemberController {
 
@@ -22,9 +22,9 @@ public class MemberController {
     }
 
     @PostMapping("/signUp")
-    public Response<MemberTokens> signUp(@RequestBody @Valid SignUpRequest request) {
+    public ResponseEntity<MemberTokens> signUp(@RequestBody SignUpRequest request) {
         MemberTokens memberTokens = memberService.addMember(request);
-        return Response.success(memberTokens);
+        return Response.createSuccess(memberTokens);
     }
 
     @GetMapping("/reissue/token")

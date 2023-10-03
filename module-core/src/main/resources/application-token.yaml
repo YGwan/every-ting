@@ -9,7 +9,7 @@ auth:
       access:
         key: accessToken
         ttl:
-          time: 30 # 30 minutes
+          time: 1800 # 30 minutes
 
       refresh:
         key: refreshToken

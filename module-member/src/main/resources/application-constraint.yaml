@@ -12,3 +12,9 @@ weight:
   limit:
     min: 20
     max: 300
+
+password:
+  pattern: "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}"
+
+email:
+  pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$

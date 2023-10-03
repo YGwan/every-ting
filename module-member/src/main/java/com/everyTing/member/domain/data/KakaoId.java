@@ -15,7 +15,7 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_005;
 public class KakaoId {
 
     @NotNull
-    @Column(name = "kakao_id")
+    @Column(name = "kakao_id", unique = true)
     private String value;
 
     protected KakaoId() {

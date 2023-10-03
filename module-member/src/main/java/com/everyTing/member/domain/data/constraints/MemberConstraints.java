@@ -12,6 +12,8 @@ public class MemberConstraints {
     public static double HEIGHT_MAX;
     public static double WEIGHT_MIN;
     public static double WEIGHT_MAX;
+    public static String PASSWORD_PATTERN;
+    public static String EMAIL_PATTERN;
 
     public MemberConstraints(
             @Value("${username.length.min}")
@@ -25,7 +27,11 @@ public class MemberConstraints {
             @Value("${weight.limit.min}")
             double weightMinLimit,
             @Value("${weight.limit.max}")
-            double weightMaxLimit
+            double weightMaxLimit,
+            @Value("${password.pattern}")
+            String passwordPattern,
+            @Value("${email.pattern}")
+            String emailPattern
     ) {
         USERNAME_MIN_LENGTH = usernameMinLength;
         USERNAME_MAX_LENGTH = usernameMaxLength;
@@ -33,5 +39,7 @@ public class MemberConstraints {
         HEIGHT_MAX = heightMaxLimit;
         WEIGHT_MIN = weightMinLimit;
         WEIGHT_MAX = weightMaxLimit;
+        PASSWORD_PATTERN = passwordPattern;
+        EMAIL_PATTERN = emailPattern;
     }
 }

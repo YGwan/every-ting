@@ -13,7 +13,6 @@ import java.util.Map;
 
 import static com.everyTing.core.token.errorCode.TokenErrorCode.*;
 
-@Component
 public class JwtUtils {
 
     private static final String SUBJECT = "user-info";
@@ -37,7 +36,7 @@ public class JwtUtils {
 
     public static boolean isExpired(Key key, String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            parsedTokenBody(key, token);
             return false;
         } catch (ExpiredJwtException e) {
             return true;
@@ -48,7 +47,7 @@ public class JwtUtils {
 
     public static void validate(Key key, String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            parsedTokenBody(key, token);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             throw new TokenException(TOKEN_003);
         } catch (ExpiredJwtException e) {
@@ -66,12 +65,16 @@ public class JwtUtils {
 
     public static Long tokenValue(Key key, String claimName, String token, boolean ignoreExpired) {
         try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get(claimName, Long.class);
+            return parsedTokenBody(key, token).get(claimName, Long.class);
         } catch (ExpiredJwtException e) {
             if (ignoreExpired) {
                 return e.getClaims().get(claimName, Long.class);
             }
             throw new TokenException(TOKEN_002);
         }
+    }
+
+    private static Claims parsedTokenBody(Key key, String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }

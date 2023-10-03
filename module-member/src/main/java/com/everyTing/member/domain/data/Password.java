@@ -9,13 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.everyTing.member.domain.data.constraints.MemberConstraints.PASSWORD_PATTERN;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_008;
 
 @Getter
 @Embeddable
 public class Password {
-
-    public static final String PASSWORD_PATTERN = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}";
 
     @NotNull
     @Column(name = "password")

@@ -21,7 +21,7 @@ public class University {
     protected University() {
     }
 
-    public University(String value) {
+    private University(String value) {
         this.value = value;
     }
 

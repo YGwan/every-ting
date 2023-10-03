@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 @JsonInclude(Include.NON_NULL)
@@ -52,6 +54,9 @@ public class Response<T> {
         return new Response<>(data);
     }
 
+    public static <T> ResponseEntity<T> createSuccess(T data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
     public static <T> Response<T> error() {
         return null;
     }

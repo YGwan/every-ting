@@ -20,3 +20,16 @@ insert into team_hashtag (id, team_id, content, created_at)
 values (2,
         1,
         "보드게임", now());
+
+-- 팀 멤버 더미 데이터
+insert into team_member (id, team_id, member_id, role, created_at, updated_at)
+values (1,
+        1,
+        1,
+        'LEADER', now(), now());
+
+insert into team_member (id, team_id, member_id, role, created_at, updated_at)
+values (2,
+        1,
+        2,
+        'MEMBER', now(), now());

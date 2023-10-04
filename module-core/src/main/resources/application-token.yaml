@@ -1,0 +1,21 @@
+# JWT token
+jwt:
+  secretKey: ThisIsSkeletonCodeOfMeThankYouSoMuch!!
+
+# Key
+auth:
+  jwt:
+    token:
+      access:
+        key: accessToken
+        ttl:
+          time: 1800 # 30 minutes
+
+      refresh:
+        key: refreshToken
+        ttl:
+          time: 259200 # 3 days
+
+    # Member token payload
+    payload:
+      key: userId

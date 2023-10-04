@@ -1,14 +1,6 @@
 spring:
-  datasource:
-    url: ${RDB_URL}
-    username: ${RDB_USERNAME}
-    password: ${RDB_PASSWORD}
-  sql.init.mode: always
-
-  jpa:
-    hibernate.ddl-auto: create
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-    defer-datasource-initialization: true
+  profiles:
+    include:
+      - db
+      - token
+      - constraint

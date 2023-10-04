@@ -6,12 +6,13 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.service.MemberService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/v1/members")
 @RestController
 public class MemberController {
 
@@ -21,10 +22,11 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
-    public ResponseEntity<MemberTokens> signUp(@RequestBody SignUpRequest request) {
+    public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
         MemberTokens memberTokens = memberService.addMember(request);
-        return Response.createSuccess(memberTokens);
+        return Response.success(memberTokens);
     }
 
     @GetMapping("/reissue/token")

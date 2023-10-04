@@ -32,8 +32,8 @@ public class Weight {
         return new Weight(weight);
     }
 
-    public static void validate(double height) {
-        if (!(height >= WEIGHT_MIN && height <= WEIGHT_MAX)) {
+    public static void validate(double weight) {
+        if (!(weight >= WEIGHT_MIN && weight <= WEIGHT_MAX)) {
             throw new TingApplicationException(MEMBER_007);
         }
     }

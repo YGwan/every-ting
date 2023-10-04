@@ -54,9 +54,6 @@ public class Response<T> {
         return new Response<>(data);
     }
 
-    public static <T> ResponseEntity<T> createSuccess(T data) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(data);
-    }
     public static <T> Response<T> error() {
         return null;
     }

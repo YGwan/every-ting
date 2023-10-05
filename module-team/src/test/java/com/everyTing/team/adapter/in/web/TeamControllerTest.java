@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.everyTing.core.token.service.TokenService;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.utils.BaseTest;
@@ -28,6 +29,9 @@ class TeamControllerTest extends BaseTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private TokenService tokenService;
 
     @MockBean
     private TeamUseCase teamUseCase;

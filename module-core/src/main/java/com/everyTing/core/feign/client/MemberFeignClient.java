@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface MemberFeignClient {
 
     @GetMapping("/api/v1/members/{memberId}")
-    Member findMember(@PathVariable Long memberId);
+    Member findMember(@PathVariable("memberId") Long memberId);
 }

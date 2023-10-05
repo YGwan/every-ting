@@ -7,6 +7,8 @@ public enum TeamServerErrorCode implements ServerErrorCode {
     TSER_001("전공이 빈 값입니다."),
     TSER_002("팀 초대코드가 빈 값입니다."),
     TSER_003("대학교가 빈 값입니다."),
+    TSER_004("팀을 생성하려는 멤버의 정보를 받아오는 과정에서 에러가 발생했습니다."),
+    TSER_005("팀을 생성하려는 멤버의 id로 멤버를 조회할 수 없습니다."),
     ;
 
     private String message;

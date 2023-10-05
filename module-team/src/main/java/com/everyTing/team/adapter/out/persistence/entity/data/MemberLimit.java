@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
 import static com.everyTing.team.common.constraints.TeamConstraints.MEMBER_MAX_LIMIT;
 import static com.everyTing.team.common.constraints.TeamConstraints.MEMBER_MIN_LIMIT;
@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class MemberLimit {
 
-    @Column(name = "member_limit")
+    @Column(name = "member_limit", nullable = false)
     private Short value;
 
     protected MemberLimit() {

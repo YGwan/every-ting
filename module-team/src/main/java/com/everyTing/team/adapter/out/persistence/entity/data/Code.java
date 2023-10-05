@@ -1,6 +1,6 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
-import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_003;
+import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_002;
 
 import com.everyTing.core.exception.TingServerException;
 import javax.persistence.Column;
@@ -8,27 +8,27 @@ import javax.persistence.Embeddable;
 import org.springframework.util.StringUtils;
 
 @Embeddable
-public class University {
+public class Code {
 
-    @Column(name = "university")
+    @Column(name = "code", nullable = false)
     private String value;
 
-    protected University() {
+    protected Code() {
     }
 
-    public University(String value) {
+    private Code(String value) {
         this.value = value;
     }
 
-    public static University from(String value) {
+    public static Code from(String value) {
         String trimValue = value.trim();
         validate(trimValue);
-        return new University(trimValue);
+        return new Code(trimValue);
     }
 
     public static void validate(String value) {
         if (!StringUtils.hasText(value)) {
-            throw new TingServerException(TSER_003);
+            throw new TingServerException(TSER_002);
         }
     }
 

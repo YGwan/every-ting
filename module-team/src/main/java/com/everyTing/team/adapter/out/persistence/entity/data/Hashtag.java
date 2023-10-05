@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
 import static com.everyTing.team.common.constraints.TeamConstraints.HASHTAG_MAX_LENGTH;
 import static com.everyTing.team.common.constraints.TeamConstraints.HASHTAG_MIN_LENGTH;

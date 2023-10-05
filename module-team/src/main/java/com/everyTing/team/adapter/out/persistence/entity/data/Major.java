@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
 import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_001;
 
@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 @Embeddable
 public class Major {
 
-    @Column(name = "major")
+    @Column(name = "major", nullable = false)
     private String value;
 
     protected Major() {

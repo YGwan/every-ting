@@ -1,7 +1,7 @@
 package com.everyTing.team.adapter.out.persistence.entity;
 
 import com.everyTing.core.domain.AuditingFields;
-import com.everyTing.team.adapter.out.persistence.entity.constant.Role;
+import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.sun.istack.NotNull;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,5 +43,25 @@ public class TeamMemberEntity extends AuditingFields {
         this.teamId = teamId;
         this.memberId = memberId;
         this.role = role;
+    }
+
+    public static TeamMemberEntity of(Long teamId, Long memberId, Role role) {
+        return new TeamMemberEntity(teamId, memberId, role);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getTeamId() {
+        return teamId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

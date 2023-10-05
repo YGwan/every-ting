@@ -1,0 +1,10 @@
+spring.cloud.config.enabled: false
+
+service:
+  member:
+    name: member-module
+    url: http://localhost:8080
+
+  team:
+    name: team-module
+    url: http://localhost:8081

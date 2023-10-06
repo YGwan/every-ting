@@ -44,6 +44,4 @@ public class SignUpRequest {
         this.university = university;
         this.major = major;
     }
-
-
 }

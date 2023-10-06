@@ -32,7 +32,6 @@ public class MemberController {
     public Response<MemberTokens> reissueToken(HttpServletRequest request) {
         MemberTokens memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
-
     }
 
     @GetMapping("/test")

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
+    @Value("${auth.jwt.token.access.key}")
+    private String apiKey;
+
     @Bean
     public GroupedOpenApi SecurityGroupOpenApi() {
         return GroupedOpenApi
@@ -30,10 +34,9 @@ public class SwaggerConfig {
 
     public OpenApiCustomiser buildSecurityOpenApi() {
         SecurityScheme securityScheme = new SecurityScheme()
-                .name("Authorization")
-                .type(SecurityScheme.Type.HTTP)
+                .name(apiKey)
+                .type(SecurityScheme.Type.APIKEY)
                 .in(SecurityScheme.In.HEADER)
-                .bearerFormat("JWT")
                 .scheme("bearer");
 
         return OpenApi -> OpenApi

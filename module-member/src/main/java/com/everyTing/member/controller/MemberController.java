@@ -7,7 +7,6 @@ import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

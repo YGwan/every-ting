@@ -8,9 +8,12 @@ import com.everyTing.team.adapter.out.persistence.entity.data.MemberLimit;
 import com.everyTing.team.adapter.out.persistence.entity.data.Name;
 import com.everyTing.team.adapter.out.persistence.entity.data.Region;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
+import com.everyTing.team.domain.Team;
 import java.util.List;
 
 public interface TeamPort {
+
+    Team findTeam(Long teamId);
 
     Long saveTeam(Long memberId, Name name, Region region, University university, Major major,
         Code code, MemberLimit memberLimit, Gender gender, List<Hashtag> hashtags);

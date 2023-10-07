@@ -9,10 +9,12 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Major;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.application.port.in.TeamUseCase;
+import com.everyTing.team.application.port.in.command.TeamFindCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.domain.Team;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,11 @@ public class TeamService implements TeamUseCase {
         this.teamPort = teamPort;
         this.memberPort = memberPort;
         this.teamMemberPort = teamMemberPort;
+    }
+
+    @Override
+    public Team findTeam(TeamFindCommand command) {
+        return teamPort.findTeam(command.getTeamId());
     }
 
     @Override

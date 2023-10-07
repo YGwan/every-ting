@@ -4,6 +4,7 @@ import com.everyTing.core.token.service.TokenService;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class MemberService {
         this.tokenService = tokenService;
     }
 
-    public MemberTokens addMember(SignUpRequest request) {
+    public MemberTokens addMember(ValidatedSignUpRequest request) {
         Member newMember = memberRepository.save(Member.from(request));
         return tokenService.issue(newMember.getId());
     }

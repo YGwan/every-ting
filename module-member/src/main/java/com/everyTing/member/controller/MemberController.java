@@ -5,6 +5,7 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,8 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        MemberTokens memberTokens = memberService.addMember(request);
+        ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
+        MemberTokens memberTokens = memberService.addMember(validRequest);
         return Response.success(memberTokens);
     }
 

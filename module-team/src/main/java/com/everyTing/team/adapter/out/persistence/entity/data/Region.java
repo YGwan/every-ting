@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
 import static com.everyTing.team.common.constraints.TeamConstraints.REGIONS;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_003;
@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Region {
 
-    @Column(name = "region")
+    @Column(name = "region", nullable = false)
     private String value;
 
     protected Region() {

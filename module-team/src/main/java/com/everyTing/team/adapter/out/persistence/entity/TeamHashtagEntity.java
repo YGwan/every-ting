@@ -1,7 +1,7 @@
 package com.everyTing.team.adapter.out.persistence.entity;
 
 import com.everyTing.core.domain.CreatedDateFields;
-import com.everyTing.team.adapter.out.persistence.entity.embedded.Hashtag;
+import com.everyTing.team.adapter.out.persistence.entity.data.Hashtag;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,12 +28,12 @@ public class TeamHashtagEntity extends CreatedDateFields {
     protected TeamHashtagEntity() {
     }
 
-    private TeamHashtagEntity(TeamEntity team, String content) {
+    private TeamHashtagEntity(TeamEntity team, Hashtag content) {
         this.team = team;
-        this.content = Hashtag.from(content);
+        this.content = content;
     }
 
-    public static TeamHashtagEntity from(TeamEntity team, String content) {
+    public static TeamHashtagEntity of(TeamEntity team, Hashtag content) {
         return new TeamHashtagEntity(team, content);
     }
 

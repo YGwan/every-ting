@@ -1,4 +1,4 @@
-package com.everyTing.team.adapter.out.persistence.entity.embedded;
+package com.everyTing.team.adapter.out.persistence.entity.data;
 
 import static com.everyTing.team.common.constraints.TeamConstraints.NAME_MAX_LENGTH;
 import static com.everyTing.team.common.constraints.TeamConstraints.NAME_MIN_LENGTH;
@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Name {
 
-    @Column(name = "name", length = 20)
+    @Column(name = "name", nullable = false, length = 20)
     private String value;
 
     protected Name() {

@@ -4,6 +4,8 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
+import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -28,6 +30,18 @@ public class MemberController {
         ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
         MemberTokens memberTokens = memberService.addMember(validRequest);
         return Response.success(memberTokens);
+    }
+
+    @GetMapping("/check/username")
+    public Response<Boolean> checkUsername(@RequestParam String username) {
+        boolean isExistUsername = memberService.isExistUsername(Username.from(username));
+        return Response.success(isExistUsername);
+    }
+
+    @GetMapping("/check/kakaoId")
+    public Response<Boolean> checkKakaoId(@RequestParam String kakaoId) {
+        boolean isExistUsername = memberService.isExistKakaoId(KakaoId.from(kakaoId));
+        return Response.success(isExistUsername);
     }
 
     @GetMapping("/reissue/token")

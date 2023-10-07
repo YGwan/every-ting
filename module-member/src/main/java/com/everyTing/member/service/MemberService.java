@@ -3,6 +3,8 @@ package com.everyTing.member.service;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.Member;
+import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
@@ -21,6 +23,14 @@ public class MemberService {
         this.tokenService = tokenService;
     }
 
+    public boolean isExistUsername(Username username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    public boolean isExistKakaoId(KakaoId kakaoId) {
+        return memberRepository.existsByKakaoId(kakaoId);
+    }
+
     public MemberTokens addMember(ValidatedSignUpRequest request) {
         Member newMember = memberRepository.save(Member.from(request));
         return tokenService.issue(newMember.getId());
@@ -28,9 +38,5 @@ public class MemberService {
 
     public MemberTokens reissueToken(HttpServletRequest request) {
         return tokenService.reissue(request);
-    }
-
-    public Long test(HttpServletRequest request) {
-        return tokenService.memberInfoByAccessToken(request);
     }
 }

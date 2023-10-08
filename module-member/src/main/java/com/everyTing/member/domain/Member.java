@@ -3,6 +3,7 @@ package com.everyTing.member.domain;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -45,21 +46,21 @@ public class Member {
     public Member() {
     }
 
-    public Member(String username, Gender gender, LocalDate birth, String universityEmail, String password,
-                  String university, String major, String kakaoId, double height, double weight) {
-        this.username = Username.from(username);
+    public Member(Username username, Gender gender, LocalDate birth, UniversityEmail universityEmail,
+                  Password password, University university, Major major, KakaoId kakaoId, Height height, Weight weight) {
+        this.username = username;
         this.gender = gender;
         this.birth = birth;
-        this.universityEmail = UniversityEmail.from(universityEmail);
-        this.password = Password.from(password);
-        this.university = University.from(university);
-        this.major = Major.from(major);
-        this.kakaoId = KakaoId.from(kakaoId);
-        this.height = Height.from(height);
-        this.weight = Weight.from(weight);
+        this.universityEmail = universityEmail;
+        this.password = password;
+        this.university = university;
+        this.major = major;
+        this.kakaoId = kakaoId;
+        this.height = height;
+        this.weight = weight;
     }
 
-    public static Member from(SignUpRequest request) {
+    public static Member from(ValidatedSignUpRequest request) {
         return new Member(
                 request.getUsername(),
                 request.getGender(),

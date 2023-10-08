@@ -18,7 +18,6 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_001;
 public class Username {
 
     @NotNull
-    @Size(min = 4, max = 10)
     @Column(name = "username", unique = true)
     private String value;
 

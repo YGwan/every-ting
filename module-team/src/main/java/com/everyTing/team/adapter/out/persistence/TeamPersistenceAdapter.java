@@ -1,6 +1,9 @@
 package com.everyTing.team.adapter.out.persistence;
 
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
+
 import com.everyTing.core.domain.Gender;
+import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamHashtagEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.Code;
@@ -12,8 +15,8 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Region;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamHashtagEntityJdbcRepository;
-import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.domain.Team;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
@@ -22,15 +25,21 @@ import org.springframework.stereotype.Repository;
 public class TeamPersistenceAdapter implements TeamPort {
 
     private final TeamEntityRepository teamEntityRepository;
-    private final TeamMemberEntityRepository teamMemberEntityRepository;
     private final TeamHashtagEntityJdbcRepository teamHashtagEntityJdbcRepository;
 
     public TeamPersistenceAdapter(TeamEntityRepository teamEntityRepository,
-        TeamMemberEntityRepository teamMemberEntityRepository,
         TeamHashtagEntityJdbcRepository teamHashtagEntityJdbcRepository) {
         this.teamEntityRepository = teamEntityRepository;
-        this.teamMemberEntityRepository = teamMemberEntityRepository;
         this.teamHashtagEntityJdbcRepository = teamHashtagEntityJdbcRepository;
+    }
+
+    @Override
+    public Team findTeam(Long teamId) {
+        final TeamEntity team =
+            teamEntityRepository.findById(teamId)
+                                .orElseThrow(() -> new TingApplicationException(TEAM_006));
+
+        return Team.from(team);
     }
 
     @Override
@@ -50,4 +59,3 @@ public class TeamPersistenceAdapter implements TeamPort {
         return created.getId();
     }
 }
-

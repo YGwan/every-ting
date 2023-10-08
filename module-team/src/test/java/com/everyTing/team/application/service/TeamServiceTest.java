@@ -12,10 +12,12 @@ import static org.mockito.Mockito.mock;
 
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
+import com.everyTing.team.application.port.in.command.TeamFindCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.domain.Team;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.MemberFixture;
 import com.everyTing.team.utils.TeamEntityFixture;
@@ -41,6 +43,21 @@ class TeamServiceTest extends BaseTest {
     private MemberPort memberPort;
     @Mock
     private TeamMemberPort teamMemberPort;
+
+    @DisplayName("팀 조회")
+    @Test
+    void findTeam() {
+        TeamFindCommand command = TeamFindCommand.of(1L);
+
+        // given
+        given(teamPort.findTeam(command.getTeamId())).willReturn(Team.from(teamEntity));
+
+        // when
+        Team created = sut.findTeam(command);
+
+        // then
+        assertThat(created.getId()).isEqualTo(command.getTeamId());
+    }
 
     @DisplayName("팀 생성")
     @Test

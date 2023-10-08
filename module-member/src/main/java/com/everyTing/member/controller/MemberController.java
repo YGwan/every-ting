@@ -33,14 +33,14 @@ public class MemberController {
     }
 
     @GetMapping("/check/username")
-    public Response<Boolean> checkUsername(@RequestParam String username) {
-        boolean isExistUsername = memberService.isExistUsername(Username.from(username));
+    public Response<Boolean> usernameCheck(@RequestParam String username) {
+        boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
         return Response.success(isExistUsername);
     }
 
     @GetMapping("/check/kakaoId")
-    public Response<Boolean> checkKakaoId(@RequestParam String kakaoId) {
-        boolean isExistUsername = memberService.isExistKakaoId(KakaoId.from(kakaoId));
+    public Response<Boolean> kakaoIdCheck(@RequestParam String kakaoId) {
+        boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
         return Response.success(isExistUsername);
     }
 

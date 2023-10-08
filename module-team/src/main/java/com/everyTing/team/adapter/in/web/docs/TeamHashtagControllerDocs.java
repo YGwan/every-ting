@@ -24,7 +24,7 @@ public interface TeamHashtagControllerDocs {
     @Operation(summary = "팀 해시태그 조회")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "조회 완료", useReturnTypeSchema = true),
-        @ApiResponse(responseCode = "404", description = "TEAM_006, 요청된 정보를 가지는 팀이 존재하지 않습니다.", content = @Content)})
+        @ApiResponse(responseCode = "404", description = "TEAM_006", content = @Content)})
     @GetMapping
     Response<TeamHashtags> hashtagList(@PathVariable Long teamId);
 }

@@ -1,3 +1,12 @@
+constraint:
+  docs:
+    name: name1
+    url: url1
+error:
+  docs:
+    name: name2
+    url: url2
+
 spring:
   datasource.url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
   sql.init.mode: never
@@ -49,3 +58,24 @@ regions:
   광주,
   전북,
   제주도
+
+# JWT token
+jwt:
+  secretKey: testtesttesttesttesttesttesttesttest
+
+# Key
+auth:
+  jwt:
+    token:
+      access:
+        key: token1
+        ttl:
+          time: 1
+
+      refresh:
+        key: token2
+        ttl:
+          time: 2
+
+    payload:
+      key: id

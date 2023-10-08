@@ -3,12 +3,9 @@ package com.everyTing.team.application.service;
 import static com.everyTing.team.utils.TeamEntityFixture.memberLimit;
 import static com.everyTing.team.utils.TeamEntityFixture.name;
 import static com.everyTing.team.utils.TeamEntityFixture.region;
-import static com.everyTing.team.utils.TeamHashtagFixture.hashtags;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
@@ -21,6 +18,7 @@ import com.everyTing.team.domain.Team;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.MemberFixture;
 import com.everyTing.team.utils.TeamEntityFixture;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,7 +61,7 @@ class TeamServiceTest extends BaseTest {
     @Test
     void saveTeam() {
         TeamSaveCommand command = TeamSaveCommand.of(member.getMemberId(), name.getValue(),
-            memberLimit.getValue(), region.getValue(), hashtags);
+            memberLimit.getValue(), region.getValue(), List.of("모두E", "보드게임"));
         Long createdTeamMemberId = 1L;
 
         // given

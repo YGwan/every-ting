@@ -1,5 +1,6 @@
 package com.everyTing.team.domain;
 
+import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @JsonInclude(Include.NON_NULL)
-public class Team {
+public class Team extends AuditingFields {
 
     private final Long id;
     private final String name;
@@ -19,8 +20,6 @@ public class Team {
     private final String code;
     private final Short memberLimit;
     private final Gender gender;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
 
     private Team(Long id, String name, String region, String university, String major, String code,
         Short memberLimit, Gender gender, LocalDateTime createdAt, LocalDateTime updatedAt) {

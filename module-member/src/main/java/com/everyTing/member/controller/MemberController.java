@@ -32,27 +32,21 @@ public class MemberController {
         return Response.success(memberTokens);
     }
 
-    @GetMapping("/check/username")
+    @GetMapping("/username/check")
     public Response<Boolean> usernameCheck(@RequestParam String username) {
         boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
         return Response.success(isExistUsername);
     }
 
-    @GetMapping("/check/kakaoId")
+    @GetMapping("/kakaoId/check")
     public Response<Boolean> kakaoIdCheck(@RequestParam String kakaoId) {
         boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
         return Response.success(isExistUsername);
     }
 
-    @GetMapping("/reissue/token")
+    @GetMapping("/token/reissue")
     public Response<MemberTokens> reissueToken(HttpServletRequest request) {
         MemberTokens memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
-    }
-
-    @GetMapping("/test")
-    public Response<Long> test(@LoginMember LoginMemberInfo memberInfo) {
-        final Long memberId = memberInfo.getId();
-        return Response.success(memberId);
     }
 }

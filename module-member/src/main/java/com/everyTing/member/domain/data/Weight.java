@@ -1,7 +1,6 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +10,6 @@ import static com.everyTing.member.domain.data.constraints.MemberConstraints.WEI
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.WEIGHT_MIN;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_007;
 
-@Getter
 @Embeddable
 public class Weight {
 
@@ -36,6 +34,10 @@ public class Weight {
         if (!(weight >= WEIGHT_MIN && weight <= WEIGHT_MAX)) {
             throw new TingApplicationException(MEMBER_007);
         }
+    }
+
+    public double getValue() {
+        return value;
     }
 }
 

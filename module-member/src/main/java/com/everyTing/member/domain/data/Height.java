@@ -1,7 +1,6 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,7 +10,6 @@ import static com.everyTing.member.domain.data.constraints.MemberConstraints.HEI
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.HEIGHT_MIN;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_006;
 
-@Getter
 @Embeddable
 public class Height {
 
@@ -36,6 +34,10 @@ public class Height {
         if (!(height >= HEIGHT_MIN && height <= HEIGHT_MAX)) {
             throw new TingApplicationException(MEMBER_006);
         }
+    }
+
+    public double getValue() {
+        return value;
     }
 }
 

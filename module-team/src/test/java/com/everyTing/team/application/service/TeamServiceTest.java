@@ -1,5 +1,6 @@
 package com.everyTing.team.application.service;
 
+import static com.everyTing.team.utils.TeamEntityFixture.code;
 import static com.everyTing.team.utils.TeamEntityFixture.memberLimit;
 import static com.everyTing.team.utils.TeamEntityFixture.name;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +9,8 @@ import static org.mockito.BDDMockito.given;
 
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
-import com.everyTing.team.application.port.in.command.TeamFindCommand;
+import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
+import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -41,19 +43,35 @@ class TeamServiceTest extends BaseTest {
     @Mock
     private TeamMemberPort teamMemberPort;
 
-    @DisplayName("팀 조회")
+    @DisplayName("id로 팀 조회")
     @Test
-    void findTeam() {
-        TeamFindCommand command = TeamFindCommand.of(1L);
+    void findTeamById() {
+        TeamFindByIdCommand command = TeamFindByIdCommand.of(1L);
 
         // given
-        given(teamPort.findTeam(command.getTeamId())).willReturn(Team.from(teamEntity));
+        given(teamPort.findTeamById(command.getTeamId())).willReturn(Team.from(teamEntity));
 
         // when
-        Team created = sut.findTeam(command);
+        Team created = sut.findTeamById(command);
 
         // then
         assertThat(created.getId()).isEqualTo(command.getTeamId());
+    }
+
+    @DisplayName("code로 팀 조회")
+    @Test
+    void findTeamByCode() {
+        TeamFindByCodeCommand command = TeamFindByCodeCommand.of(code.getValue());
+
+        // given
+        given(teamPort.findTeamByCode(command.getCode())).willReturn(Team.from(teamEntity));
+
+        // when
+        Team created = sut.findTeamByCode(command);
+
+        // then
+        assertThat(created.getCode()).isEqualTo(command.getCode()
+                                                       .getValue());
     }
 
     @DisplayName("팀 생성")
@@ -76,5 +94,4 @@ class TeamServiceTest extends BaseTest {
         // then
         assertThat(createdTeamId).isEqualTo(teamEntity.getId());
     }
-
 }

@@ -43,18 +43,32 @@ class TeamPersistenceAdapterTest extends BaseTest {
     @Mock
     private TeamRegionEntityJdbcRepository teamRegionEntityJdbcRepository;
 
-    @DisplayName("팀 조회")
+    @DisplayName("id로 팀 조회")
     @Test
-    void findTeam() {
+    void findTeamById() {
         // given
         given(teamEntityRepository.findById(any())).willReturn(Optional.of(teamEntity));
 
         // when
-        Team createdTeam = sut.findTeam(1L);
+        Team team = sut.findTeamById(1L);
 
         // then
-        assertThat(createdTeam.getId()).isEqualTo(teamEntity.getId());
+        assertThat(team.getId()).isEqualTo(teamEntity.getId());
     }
+
+    @DisplayName("code로 팀 조회")
+    @Test
+    void findTeamByCode() {
+        // given
+        given(teamEntityRepository.findByCode(any())).willReturn(Optional.of(teamEntity));
+
+        // when
+        Team team = sut.findTeamByCode(code);
+
+        // then
+        assertThat(team.getCode()).isEqualTo(teamEntity.getCode());
+    }
+
 
     @DisplayName("팀 생성")
     @Test

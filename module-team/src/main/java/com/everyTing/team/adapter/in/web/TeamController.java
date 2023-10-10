@@ -26,7 +26,7 @@ public class TeamController implements TeamControllerDocs {
 
     public Response<Long> teamSave(TeamSaveRequest request) {
         TeamSaveCommand command = TeamSaveCommand.of(mockMemberId, request.getName(),
-            request.getMemberLimit(), request.getRegion(), request.getHashtags());
+            request.getMemberLimit(), request.getRegions(), request.getHashtags());
 
         return Response.success(teamUseCase.saveTeam(command));
     }

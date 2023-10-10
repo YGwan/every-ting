@@ -23,7 +23,7 @@ public interface TeamHashtagControllerDocs {
 
     @Operation(summary = "팀 해시태그 조회")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "조회 완료", useReturnTypeSchema = true),
+        @ApiResponse(responseCode = "200", description = "조회 완료"),
         @ApiResponse(responseCode = "404", description = "TEAM_006", content = @Content)})
     @GetMapping
     Response<TeamHashtags> hashtagList(@PathVariable Long teamId);

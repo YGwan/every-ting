@@ -62,14 +62,14 @@ public class MemberController {
     }
 
     @GetMapping("/auth/universityEmail/mail/send")
-    public Response<Void> sendAuthCode(@RequestBody SendAuthCodeRequest request) {
+    public Response<Void> AuthCodeSend(@RequestBody SendAuthCodeRequest request) {
         memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
         return Response.success();
     }
 
 
     @GetMapping("/token/reissue")
-    public Response<MemberTokens> reissueToken(HttpServletRequest request) {
+    public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
         final MemberTokens memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
     }

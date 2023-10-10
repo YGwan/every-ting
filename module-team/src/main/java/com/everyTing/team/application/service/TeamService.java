@@ -9,7 +9,8 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Major;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.application.port.in.TeamUseCase;
-import com.everyTing.team.application.port.in.command.TeamFindCommand;
+import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
+import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -33,8 +34,13 @@ public class TeamService implements TeamUseCase {
     }
 
     @Override
-    public Team findTeam(TeamFindCommand command) {
-        return teamPort.findTeam(command.getTeamId());
+    public Team findTeamById(TeamFindByIdCommand command) {
+        return teamPort.findTeamById(command.getTeamId());
+    }
+
+    @Override
+    public Team findTeamByCode(TeamFindByCodeCommand command) {
+        return teamPort.findTeamByCode(command.getCode());
     }
 
     @Override

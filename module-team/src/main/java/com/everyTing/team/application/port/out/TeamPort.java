@@ -13,7 +13,9 @@ import java.util.List;
 
 public interface TeamPort {
 
-    Team findTeam(Long teamId);
+    Team findTeamById(Long teamId);
+
+    Team findTeamByCode(Code code);
 
     Long saveTeam(Long memberId, Name name, List<Region> regions, University university, Major major,
         Code code, MemberLimit memberLimit, Gender gender, List<Hashtag> hashtags);

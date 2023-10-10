@@ -1,0 +1,8 @@
+constraint:
+  docs:
+    name: ${CONST_DOCS_NAME}
+    url: ${CONST_DOCS_URL}
+error:
+  docs:
+    name: ${ERROR_DOCS_NAME}
+    url: ${ERROR_DOCS_URL}

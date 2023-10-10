@@ -1,12 +1,3 @@
-constraint:
-  docs:
-    name: Team 제약 조건
-    url: https://github.com/every-ting/back-end/blob/main/docs/team/Team-Constraints.md
-error:
-  docs:
-    name: Team 에러 코드
-    url: https://github.com/every-ting/back-end/blob/main/docs/team/Team-ErrorCode.md
-
 name:
   length:
     min: 3

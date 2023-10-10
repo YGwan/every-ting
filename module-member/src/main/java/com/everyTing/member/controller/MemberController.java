@@ -6,7 +6,9 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,14 @@ public class MemberController {
         MemberTokens memberTokens = memberService.addMember(validRequest);
         return Response.success(memberTokens);
     }
+
+    @PostMapping("/signIn")
+    public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
+        ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
+        MemberTokens memberTokens = memberService.signIn(validRequest);
+        return Response.success(memberTokens);
+    }
+
 
     @GetMapping("/username/check")
     public Response<Boolean> usernameCheck(@RequestParam String username) {

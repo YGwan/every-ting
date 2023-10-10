@@ -1,8 +1,7 @@
 package com.everyTing.member.controller;
 
 import com.everyTing.core.dto.Response;
-import com.everyTing.core.resolver.LoginMember;
-import com.everyTing.core.resolver.LoginMemberInfo;
+import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
@@ -15,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
 
 @RequestMapping("/api/v1/members")
 @RestController
@@ -29,34 +30,40 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
-        MemberTokens memberTokens = memberService.addMember(validRequest);
+        final ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
+        final MemberTokens memberTokens = memberService.addMember(validRequest);
         return Response.success(memberTokens);
     }
 
     @PostMapping("/signIn")
     public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
-        ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
-        MemberTokens memberTokens = memberService.signIn(validRequest);
+        final MemberTokens memberTokens;
+        try {
+            final ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
+            memberTokens = memberService.signIn(validRequest);
+        } catch (TingApplicationException e) {
+            throw new TingApplicationException(MEMBER_009);
+        }
+
         return Response.success(memberTokens);
     }
 
 
     @GetMapping("/username/check")
     public Response<Boolean> usernameCheck(@RequestParam String username) {
-        boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
+        final boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
         return Response.success(isExistUsername);
     }
 
     @GetMapping("/kakaoId/check")
     public Response<Boolean> kakaoIdCheck(@RequestParam String kakaoId) {
-        boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
+        final boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
         return Response.success(isExistUsername);
     }
 
     @GetMapping("/token/reissue")
     public Response<MemberTokens> reissueToken(HttpServletRequest request) {
-        MemberTokens memberTokens = memberService.reissueToken(request);
+        final MemberTokens memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
     }
 }

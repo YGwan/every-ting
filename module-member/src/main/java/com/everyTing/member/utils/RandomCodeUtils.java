@@ -8,11 +8,9 @@ public class RandomCodeUtils {
     private static final Random RANDOM = new SecureRandom();
 
     public static String generate() {
-        byte[] randomCode = new byte[6];
-        RANDOM.nextBytes(randomCode);
         final StringBuilder sb = new StringBuilder();
-        for (byte b : randomCode) {
-            sb.append(String.format("%02x", b));
+        for(int i = 0; i < 6; i ++) {
+            sb.append(RANDOM.nextInt(10));
         }
         return sb.toString();
     }

@@ -1,7 +1,6 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,7 +11,6 @@ import java.util.regex.Pattern;
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.PASSWORD_PATTERN;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_008;
 
-@Getter
 @Embeddable
 public class Password {
 
@@ -39,5 +37,9 @@ public class Password {
         if (!matcher.matches()) {
             throw new TingApplicationException(MEMBER_008);
         }
+    }
+
+    public String getValue() {
+        return value;
     }
 }

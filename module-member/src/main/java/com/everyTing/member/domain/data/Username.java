@@ -2,18 +2,15 @@ package com.everyTing.member.domain.data;
 
 
 import com.everyTing.core.exception.TingApplicationException;
-import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.USERNAME_MAX_LENGTH;
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.USERNAME_MIN_LENGTH;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_001;
 
-@Getter
 @Embeddable
 public class Username {
 
@@ -38,5 +35,9 @@ public class Username {
         if (!(length >= USERNAME_MIN_LENGTH && length <= USERNAME_MAX_LENGTH)) {
             throw new TingApplicationException(MEMBER_001);
         }
+    }
+
+    public String getValue() {
+        return value;
     }
 }

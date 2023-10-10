@@ -1,7 +1,6 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import lombok.Getter;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -10,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_004;
 
-@Getter
 @Embeddable
 public class Major {
 
@@ -35,5 +33,9 @@ public class Major {
         if (!StringUtils.hasText(value)) {
             throw new TingApplicationException(MEMBER_004);
         }
+    }
+
+    public String getValue() {
+        return value;
     }
 }

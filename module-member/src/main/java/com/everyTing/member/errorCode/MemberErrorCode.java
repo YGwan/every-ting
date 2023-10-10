@@ -11,7 +11,9 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_005("카카오 ID 값이 올바르지 않습니다."),
     MEMBER_006("키 값이 올바르지 않습니다."),
     MEMBER_007("몸무게 값이 올바르지 않습니다."),
-    MEMBER_008("패스워드 형식이 올바르지 않습니다.");
+    MEMBER_008("패스워드 형식이 올바르지 않습니다."),
+    MEMBER_009("로그인 정보가 맞지 않습니다.", HttpStatus.UNAUTHORIZED);
+
 
     private final String message;
     private final HttpStatus status;

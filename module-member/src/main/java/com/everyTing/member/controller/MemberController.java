@@ -5,6 +5,7 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.SendAuthCodeRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
@@ -31,7 +32,7 @@ public class MemberController {
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
         final ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
-        final MemberTokens memberTokens = memberService.addMember(validRequest);
+        final MemberTokens memberTokens = memberService.signUp(validRequest);
         return Response.success(memberTokens);
     }
 
@@ -48,7 +49,6 @@ public class MemberController {
         return Response.success(memberTokens);
     }
 
-
     @GetMapping("/username/check")
     public Response<Boolean> usernameCheck(@RequestParam String username) {
         final boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
@@ -60,6 +60,13 @@ public class MemberController {
         final boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
         return Response.success(isExistUsername);
     }
+
+    @GetMapping("/auth/universityEmail/mail/send")
+    public Response<Void> sendAuthCode(@RequestBody SendAuthCodeRequest request) {
+        memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
+        return Response.success();
+    }
+
 
     @GetMapping("/token/reissue")
     public Response<MemberTokens> reissueToken(HttpServletRequest request) {

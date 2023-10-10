@@ -6,3 +6,4 @@ spring:
       - constraint
       - token
       - feign
+      - swagger

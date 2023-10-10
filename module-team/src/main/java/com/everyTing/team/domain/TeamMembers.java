@@ -17,8 +17,8 @@ public class TeamMembers {
         this.teamMembers = teamMembers;
     }
 
-    public static TeamMembers from(List<TeamMemberEntity> teamHashtagEntities) {
-        return new TeamMembers(teamHashtagEntities.stream()
+    public static TeamMembers from(List<TeamMemberEntity> teamMemberEntities) {
+        return new TeamMembers(teamMemberEntities.stream()
                                                   .map(TeamMember::from)
                                                   .collect(Collectors.toUnmodifiableList()));
     }

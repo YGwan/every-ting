@@ -12,12 +12,12 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Name;
 import com.everyTing.team.adapter.out.persistence.entity.data.Region;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class TeamEntityFixture {
 
     public static final Name name = Name.from("여기 여기 모여라");
-    public static final Region region = Region.from("경기 남부");
     public static final University university = University.from("단국대학교");
     public static final Major major = Major.from("컴퓨터공학과");
     public static final Code code = Code.from("asegasegaes");
@@ -27,7 +27,7 @@ public class TeamEntityFixture {
     public static final LocalDateTime updatedAt = now();
 
     public static TeamEntity get(Long teamId) {
-        TeamEntity team = TeamEntity.of(name, region, university, major, code, memberLimit, gender);
+        TeamEntity team = TeamEntity.of(name, university, major, code, memberLimit, gender);
         ReflectionTestUtils.setField(team, "id", teamId);
         ReflectionTestUtils.setField(team, "createdAt", createdAt);
         ReflectionTestUtils.setField(team, "updatedAt", updatedAt);

@@ -2,7 +2,6 @@ package com.everyTing.team.application.service;
 
 import static com.everyTing.team.utils.TeamEntityFixture.memberLimit;
 import static com.everyTing.team.utils.TeamEntityFixture.name;
-import static com.everyTing.team.utils.TeamEntityFixture.region;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -61,7 +60,7 @@ class TeamServiceTest extends BaseTest {
     @Test
     void saveTeam() {
         TeamSaveCommand command = TeamSaveCommand.of(member.getMemberId(), name.getValue(),
-            memberLimit.getValue(), region.getValue(), List.of("모두E", "보드게임"));
+            memberLimit.getValue(), List.of("서울", "인천"), List.of("모두E", "보드게임"));
         Long createdTeamMemberId = 1L;
 
         // given

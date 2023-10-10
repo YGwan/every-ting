@@ -2,8 +2,8 @@ package com.everyTing.team.adapter.in.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,14 +48,14 @@ class TeamControllerTest extends BaseTest {
         mockMvc.perform(get("/api/v1/teams/1"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.data.size()").value(10))
+               .andExpect(jsonPath("$.data.size()").value(9))
                .andExpect(jsonPath("$.data.id").value(teamId));
     }
 
     @DisplayName("팀 생성 api 테스트")
     @Test
     void teamSave() throws Exception {
-        TeamSaveRequest request = new TeamSaveRequest("여기여기 모여라", (short) 3, "경기 남부",
+        TeamSaveRequest request = new TeamSaveRequest("여기여기 모여라", (short) 3, List.of("경기 남부"),
             List.of("모두E", "수원"));
 
         given(teamUseCase.saveTeam(any())).willReturn(1L);

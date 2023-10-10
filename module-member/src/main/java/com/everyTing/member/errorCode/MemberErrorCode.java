@@ -12,7 +12,9 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_006("키 값이 올바르지 않습니다."),
     MEMBER_007("몸무게 값이 올바르지 않습니다."),
     MEMBER_008("패스워드 형식이 올바르지 않습니다."),
-    MEMBER_009("로그인 정보가 맞지 않습니다.", HttpStatus.UNAUTHORIZED);
+    MEMBER_009("로그인 정보가 맞지 않습니다.", HttpStatus.UNAUTHORIZED),
+    MEMBER_010("입력 시간이 초과되었습니다.", HttpStatus.REQUEST_TIMEOUT),
+    MEMBER_011("인증번호 값이 잘못되었습니다. 다시 입력해주세요.", HttpStatus.UNAUTHORIZED);
 
 
     private final String message;

@@ -3,16 +3,16 @@ package com.everyTing.member.dto.request;
 import lombok.Getter;
 
 @Getter
-public class SendAuthCodeRequest {
+public class AuthCodeSendRequest {
 
     private String username;
 
     private String universityEmail;
 
-    public SendAuthCodeRequest() {
+    public AuthCodeSendRequest() {
     }
 
-    public SendAuthCodeRequest(String username, String universityEmail) {
+    public AuthCodeSendRequest(String username, String universityEmail) {
         this.username = username;
         this.universityEmail = universityEmail;
     }

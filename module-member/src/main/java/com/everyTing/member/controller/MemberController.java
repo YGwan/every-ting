@@ -5,9 +5,10 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.SendAuthCodeRequest;
+import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -62,11 +63,16 @@ public class MemberController {
     }
 
     @GetMapping("/auth/universityEmail/mail/send")
-    public Response<Void> AuthCodeSend(@RequestBody SendAuthCodeRequest request) {
+    public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
         memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
         return Response.success();
     }
 
+    @PostMapping("signUp/authCode/validate")
+    public Response<Void> SignUpAuthCodeValidate(@RequestBody SignUpAuthCodeValidateRequest request) {
+        memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
+        return Response.success();
+    }
 
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {

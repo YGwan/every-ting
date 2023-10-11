@@ -4,7 +4,6 @@ import com.everyTing.core.exception.TingApplicationException;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-import org.springframework.http.HttpStatus;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -13,7 +12,7 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_011;
 
 @Getter
-@RedisHash(value = "EmailAuthCodeCache", timeToLive = 60 * 3 + 10)
+@RedisHash(value = "EmailAuthCodeCache", timeToLive = 60 * 5)
 public class EmailAuthCodeCache {
 
     @Id

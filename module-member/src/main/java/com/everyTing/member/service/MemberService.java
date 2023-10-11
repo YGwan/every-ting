@@ -14,6 +14,7 @@ import com.everyTing.member.repository.MemberRepository;
 import com.everyTing.member.service.mail.MailService;
 import com.everyTing.member.service.mail.form.SignUpForm;
 import com.everyTing.member.utils.RandomCodeUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
 
 @Transactional(readOnly = true)
 @Service
 public class MemberService {
+
+    @Value("${mail.valid.time}")
+    private Long mailValidTime;
 
     private final MemberRepository memberRepository;
     private final TokenService tokenService;
@@ -69,5 +74,14 @@ public class MemberService {
         final String emailAuthCode = RandomCodeUtils.generate();
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+    }
+
+    public void validateEmailAuthCode(String email, String authCode) {
+        final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
+                new TingApplicationException(MEMBER_012)
+        );
+        emailAuthCodeCache.checkValidTime(mailValidTime);
+        emailAuthCodeCache.checkAuthCodeSame(authCode);
+        emailAuthCodeCache.checkEmailSame(email);
     }
 }

@@ -48,7 +48,7 @@ public class TeamService implements TeamUseCase {
 
         final String teamCode = generateCode();
         Long savedTeamId = teamPort.saveTeam(
-            member.getMemberId(), command.getName(), command.getRegion(),
+            member.getMemberId(), command.getName(), command.getRegions(),
             University.from(member.getUniversity()), Major.from(member.getMajor()),
             Code.from(teamCode), command.getMemberLimit(), member.getGender(),
             command.getHashtags());

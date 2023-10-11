@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Region {
 
-    @Column(name = "region", nullable = false)
+    @Column(name = "region", nullable = false, length = 5)
     private String value;
 
     protected Region() {

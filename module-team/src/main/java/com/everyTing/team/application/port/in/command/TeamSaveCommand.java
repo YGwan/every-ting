@@ -14,23 +14,27 @@ public class TeamSaveCommand {
     private final Long memberId;
     private final Name name;
     private final MemberLimit memberLimit;
-    private final Region region;
+    private final List<Region> regions;
     private final List<Hashtag> hashtags;
 
-    private TeamSaveCommand(Long memberId, Name name, MemberLimit memberLimit, Region region,
+    private TeamSaveCommand(Long memberId, Name name, MemberLimit memberLimit, List<Region> regions,
         List<Hashtag> hashtags) {
         this.memberId = memberId;
         this.name = name;
         this.memberLimit = memberLimit;
-        this.region = region;
+        this.regions = regions;
         this.hashtags = hashtags;
     }
 
-    public static TeamSaveCommand of(Long memberId, String name, Short memberLimit, String region,
+    public static TeamSaveCommand of(Long memberId, String name, Short memberLimit,
+        List<String> regions,
         List<String> hashtags) {
         return new TeamSaveCommand(memberId, Name.from(name), MemberLimit.from(memberLimit),
-            Region.from(region), hashtags.stream()
-                                         .map(Hashtag::from)
-                                         .collect(Collectors.toList()));
+            regions.stream()
+                   .map(Region::from)
+                   .collect(Collectors.toList()),
+            hashtags.stream()
+                    .map(Hashtag::from)
+                    .collect(Collectors.toList()));
     }
 }

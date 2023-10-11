@@ -16,7 +16,7 @@ public abstract class BaseTest {
         ReflectionTestUtils.setField(TeamConstraints.class, "HASHTAG_MIN_LENGTH", 1);
         ReflectionTestUtils.setField(TeamConstraints.class, "HASHTAG_MAX_LENGTH", 10);
         ReflectionTestUtils.setField(TeamConstraints.class, "REGIONS",
-            List.of("서울 남부", "서울 북부", "인천", "경기 남부", "경기 북부", "강원", "충북", "충남", "대전", "세종", "경북",
+            List.of("서울", "인천", "경기 남부", "경기 북부", "강원", "충북", "충남", "대전", "세종", "경북",
                 "경남", "부산", "대구", "울산", "전남", "광주", "전북", "제주도"));
     }
 }

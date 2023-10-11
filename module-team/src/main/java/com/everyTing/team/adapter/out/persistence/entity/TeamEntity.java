@@ -6,7 +6,6 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Code;
 import com.everyTing.team.adapter.out.persistence.entity.data.Major;
 import com.everyTing.team.adapter.out.persistence.entity.data.MemberLimit;
 import com.everyTing.team.adapter.out.persistence.entity.data.Name;
-import com.everyTing.team.adapter.out.persistence.entity.data.Region;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.sun.istack.NotNull;
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ public class TeamEntity extends AuditingFields {
 
     private Name name;
 
-    private Region region;
-
     private University university;
 
     private Major major;
@@ -48,13 +45,15 @@ public class TeamEntity extends AuditingFields {
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<TeamHashtagEntity> hashtags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    List<TeamRegionEntity> regions = new ArrayList<>();
+
     protected TeamEntity() {
     }
 
-    private TeamEntity(Name name, Region region, University university, Major major, Code code,
+    private TeamEntity(Name name, University university, Major major, Code code,
         MemberLimit memberLimit, Gender gender) {
         this.name = name;
-        this.region = region;
         this.university = university;
         this.major = major;
         this.code = code;
@@ -62,9 +61,9 @@ public class TeamEntity extends AuditingFields {
         this.gender = gender;
     }
 
-    public static TeamEntity of(Name name, Region region, University university, Major major,
+    public static TeamEntity of(Name name, University university, Major major,
         Code code, MemberLimit memberLimit, Gender gender) {
-        return new TeamEntity(name, region, university, major, code, memberLimit, gender);
+        return new TeamEntity(name, university, major, code, memberLimit, gender);
     }
 
     public Long getId() {
@@ -73,10 +72,6 @@ public class TeamEntity extends AuditingFields {
 
     public String getName() {
         return name.getValue();
-    }
-
-    public String getRegion() {
-        return region.getValue();
     }
 
     public String getUniversity() {

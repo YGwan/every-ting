@@ -18,16 +18,19 @@ public class Team extends AuditingFields {
     private final String major;
     private final String code;
     private final Short memberLimit;
+    private final Short memberNumber;
     private final Gender gender;
 
     private Team(Long id, String name, String university, String major, String code,
-        Short memberLimit, Gender gender, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        Short memberLimit, Short memberNumber, Gender gender, LocalDateTime createdAt,
+        LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.university = university;
         this.major = major;
         this.code = code;
         this.memberLimit = memberLimit;
+        this.memberNumber = memberNumber;
         this.gender = gender;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -36,6 +39,7 @@ public class Team extends AuditingFields {
     public static Team from(TeamEntity teamEntity) {
         return new Team(teamEntity.getId(), teamEntity.getName(), teamEntity.getUniversity(),
             teamEntity.getMajor(), teamEntity.getCode(), teamEntity.getMemberLimit(),
-            teamEntity.getGender(), teamEntity.getCreatedAt(), teamEntity.getUpdatedAt());
+            teamEntity.getMemberNumber(), teamEntity.getGender(), teamEntity.getCreatedAt(),
+            teamEntity.getUpdatedAt());
     }
 }

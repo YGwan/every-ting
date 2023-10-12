@@ -49,7 +49,7 @@ class TeamControllerTest extends BaseTest {
         mockMvc.perform(get("/api/v1/teams/1"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.data.size()").value(9))
+               .andExpect(jsonPath("$.data.size()").value(10))
                .andExpect(jsonPath("$.data.id").value(teamId));
     }
 
@@ -63,7 +63,7 @@ class TeamControllerTest extends BaseTest {
         mockMvc.perform(get("/api/v1/teams/by-teamcode").param("teamCode", code))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.data.size()").value(9))
+               .andExpect(jsonPath("$.data.size()").value(10))
                .andExpect(jsonPath("$.data.id").value(teamId));
     }
 

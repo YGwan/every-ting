@@ -1,19 +1,32 @@
 package com.everyTing.team.adapter.out.persistence;
 
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_007;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
+
+import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.feign.dto.Member;
+import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
+import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.domain.TeamMembers;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TeamMemberPersistenceAdapter implements TeamMemberPort {
 
     private final TeamMemberEntityRepository teamMemberEntityRepository;
+    private final TeamEntityRepository teamEntityRepository;
 
-    public TeamMemberPersistenceAdapter(TeamMemberEntityRepository teamMemberEntityRepository) {
+    public TeamMemberPersistenceAdapter(TeamMemberEntityRepository teamMemberEntityRepository,
+        TeamEntityRepository teamEntityRepository) {
         this.teamMemberEntityRepository = teamMemberEntityRepository;
+        this.teamEntityRepository = teamEntityRepository;
     }
 
     @Override
@@ -23,7 +36,8 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
 
     @Override
     public TeamMembers findTeamMembers(Long teamId) {
-        return TeamMembers.from(teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId));
+        return TeamMembers.from(
+            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId));
     }
 
     @Override
@@ -32,5 +46,43 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
             TeamMemberEntity.of(teamId, memberId, Role.LEADER));
 
         return created.getId();
+    }
+
+    @Override
+    public Long saveTeamMember(Long teamId, Member member) {
+        TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);
+        validateTeamIsJoinable(teamEntity);
+        validateMemberGender(teamEntity, member);
+        final TeamMemberEntity createdTeamMember = saveTeamMemberIfNotExist(teamId, member);
+        teamEntity.increaseMemberNumber();
+
+        return createdTeamMember.getId();
+    }
+
+    private TeamEntity fetchTeamWithPessimisticLock(Long teamId) {
+        return teamEntityRepository.findByIdWithPessimisticLock(teamId)
+                                   .orElseThrow(() -> new TingApplicationException(TEAM_006));
+    }
+
+    private void validateTeamIsJoinable(TeamEntity teamEntity) {
+        if (!teamEntity.isJoinable()) {
+            throw new TingApplicationException(TEAM_008);
+        }
+    }
+
+    private void validateMemberGender(TeamEntity teamEntity, Member member) {
+        if (!teamEntity.getGender()
+                       .equals(member.getGender())) {
+            throw new TingApplicationException(TEAM_009);
+        }
+    }
+
+    private TeamMemberEntity saveTeamMemberIfNotExist(Long teamId, Member member) {
+        try {
+            return teamMemberEntityRepository.save(
+                TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
+        } catch (DataIntegrityViolationException e) {
+            throw new TingApplicationException(TEAM_007);
+        }
     }
 }

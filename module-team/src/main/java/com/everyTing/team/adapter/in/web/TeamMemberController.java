@@ -1,9 +1,12 @@
 package com.everyTing.team.adapter.in.web;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamMemberControllerDocs;
+import com.everyTing.team.adapter.in.web.request.TeamMemberSaveRequest;
 import com.everyTing.team.application.port.in.TeamMemberUseCase;
 import com.everyTing.team.application.port.in.command.TeamMemberFindCommand;
+import com.everyTing.team.application.port.in.command.TeamMemberSaveCommand;
 import com.everyTing.team.domain.TeamMembers;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,5 +22,12 @@ public class TeamMemberController implements TeamMemberControllerDocs {
     public Response<TeamMembers> memberList(Long teamId) {
         TeamMemberFindCommand command = TeamMemberFindCommand.of(teamId);
         return Response.success(teamMemberUseCase.findTeamMembers(command));
+    }
+
+    public Response<Void> memberSave(TeamMemberSaveRequest request,
+        LoginMemberInfo loginMemberInfo) {
+        teamMemberUseCase.saveTeamMember(
+            TeamMemberSaveCommand.of(request.getTeamId(), loginMemberInfo.getId()));
+        return Response.success();
     }
 }

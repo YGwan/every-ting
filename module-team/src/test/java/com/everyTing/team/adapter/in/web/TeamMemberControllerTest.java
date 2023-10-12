@@ -39,7 +39,7 @@ class TeamMemberControllerTest extends BaseTest {
     @DisplayName("팀 멤버 조회 api 테스트")
     @Test
     void memberList() throws Exception {
-        given(teamMemberUseCase.findMembers(any())).willReturn(TeamMembers.from(teamMemberEntities));
+        given(teamMemberUseCase.findTeamMembers(any())).willReturn(
 
         mockMvc.perform(get("/api/v1/teams/1/members"))
                .andExpect(status().isOk())

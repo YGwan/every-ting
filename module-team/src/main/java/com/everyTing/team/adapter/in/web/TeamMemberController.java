@@ -18,6 +18,6 @@ public class TeamMemberController implements TeamMemberControllerDocs {
 
     public Response<TeamMembers> memberList(Long teamId) {
         TeamMemberFindCommand command = TeamMemberFindCommand.of(teamId);
-        return Response.success(teamMemberUseCase.findMembers(command));
+        return Response.success(teamMemberUseCase.findTeamMembers(command));
     }
 }

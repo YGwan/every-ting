@@ -5,5 +5,5 @@ import com.everyTing.team.domain.TeamMembers;
 
 public interface TeamMemberUseCase {
 
-    TeamMembers findMembers(TeamMemberFindCommand command);
+    TeamMembers findTeamMembers(TeamMemberFindCommand command);
 }

@@ -39,9 +39,18 @@ public class TeamPersistenceAdapter implements TeamPort {
     }
 
     @Override
-    public Team findTeam(Long teamId) {
+    public Team findTeamById(Long teamId) {
         final TeamEntity team =
             teamEntityRepository.findById(teamId)
+                                .orElseThrow(() -> new TingApplicationException(TEAM_006));
+
+        return Team.from(team);
+    }
+
+    @Override
+    public Team findTeamByCode(Code code) {
+        final TeamEntity team =
+            teamEntityRepository.findByCode(code)
                                 .orElseThrow(() -> new TingApplicationException(TEAM_006));
 
         return Team.from(team);

@@ -16,6 +16,7 @@ import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.TeamEntityFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,27 @@ class TeamControllerTest extends BaseTest {
     @MockBean
     private TeamUseCase teamUseCase;
 
-    @DisplayName("팀 조회 api 테스트")
+    @DisplayName("id 로 팀 조회 api 테스트")
     @Test
-    void teamDetails() throws Exception {
+    void teamDetailsById() throws Exception {
         Long teamId = 1L;
-        given(teamUseCase.findTeam(any())).willReturn(Team.from(TeamEntityFixture.get(teamId)));
+        given(teamUseCase.findTeamById(any())).willReturn(Team.from(TeamEntityFixture.get(teamId)));
 
         mockMvc.perform(get("/api/v1/teams/1"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data.size()").value(9))
+               .andExpect(jsonPath("$.data.id").value(teamId));
+    }
+
+    @DisplayName("code 로 팀 조회 api 테스트")
+    @Test
+    void teamDetailsByCode() throws Exception {
+        Long teamId = 1L;
+        String code = "mockTeamCode";
+        given(teamUseCase.findTeamByCode(any())).willReturn(Team.from(TeamEntityFixture.get(teamId)));
+
+        mockMvc.perform(get("/api/v1/teams/by-teamcode").param("teamCode", code))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data.size()").value(9))

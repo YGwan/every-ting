@@ -9,5 +9,5 @@ public interface TeamMemberPort {
 
     TeamMembers findTeamMembers(Long teamId);
 
-    Long saveTeamMember(Long teamId, Long memberId, Role role);
+    Long saveTeamLeader(Long teamId, Long memberId);
 }

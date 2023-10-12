@@ -59,7 +59,7 @@ public class TeamService implements TeamUseCase {
             Code.from(teamCode), command.getMemberLimit(), member.getGender(),
             command.getHashtags());
 
-        teamMemberPort.saveTeamMember(savedTeamId, member.getMemberId(), Role.LEADER);
+        teamMemberPort.saveTeamLeader(savedTeamId, member.getMemberId());
 
         return savedTeamId;
     }

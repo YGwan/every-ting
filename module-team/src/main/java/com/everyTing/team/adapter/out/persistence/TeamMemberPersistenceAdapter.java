@@ -27,9 +27,9 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
-    public Long saveTeamMember(Long teamId, Long memberId, Role role) {
+    public Long saveTeamLeader(Long teamId, Long memberId) {
         final TeamMemberEntity created = teamMemberEntityRepository.save(
-            TeamMemberEntity.of(teamId, memberId, role));
+            TeamMemberEntity.of(teamId, memberId, Role.LEADER));
 
         return created.getId();
     }

@@ -3,7 +3,6 @@ package com.everyTing.team.adapter.in.web;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamMemberControllerDocs;
-import com.everyTing.team.adapter.in.web.request.TeamMemberSaveRequest;
 import com.everyTing.team.application.port.in.TeamMemberUseCase;
 import com.everyTing.team.application.port.in.command.TeamMemberFindCommand;
 import com.everyTing.team.application.port.in.command.TeamMemberSaveCommand;
@@ -24,10 +23,9 @@ public class TeamMemberController implements TeamMemberControllerDocs {
         return Response.success(teamMemberUseCase.findTeamMembers(command));
     }
 
-    public Response<Void> memberSave(TeamMemberSaveRequest request,
-        LoginMemberInfo loginMemberInfo) {
+    public Response<Void> memberSave(Long teamId, LoginMemberInfo loginMemberInfo) {
         teamMemberUseCase.saveTeamMember(
-            TeamMemberSaveCommand.of(request.getTeamId(), loginMemberInfo.getId()));
+            TeamMemberSaveCommand.of(teamId, loginMemberInfo.getId()));
         return Response.success();
     }
 }

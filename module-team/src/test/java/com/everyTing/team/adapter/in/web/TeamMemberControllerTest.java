@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.everyTing.core.token.service.TokenService;
-import com.everyTing.team.adapter.in.web.request.TeamMemberSaveRequest;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
 import com.everyTing.team.application.port.in.TeamMemberUseCase;
 import com.everyTing.team.domain.TeamMembers;
@@ -58,15 +57,10 @@ class TeamMemberControllerTest extends BaseTest {
     @DisplayName("팀 멤버 저장 api 테스트")
     @Test
     void memberSave() throws Exception {
-        TeamMemberSaveRequest request = new TeamMemberSaveRequest(1L);
-
         willDoNothing().given(teamMemberUseCase)
                        .saveTeamMember(any());
 
-        mockMvc.perform(post("/api/v1/teams/1/members")
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(
-                       objectMapper.writeValueAsBytes(request)))
+        mockMvc.perform(post("/api/v1/teams/1/members"))
                .andExpect(status().isCreated());
     }
 }

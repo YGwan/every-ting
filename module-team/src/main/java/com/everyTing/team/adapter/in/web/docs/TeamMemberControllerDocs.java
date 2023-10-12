@@ -3,7 +3,6 @@ package com.everyTing.team.adapter.in.web.docs;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.team.adapter.in.web.request.TeamMemberSaveRequest;
 import com.everyTing.team.domain.TeamMembers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -33,10 +31,9 @@ public interface TeamMemberControllerDocs {
     @Operation(summary = "팀원 추가, 팀 가입")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "팀원 추가 및 가입 완료", content = @Content),
-        @ApiResponse(responseCode = "404", description = "TEAM_006, TEAM_007, TEAM_008, TEAM_009")})
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(schema = @Schema(implementation = TeamMemberSaveRequest.class)))
+        @ApiResponse(responseCode = "404", description = "TEAM_006, TEAM_007, TEAM_008, TEAM_009", content = @Content)})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    Response<Void> memberSave(@RequestBody TeamMemberSaveRequest request,
+    Response<Void> memberSave(@PathVariable Long teamId,
         @LoginMember LoginMemberInfo loginMemberInfo);
 }

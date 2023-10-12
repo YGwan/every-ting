@@ -1,5 +1,6 @@
 package com.everyTing.core.config;
 
+import com.everyTing.core.resolver.LoginMember;
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -7,6 +8,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,18 +17,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
+    static {
+        SpringDocUtils.getConfig()
+                      .addAnnotationsToIgnore(LoginMember.class);
+    }
+
     @Value("${auth.jwt.token.access.key}")
     private String apiKey;
-
     @Value("${constraint.docs.name}")
     private String constraintDocs;
-
     @Value("${constraint.docs.url}")
     private String constraintDocsUrl;
-
     @Value("${error.docs.name}")
     private String errorDocs;
-
     @Value("${error.docs.url}")
     private String errorDocsUrl;
 

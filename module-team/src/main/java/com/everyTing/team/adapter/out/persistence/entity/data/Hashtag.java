@@ -25,7 +25,7 @@ public class Hashtag {
         this.value = value;
     }
 
-    public static Hashtag from(String value) {
+    private static Hashtag from(String value) {
         String trimValue = value.trim();
         validate(trimValue);
         return new Hashtag(trimValue);
@@ -39,7 +39,7 @@ public class Hashtag {
                      .collect(Collectors.toList());
     }
 
-    public static void validate(String value) {
+    private static void validate(String value) {
         if (!(value.length() >= HASHTAG_MIN_LENGTH && value.length() <= HASHTAG_MAX_LENGTH)) {
             throw new TingApplicationException(TEAM_004);
         }

@@ -36,7 +36,9 @@ hashtag:
   content:
     length:
       min: 1
-      max: 10
+      max: 7
+  limit:
+    max: 7
 
 regions:
   서울 남부,

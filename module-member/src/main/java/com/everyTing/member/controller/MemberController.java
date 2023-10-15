@@ -62,13 +62,13 @@ public class MemberController {
         return Response.success(isExistUsername);
     }
 
-    @PostMapping("/auth/universityEmail/mail/send")
+    @PostMapping("/email/auth/send")
     public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
         memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
         return Response.success();
     }
 
-    @PostMapping("signUp/authCode/validate")
+    @PostMapping("/email/auth/verify")
     public Response<Void> SignUpAuthCodeValidate(@RequestBody SignUpAuthCodeValidateRequest request) {
         memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
         return Response.success();

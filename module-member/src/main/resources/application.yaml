@@ -1,7 +1,10 @@
 spring:
   profiles:
     include:
+      - server
       - db
       - constraint
+      - mail
       - token
       - feign
+      - swagger

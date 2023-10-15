@@ -62,7 +62,7 @@ public class MemberController {
         return Response.success(isExistUsername);
     }
 
-    @GetMapping("/auth/universityEmail/mail/send")
+    @PostMapping("/auth/universityEmail/mail/send")
     public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
         memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
         return Response.success();

@@ -3,9 +3,7 @@ package com.everyTing.core.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Slice;
 
 @Getter
 @JsonInclude(Include.NON_NULL)
@@ -42,13 +40,12 @@ public class Response<T> {
     }
 
     public static <T> Response<T> success(T data) {
-        if (data instanceof Page<?>) {
-            Page<?> page = (Page<?>) data;
+        if (data instanceof Slice<?>) {
+            Slice<?> slice = (Slice<?>) data;
 
-            Meta meta = new Meta(page.getPageable()
-                                     .getPageNumber(), page.getSize(), page.getTotalElements(),
-                page.getTotalPages());
-            return new Response<>(meta, (T) page.getContent());
+            Meta meta = new Meta(slice.getPageable().getOffset(), slice.getNumberOfElements(),
+                slice.isFirst(), slice.isLast());
+            return new Response<>(meta, (T) slice.getContent());
         }
 
         return new Response<>(data);
@@ -62,18 +59,19 @@ public class Response<T> {
         return null;
     }
 
+    @Getter
     public static class Meta {
 
-        private int page;
-        private int size;
-        private long totalElements;
-        private int totalPages;
+        private long offset;
+        private int numOfElements;
+        private boolean first;
+        private boolean last;
 
-        public Meta(int page, int size, long totalElements, int totalPages) {
-            this.page = page;
-            this.size = size;
-            this.totalElements = totalElements;
-            this.totalPages = totalPages;
+        public Meta(long offset, int numOfElements, boolean first, boolean last) {
+            this.offset = offset;
+            this.numOfElements = numOfElements;
+            this.first = first;
+            this.last = last;
         }
     }
 }

@@ -7,11 +7,7 @@ import java.util.stream.Collectors;
 
 public class TeamHashtagEntityFixture {
 
-    public static final List<Hashtag> hashtags =
-        List.of("모두E", "보드게임")
-            .stream()
-            .map(Hashtag::from)
-            .collect(Collectors.toList());
+    public static final List<Hashtag> hashtags = Hashtag.from(List.of("모두E", "보드게임"));
 
     public static List<TeamHashtagEntity> get() {
         return hashtags.stream()

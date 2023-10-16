@@ -13,6 +13,7 @@ public abstract class BaseTest {
         ReflectionTestUtils.setField(TeamConstraints.class, "NAME_MAX_LENGTH", 20);
         ReflectionTestUtils.setField(TeamConstraints.class, "MEMBER_MIN_LIMIT", 2);
         ReflectionTestUtils.setField(TeamConstraints.class, "MEMBER_MAX_LIMIT", 6);
+        ReflectionTestUtils.setField(TeamConstraints.class, "HASHTAG_MAX_LIMIT", 7);
         ReflectionTestUtils.setField(TeamConstraints.class, "HASHTAG_MIN_LENGTH", 1);
         ReflectionTestUtils.setField(TeamConstraints.class, "HASHTAG_MAX_LENGTH", 10);
         ReflectionTestUtils.setField(TeamConstraints.class, "REGIONS",

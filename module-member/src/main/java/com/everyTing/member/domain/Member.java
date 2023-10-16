@@ -1,18 +1,19 @@
 package com.everyTing.member.domain;
 
+import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.domain.data.*;
-import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
-public class Member {
+public class Member extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,17 +38,13 @@ public class Member {
 
     private KakaoId kakaoId;
 
-    private Height height;
-
-    private Weight weight;
-
     private String profilePhoto;
 
     public Member() {
     }
 
     public Member(Username username, Gender gender, LocalDate birth, UniversityEmail universityEmail,
-                  Password password, University university, Major major, KakaoId kakaoId, Height height, Weight weight) {
+                  Password password, University university, Major major, KakaoId kakaoId) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
@@ -56,8 +53,8 @@ public class Member {
         this.university = university;
         this.major = major;
         this.kakaoId = kakaoId;
-        this.height = height;
-        this.weight = weight;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public static Member from(ValidatedSignUpRequest request) {
@@ -69,9 +66,7 @@ public class Member {
                 request.getPassword(),
                 request.getUniversity(),
                 request.getMajor(),
-                request.getKakaoId(),
-                request.getHeight(),
-                request.getWeight()
+                request.getKakaoId()
         );
     }
 }

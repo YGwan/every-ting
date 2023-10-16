@@ -16,10 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberServiceAdapter implements MemberPort {
 
-    // TODO: 실제 받아온 값으로 수정
-    private final Member mockMember = new Member(100L, "김학생", Gender.FEMALE, LocalDate.now(),
-        "단국대학교", "컴퓨터공학과", "kakaoId", null, null, "stu@uni.com", "image_url.com");
-
     private final MemberFeignClient memberFeignClient;
 
     public MemberServiceAdapter(MemberFeignClient memberFeignClient) {
@@ -30,7 +26,9 @@ public class MemberServiceAdapter implements MemberPort {
     public Member getMemberById(Long memberId) {
         try {
 //            return memberFeignClient.findMember(memberId);
-            return mockMember;
+            // TODO: 실제 받아온 값으로 수정
+            return new Member(memberId, "김학생", Gender.FEMALE, LocalDate.now(),
+                "단국대학교", "컴퓨터공학과", "kakaoId", null, null, "stu@uni.com", "image_url.com");
         } catch (FeignException e) {
             if (e.status() == HttpStatus.SC_NOT_FOUND) {
                 throw new TingServerException(TSER_005);

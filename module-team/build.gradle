@@ -7,8 +7,6 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     runtimeOnly 'com.h2database:h2'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 }
 

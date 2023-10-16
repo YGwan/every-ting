@@ -2,6 +2,8 @@ package com.everyTing.member.controller;
 
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
@@ -9,6 +11,7 @@ import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.response.MyListResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
@@ -28,6 +31,13 @@ public class MemberController {
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping("/my/info")
+    public Response<MyListResponse> myList(@LoginMember LoginMemberInfo memberInfo) {
+        final Long memberId = memberInfo.getId();
+        final MyListResponse myInfoResponse = memberService.findMemberInfo(memberId);
+        return Response.success(myInfoResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

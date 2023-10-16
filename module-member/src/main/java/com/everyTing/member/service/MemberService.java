@@ -9,6 +9,7 @@ import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.response.MyListResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
@@ -106,5 +107,13 @@ public class MemberService {
         if (memberRepository.existsByKakaoId(kakaoId)) {
             throw new TingApplicationException(MEMBER_008);
         }
+    }
+
+    public MyListResponse findMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
+
+        return MyListResponse.from(member);
     }
 }

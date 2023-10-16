@@ -3,6 +3,7 @@ package com.everyTing.member.service;
 import com.everyTing.cache.EmailAuthCodeCache;
 import com.everyTing.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.exception.TingServerException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.Member;
@@ -21,8 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
+import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
 @Transactional(readOnly = true)
 @Service
@@ -41,14 +41,6 @@ public class MemberService {
         this.tokenService = tokenService;
         this.mailService = mailService;
         this.emailAuthCodeCacheRepository = emailAuthCodeCacheRepository;
-    }
-
-    public boolean existsMemberByUsername(Username username) {
-        return memberRepository.existsByUsername(username);
-    }
-
-    public boolean existsMemberByKakaoId(KakaoId kakaoId) {
-        return memberRepository.existsByKakaoId(kakaoId);
     }
 
     @Transactional
@@ -83,5 +75,17 @@ public class MemberService {
         emailAuthCodeCache.checkValidTime(mailValidTime);
         emailAuthCodeCache.checkAuthCodeSame(authCode);
         emailAuthCodeCache.checkEmailSame(email);
+    }
+
+    public void throwIfExistUsername(Username username) {
+        if (memberRepository.existsByUsername(username)) {
+            throw new TingServerException(MEMBER_006);
+        }
+    }
+
+    public void throwIfExistKakaoId(KakaoId kakaoId) {
+        if (memberRepository.existsByKakaoId(kakaoId)) {
+            throw new TingServerException(MEMBER_007);
+        }
     }
 }

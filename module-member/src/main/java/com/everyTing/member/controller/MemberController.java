@@ -7,8 +7,8 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
+import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -51,15 +51,15 @@ public class MemberController {
     }
 
     @GetMapping("/username/check")
-    public Response<Boolean> usernameCheck(@RequestParam String username) {
-        final boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
-        return Response.success(isExistUsername);
+    public Response<Void> usernameCheck(@RequestParam String username) {
+        memberService.throwIfExistUsername(Username.from(username));
+        return Response.success();
     }
 
     @GetMapping("/kakaoId/check")
-    public Response<Boolean> kakaoIdCheck(@RequestParam String kakaoId) {
-        final boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
-        return Response.success(isExistUsername);
+    public Response<Void> kakaoIdCheck(@RequestParam String kakaoId) {
+        memberService.throwIfExistKakaoId(KakaoId.from(kakaoId));
+        return Response.success();
     }
 
     @PostMapping("/email/auth/send")

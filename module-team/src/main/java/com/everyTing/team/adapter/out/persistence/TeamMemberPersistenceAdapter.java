@@ -3,7 +3,7 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.feign.dto.Member;
@@ -82,7 +82,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
             return teamMemberEntityRepository.save(
                 TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
         } catch (DataIntegrityViolationException e) {
-            throw new TingApplicationException(TEAM_010);
+            throw new TingApplicationException(TEAM_013);
         }
     }
 }

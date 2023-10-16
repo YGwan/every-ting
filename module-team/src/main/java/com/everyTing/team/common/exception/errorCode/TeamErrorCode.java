@@ -14,7 +14,10 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_007("해시태그는 7개 이하여야 합니다.", HttpStatus.BAD_REQUEST),
     TEAM_008("팀이 꽉 찼습니다.", HttpStatus.BAD_REQUEST),
     TEAM_009("같은 성별의 팀이 아닙니다.", HttpStatus.BAD_REQUEST),
-    TEAM_010("이미 팀에 속해 있습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_010("팀의 멤버가 아닙니다.", HttpStatus.FORBIDDEN),
+    TEAM_011("같은 성별의 팀입니다.", HttpStatus.BAD_REQUEST),
+    TEAM_012("이미 좋아요를 했습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_013("이미 팀에 속해 있습니다.", HttpStatus.BAD_REQUEST),
     ;
 
     private String message;

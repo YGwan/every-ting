@@ -11,7 +11,7 @@ import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
-import com.everyTing.member.dto.response.MyListResponse;
+import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
@@ -34,9 +34,15 @@ public class MemberController {
     }
 
     @GetMapping("/my/info")
-    public Response<MyListResponse> myList(@LoginMember LoginMemberInfo memberInfo) {
+    public Response<MemberInfoResponse> MyInfoDetails(@LoginMember LoginMemberInfo memberInfo) {
         final Long memberId = memberInfo.getId();
-        final MyListResponse myInfoResponse = memberService.findMemberInfo(memberId);
+        final MemberInfoResponse memberInfoResponse = memberService.findMemberInfo(memberId);
+        return Response.success(memberInfoResponse);
+    }
+
+    @GetMapping("/{memberId}/info")
+    public Response<MemberInfoResponse> MemberInfoDetails(@PathVariable Long memberId) {
+        final MemberInfoResponse myInfoResponse = memberService.findMemberInfo(memberId);
         return Response.success(myInfoResponse);
     }
 

@@ -7,7 +7,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class MyListResponse {
+public class MemberInfoResponse {
 
     private Long id;
 
@@ -27,8 +27,8 @@ public class MyListResponse {
 
     private String profilePhoto;
 
-    public MyListResponse(Long id, String username, Gender gender, LocalDate birth, String universityEmail,
-                          String university, String major, String kakaoId, String profilePhoto) {
+    public MemberInfoResponse(Long id, String username, Gender gender, LocalDate birth, String universityEmail,
+                              String university, String major, String kakaoId, String profilePhoto) {
         this.id = id;
         this.username = username;
         this.gender = gender;
@@ -40,8 +40,8 @@ public class MyListResponse {
         this.profilePhoto = profilePhoto;
     }
 
-    public static MyListResponse from(Member member) {
-        return new MyListResponse(
+    public static MemberInfoResponse from(Member member) {
+        return new MemberInfoResponse(
                 member.getId(),
                 member.getUsername().getValue(),
                 member.getGender(),

@@ -14,14 +14,11 @@ public class Member {
     private String university;
     private String major;
     private String kakaoId;
-    private String height;
-    private String weight;
     private String universityEmail;
     private String profilePhoto;
 
     public Member(Long memberId, String username, Gender gender, LocalDate birth, String university,
-        String major, String kakaoId, String height, String weight, String universityEmail,
-        String profilePhoto) {
+        String major, String kakaoId, String universityEmail, String profilePhoto) {
         this.memberId = memberId;
         this.username = username;
         this.gender = gender;
@@ -29,8 +26,6 @@ public class Member {
         this.university = university;
         this.major = major;
         this.kakaoId = kakaoId;
-        this.height = height;
-        this.weight = weight;
         this.universityEmail = universityEmail;
         this.profilePhoto = profilePhoto;
     }

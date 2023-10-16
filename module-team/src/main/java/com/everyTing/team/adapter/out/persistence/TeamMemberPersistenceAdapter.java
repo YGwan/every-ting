@@ -51,7 +51,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     @Override
     public Long saveTeamMember(Long teamId, Member member) {
         TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);
-        validateTeamIsJoinable(teamEntity);
+        validateTeamIsNotFull(teamEntity);
         validateMemberGender(teamEntity, member);
         final TeamMemberEntity createdTeamMember = saveTeamMemberIfNotExist(teamId, member);
         teamEntity.increaseMemberNumber();
@@ -64,8 +64,8 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
                                    .orElseThrow(() -> new TingApplicationException(TEAM_006));
     }
 
-    private void validateTeamIsJoinable(TeamEntity teamEntity) {
-        if (!teamEntity.isJoinable()) {
+    private void validateTeamIsNotFull(TeamEntity teamEntity) {
+        if (teamEntity.isFull()) {
             throw new TingApplicationException(TEAM_008);
         }
     }

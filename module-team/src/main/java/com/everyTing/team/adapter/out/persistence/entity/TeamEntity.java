@@ -100,8 +100,8 @@ public class TeamEntity extends AuditingFields {
         return gender;
     }
 
-    public boolean isJoinable() {
-        return memberNumber < getMemberLimit();
+    public boolean isFull() {
+        return memberNumber >= getMemberLimit();
     }
 
     public void increaseMemberNumber() {

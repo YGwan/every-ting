@@ -27,7 +27,7 @@ public class TeamLikeEntity extends CreatedDateFields {
     private TeamMemberEntity fromTeamMember;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "from_team")
+    @JoinColumn(name = "from_team_id")
     private TeamEntity fromTeam;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

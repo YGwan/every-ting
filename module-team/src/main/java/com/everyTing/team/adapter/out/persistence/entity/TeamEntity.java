@@ -29,18 +29,20 @@ public class TeamEntity extends AuditingFields {
     private Long id;
 
     private Name name;
-
+    
     private University university;
 
     private Major major;
 
     private Code code;
 
-    private MemberLimit memberLimit;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private MemberLimit memberLimit;
+
+    private Short memberNumber = 1;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<TeamHashtagEntity> hashtags = new ArrayList<>();
@@ -90,7 +92,19 @@ public class TeamEntity extends AuditingFields {
         return memberLimit.getValue();
     }
 
+    public Short getMemberNumber() {
+        return memberNumber;
+    }
+
     public Gender getGender() {
         return gender;
+    }
+
+    public boolean isFull() {
+        return memberNumber >= getMemberLimit();
+    }
+
+    public void increaseMemberNumber() {
+        this.memberNumber++;
     }
 }

@@ -5,8 +5,10 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -31,7 +33,7 @@ public class MemberController {
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
         final ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
-        final MemberTokens memberTokens = memberService.addMember(validRequest);
+        final MemberTokens memberTokens = memberService.signUp(validRequest);
         return Response.success(memberTokens);
     }
 
@@ -48,7 +50,6 @@ public class MemberController {
         return Response.success(memberTokens);
     }
 
-
     @GetMapping("/username/check")
     public Response<Boolean> usernameCheck(@RequestParam String username) {
         final boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
@@ -61,8 +62,20 @@ public class MemberController {
         return Response.success(isExistUsername);
     }
 
+    @PostMapping("/email/auth/send")
+    public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
+        memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
+        return Response.success();
+    }
+
+    @PostMapping("/email/auth/verify")
+    public Response<Void> SignUpAuthCodeValidate(@RequestBody SignUpAuthCodeValidateRequest request) {
+        memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
+        return Response.success();
+    }
+
     @GetMapping("/token/reissue")
-    public Response<MemberTokens> reissueToken(HttpServletRequest request) {
+    public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
         final MemberTokens memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
     }

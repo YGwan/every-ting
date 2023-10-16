@@ -4,12 +4,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
+import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.domain.TeamMembers;
+import com.everyTing.team.utils.BaseTest;
+import com.everyTing.team.utils.MemberFixture;
+import com.everyTing.team.utils.TeamEntityFixture;
 import com.everyTing.team.utils.TeamMemberEntityFixture;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,22 +23,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@DisplayName("팀 멤버 - persistent adapter test")
+@DisplayName("팀원 - persistent adapter test")
 @ExtendWith(MockitoExtension.class)
-class TeamMemberPersistenceAdapterTest {
+class TeamMemberPersistenceAdapterTest extends BaseTest {
 
-    private final List<TeamMemberEntity> teamMemberEntities = TeamMemberEntityFixture.get();
+    private final List<TeamMemberEntity> teamMemberEntities = TeamMemberEntityFixture.getList();
 
     @InjectMocks
     private TeamMemberPersistenceAdapter sut;
     @Mock
     private TeamMemberEntityRepository teamMemberEntityRepository;
+    @Mock
+    private TeamEntityRepository teamEntityRepository;
 
-    @DisplayName("팀 멤버 조회")
+    @DisplayName("팀원 조회")
     @Test
     void findTeamMembers() {
         // given
-        given(teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(any())).willReturn(
+        given(
+            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(any())).willReturn(
             teamMemberEntities);
 
         // when
@@ -42,5 +51,27 @@ class TeamMemberPersistenceAdapterTest {
         assertThat(teamMembers.getTeamMembers()
                               .get(0)
                               .getRole()).isEqualTo(Role.LEADER);
+    }
+
+    @DisplayName("팀원 추가")
+    @Test
+    void saveTeamMember() {
+        Long teamId = 1L;
+        Long expected = 1L;
+        TeamEntity teamEntity = TeamEntityFixture.get(teamId);
+        Short memberNumberBefore = teamEntity.getMemberNumber();
+
+        // given
+        given(teamEntityRepository.findByIdWithPessimisticLock(teamId)).willReturn(
+            Optional.of(teamEntity));
+        given(teamMemberEntityRepository.save(any())).willReturn(
+            TeamMemberEntityFixture.get(expected));
+
+        // when
+        Long createdId = sut.saveTeamMember(teamId, MemberFixture.get(1L));
+
+        // then
+        assertThat(createdId).isEqualTo(expected);
+        assertThat(teamEntity.getMemberNumber()).isEqualTo((short)(memberNumberBefore + 1));
     }
 }

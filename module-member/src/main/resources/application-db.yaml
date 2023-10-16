@@ -3,7 +3,13 @@ spring:
     url: ${RDB_URL}
     username: ${RDB_USERNAME}
     password: ${RDB_PASSWORD}
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
   sql.init.mode: always
+
+
 
   jpa:
     hibernate.ddl-auto: create

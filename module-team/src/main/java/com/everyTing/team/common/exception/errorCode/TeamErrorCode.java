@@ -12,6 +12,9 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_005("이미 다른 팀의 팀장으로 등록되어 있습니다.", HttpStatus.BAD_REQUEST),
     TEAM_006("요청된 정보를 가지는 팀이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     TEAM_007("해시태그는 7개 이하여야 합니다.", HttpStatus.BAD_REQUEST),
+    TEAM_008("팀이 꽉 찼습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_009("같은 성별의 팀이 아닙니다.", HttpStatus.BAD_REQUEST),
+    TEAM_010("이미 팀에 속해 있습니다.", HttpStatus.BAD_REQUEST),
     ;
 
     private String message;

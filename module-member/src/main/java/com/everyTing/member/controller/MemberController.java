@@ -36,21 +36,21 @@ public class MemberController {
     @GetMapping("/my/info")
     public Response<MemberInfoResponse> MyInfoDetails(@LoginMember LoginMemberInfo memberInfo) {
         final Long memberId = memberInfo.getId();
-        final MemberInfoResponse memberInfoResponse = memberService.findMemberInfo(memberId);
+        final var memberInfoResponse = memberService.findMemberInfo(memberId);
         return Response.success(memberInfoResponse);
     }
 
     @GetMapping("/{memberId}/info")
     public Response<MemberInfoResponse> MemberInfoDetails(@PathVariable Long memberId) {
-        final MemberInfoResponse myInfoResponse = memberService.findMemberInfo(memberId);
+        final var myInfoResponse = memberService.findMemberInfo(memberId);
         return Response.success(myInfoResponse);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        final ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
-        final MemberTokens memberTokens = memberService.signUp(validRequest);
+        final var validRequest = ValidatedSignUpRequest.from(request);
+        final var memberTokens = memberService.signUp(validRequest);
         return Response.success(memberTokens);
     }
 
@@ -58,7 +58,7 @@ public class MemberController {
     public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
         final MemberTokens memberTokens;
         try {
-            final ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
+            final var validRequest = ValidatedSignInRequest.from(request);
             memberTokens = memberService.signIn(validRequest);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);
@@ -81,7 +81,7 @@ public class MemberController {
 
     @PostMapping("/email/auth/send")
     public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
-        final ValidatedAuthCodeSendRequest validatedRequest = ValidatedAuthCodeSendRequest.from(request);
+        final var validatedRequest = ValidatedAuthCodeSendRequest.from(request);
         memberService.sendAuthCodeFromUniversityEmail(validatedRequest);
         return Response.success();
     }
@@ -94,7 +94,7 @@ public class MemberController {
 
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
-        final MemberTokens memberTokens = memberService.reissueToken(request);
+        final var memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
     }
 }

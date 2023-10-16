@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamLikeEntityRepository extends JpaRepository<TeamLikeEntity, Long> {
 
+    Boolean existsByToTeamIdAndFromTeamMemberId(Long toTeamId, Long fromMemberId);
+
     void deleteByToTeamIdAndFromTeamMember(Long teamId, TeamMemberEntity teamMemberEntity);
 }

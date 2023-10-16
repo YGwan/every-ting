@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamMemberEntityRepository extends JpaRepository<TeamMemberEntity, Long> {
 
+    Boolean existsByTeamIdAndMemberId(Long teamId, Long memberId);
+
     Boolean existsByMemberIdAndRole(Long memberId, Role role);
 
     List<TeamMemberEntity> findAllByTeamIdOrderByRoleAscCreatedAtAsc(Long teamId);

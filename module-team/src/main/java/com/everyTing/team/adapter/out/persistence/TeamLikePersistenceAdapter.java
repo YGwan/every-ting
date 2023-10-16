@@ -33,14 +33,17 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
 
     @Override
     public Long saveTeamLike(Long toTeamId, Long fromTeamId, Long fromMemberId) {
+        validateTeamLikeIsNotDuplicate(toTeamId, fromMemberId);
+
         final TeamEntity toTeam = findTeamById(toTeamId);
         final TeamEntity fromTeam = findTeamById(fromTeamId);
 
-        validateTeamsHaveDifferentGenders(toTeam, fromTeam);
+        validateTeamsHaveDifferentGenders(fromTeam, toTeam);
 
         final TeamMemberEntity fromTeamMember = findTeamMemberByTeamIdAndMemberId(fromTeamId,
             fromMemberId);
-        final TeamLikeEntity created = saveTeamLikeIfNotExist(fromTeamMember, fromTeam, toTeam);
+        final TeamLikeEntity created = teamLikeEntityRepository.save(
+            TeamLikeEntity.of(fromTeamMember, fromTeam, toTeam));
 
         return created.getId();
     }
@@ -50,20 +53,16 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
                                    .orElseThrow(() -> new TingApplicationException(TEAM_006));
     }
 
-    private void validateTeamsHaveDifferentGenders(TeamEntity toTeam, TeamEntity fromTeam) {
-        if (toTeam.getGender()
-                  .equals(fromTeam.getGender())) {
-            throw new TingApplicationException(TeamErrorCode.TEAM_011);
+    private void validateTeamLikeIsNotDuplicate(Long toTeamId, Long fromMemberId) {
+        if (teamLikeEntityRepository.existsByToTeamIdAndFromTeamMemberId(toTeamId, fromMemberId)) {
+            throw new TingApplicationException(TEAM_012);
         }
     }
 
-    private TeamLikeEntity saveTeamLikeIfNotExist(TeamMemberEntity fromTeamMember,
-        TeamEntity fromTeam, TeamEntity toTeam) {
-        try {
-            return teamLikeEntityRepository.save(
-                TeamLikeEntity.of(fromTeamMember, fromTeam, toTeam));
-        } catch (DataIntegrityViolationException e) {
-            throw new TingApplicationException(TEAM_012);
+    private void validateTeamsHaveDifferentGenders(TeamEntity fromTeam, TeamEntity toTeam) {
+        if (fromTeam.getGender()
+                  .equals(toTeam.getGender())) {
+            throw new TingApplicationException(TeamErrorCode.TEAM_011);
         }
     }
 

@@ -43,9 +43,7 @@ class TeamLikeControllerTest {
         willDoNothing().given(teamLikeUseCase)
                        .saveTeamLike(any());
 
-        mockMvc.perform(post("/api/v1/teams/1/likes")
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(objectMapper.writeValueAsBytes(request)))
+        mockMvc.perform(post("/api/v1/teams/1/likes").param("toTeamId", "1"))
                .andExpect(status().isCreated())
                .andExpect(jsonPath("$").doesNotHaveJsonPath());
     }
@@ -58,9 +56,7 @@ class TeamLikeControllerTest {
         willDoNothing().given(teamLikeUseCase)
                        .removeTeamLike(any());
 
-        mockMvc.perform(delete("/api/v1/teams/1/likes")
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(objectMapper.writeValueAsBytes(request)))
+        mockMvc.perform(delete("/api/v1/teams/1/likes").param("toTeamId", "1"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$").doesNotHaveJsonPath());
     }

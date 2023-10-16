@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 
 @RequestMapping("/api/v1/members")
 @RestController
@@ -44,7 +44,7 @@ public class MemberController {
             final ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
             memberTokens = memberService.signIn(validRequest);
         } catch (TingApplicationException e) {
-            throw new TingApplicationException(MEMBER_009);
+            throw new TingApplicationException(MEMBER_010);
         }
 
         return Response.success(memberTokens);

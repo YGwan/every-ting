@@ -9,6 +9,7 @@ import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -64,7 +65,8 @@ public class MemberController {
 
     @PostMapping("/email/auth/send")
     public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
-        memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
+        final ValidatedAuthCodeSendRequest validatedRequest = ValidatedAuthCodeSendRequest.from(request);
+        memberService.sendAuthCodeFromUniversityEmail(validatedRequest);
         return Response.success();
     }
 

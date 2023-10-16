@@ -9,6 +9,7 @@ import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
@@ -63,8 +64,13 @@ public class MemberService {
     }
 
     @Transactional
-    public void sendAuthCodeFromUniversityEmail(String username, String universityEmail) {
+    public void sendAuthCodeFromUniversityEmail(ValidatedAuthCodeSendRequest request) {
+        throwIfExistUniversityEmail(request.getUniversityEmail());
+
+        final String username = request.getUsername().getValue();
+        final String universityEmail = request.getUniversityEmail().getValue();
         final String emailAuthCode = RandomCodeUtils.generate();
+
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
     }

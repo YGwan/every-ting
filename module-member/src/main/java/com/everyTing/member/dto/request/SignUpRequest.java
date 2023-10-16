@@ -8,39 +8,30 @@ import java.time.LocalDate;
 @Getter
 public class SignUpRequest {
 
-    private String username;
+    private final String username;
 
-    private Gender gender;
+    private final Gender gender;
 
-    private LocalDate birth;
+    private final LocalDate birth;
 
-    private String universityEmail;
+    private final String universityEmail;
 
-    private String password;
+    private final String password;
 
-    private String kakaoId;
+    private final String kakaoId;
 
-    private double height;
+    private final String university;
 
-    private double weight;
+    private final String major;
 
-    private String university;
-
-    private String major;
-
-    public SignUpRequest() {
-    }
-
-    public SignUpRequest(String username, Gender gender, LocalDate birth, String universityEmail, String password,
-                         String kakaoId, double height, double weight, String university, String major) {
+    public SignUpRequest(String username, Gender gender, LocalDate birth, String universityEmail,
+                         String password, String kakaoId, String university, String major) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
         this.universityEmail = universityEmail;
         this.password = password;
         this.kakaoId = kakaoId;
-        this.height = height;
-        this.weight = weight;
         this.university = university;
         this.major = major;
     }

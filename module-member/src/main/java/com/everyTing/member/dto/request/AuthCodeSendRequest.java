@@ -5,12 +5,9 @@ import lombok.Getter;
 @Getter
 public class AuthCodeSendRequest {
 
-    private String username;
+    private final String username;
 
-    private String universityEmail;
-
-    public AuthCodeSendRequest() {
-    }
+    private final String universityEmail;
 
     public AuthCodeSendRequest(String username, String universityEmail) {
         this.username = username;

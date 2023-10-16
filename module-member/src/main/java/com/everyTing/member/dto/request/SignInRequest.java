@@ -5,12 +5,9 @@ import lombok.Getter;
 @Getter
 public class SignInRequest {
 
-    private String universityEmail;
+    private final String universityEmail;
 
-    private String password;
-
-    public SignInRequest() {
-    }
+    private final String password;
 
     public SignInRequest(String universityEmail, String password) {
         this.universityEmail = universityEmail;

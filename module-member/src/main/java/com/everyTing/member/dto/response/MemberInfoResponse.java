@@ -9,23 +9,23 @@ import java.time.LocalDate;
 @Getter
 public class MemberInfoResponse {
 
-    private Long id;
+    private final Long id;
 
-    private String username;
+    private final String username;
 
-    private Gender gender;
+    private final Gender gender;
 
-    private LocalDate birth;
+    private final LocalDate birth;
 
-    private String universityEmail;
+    private final String universityEmail;
 
-    private String university;
+    private final String university;
 
-    private String major;
+    private final String major;
 
-    private String kakaoId;
+    private final String kakaoId;
 
-    private String profilePhoto;
+    private final String profilePhoto;
 
     public MemberInfoResponse(Long id, String username, Gender gender, LocalDate birth, String universityEmail,
                               String university, String major, String kakaoId, String profilePhoto) {

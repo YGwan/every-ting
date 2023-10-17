@@ -53,8 +53,6 @@ public class Member extends AuditingFields {
         this.university = university;
         this.major = major;
         this.kakaoId = kakaoId;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
     public static Member from(ValidatedSignUpRequest request) {

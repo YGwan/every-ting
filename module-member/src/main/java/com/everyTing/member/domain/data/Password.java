@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.PASSWORD_PATTERN;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_008;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
 
 @Embeddable
 public class Password {
@@ -35,7 +35,7 @@ public class Password {
         final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
         final Matcher matcher = pattern.matcher(value);
         if (!matcher.matches()) {
-            throw new TingApplicationException(MEMBER_008);
+            throw new TingApplicationException(MEMBER_009);
         }
     }
 

@@ -2,13 +2,11 @@ package com.everyTing.member.dto.request;
 
 import lombok.Getter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
 public class SignUpAuthCodeValidateRequest {
 
-    @Email
     private String email;
 
     @NotBlank

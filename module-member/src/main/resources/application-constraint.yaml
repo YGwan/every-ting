@@ -3,16 +3,6 @@ username:
     min: 2
     max: 10
 
-height:
-  limit:
-    min: 100
-    max: 300
-
-weight:
-  limit:
-    min: 20
-    max: 300
-
 password:
   pattern: "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}"
 

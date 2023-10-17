@@ -22,24 +22,18 @@ public class ValidatedSignUpRequest {
 
     private final KakaoId kakaoId;
 
-    private final Height height;
-
-    private final Weight weight;
-
     private final University university;
 
     private final Major major;
 
     public ValidatedSignUpRequest(Username username, Gender gender, LocalDate birth, UniversityEmail universityEmail,
-                                  Password password, KakaoId kakaoId, Height height, Weight weight, University university, Major major) {
+                                  Password password, KakaoId kakaoId, University university, Major major) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
         this.universityEmail = universityEmail;
         this.password = password;
         this.kakaoId = kakaoId;
-        this.height = height;
-        this.weight = weight;
         this.university = university;
         this.major = major;
     }
@@ -52,8 +46,6 @@ public class ValidatedSignUpRequest {
                 UniversityEmail.from(request.getUniversityEmail()),
                 Password.from(request.getPassword()),
                 KakaoId.from(request.getKakaoId()),
-                Height.from(request.getHeight()),
-                Weight.from(request.getWeight()),
                 University.from(request.getUniversity()),
                 Major.from(request.getMajor())
         );

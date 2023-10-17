@@ -8,8 +8,8 @@ import org.springframework.data.redis.core.RedisHash;
 import java.time.Duration;
 import java.time.LocalTime;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_011;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
 
 @Getter
 @RedisHash(value = "EmailAuthCodeCache", timeToLive = 60 * 5)
@@ -29,19 +29,19 @@ public class EmailAuthCodeCache {
     public void checkValidTime(long mailValidTime) {
         long afterSeconds = Duration.between(createdTime, LocalTime.now()).getSeconds();
         if (afterSeconds > mailValidTime) {
-            throw new TingApplicationException(MEMBER_010);
+            throw new TingApplicationException(MEMBER_011);
         }
     }
 
     public void checkEmailSame(String email) {
         if (!this.email.equals(email)) {
-            throw new TingApplicationException(MEMBER_011);
+            throw new TingApplicationException(MEMBER_012);
         }
     }
 
     public void checkAuthCodeSame(String authCode) {
         if (!this.authCode.equals(authCode)) {
-            throw new TingApplicationException(MEMBER_011);
+            throw new TingApplicationException(MEMBER_012);
         }
     }
 }

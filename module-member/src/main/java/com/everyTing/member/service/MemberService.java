@@ -7,7 +7,10 @@ import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.response.MemberInfoResponse;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
@@ -21,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
+import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
 @Transactional(readOnly = true)
 @Service
@@ -43,16 +45,9 @@ public class MemberService {
         this.emailAuthCodeCacheRepository = emailAuthCodeCacheRepository;
     }
 
-    public boolean existsMemberByUsername(Username username) {
-        return memberRepository.existsByUsername(username);
-    }
-
-    public boolean existsMemberByKakaoId(KakaoId kakaoId) {
-        return memberRepository.existsByKakaoId(kakaoId);
-    }
-
     @Transactional
     public MemberTokens signUp(ValidatedSignUpRequest request) {
+        validateSignUp(request);
         final Member newMember = memberRepository.save(Member.from(request));
         return tokenService.issue(newMember.getId());
     }
@@ -60,7 +55,7 @@ public class MemberService {
     @Transactional
     public MemberTokens signIn(ValidatedSignInRequest request) {
         Member member = memberRepository.findByUniversityEmailAndPassword(request.getEmail(), request.getPassword())
-                .orElseThrow(() -> new TingApplicationException(MEMBER_009));
+                .orElseThrow(() -> new TingApplicationException(MEMBER_010));
         return tokenService.issue(member.getId());
     }
 
@@ -70,18 +65,55 @@ public class MemberService {
     }
 
     @Transactional
-    public void sendAuthCodeFromUniversityEmail(String username, String universityEmail) {
+    public void sendAuthCodeFromUniversityEmail(ValidatedAuthCodeSendRequest request) {
+        throwIfExistUniversityEmail(request.getUniversityEmail());
+
+        final String username = request.getUsernameValue();
+        final String universityEmail = request.getUniversityEmailValue();
         final String emailAuthCode = RandomCodeUtils.generate();
+
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
     }
 
     public void validateEmailAuthCode(String email, String authCode) {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
-                new TingApplicationException(MEMBER_012)
+                new TingApplicationException(MEMBER_013)
         );
         emailAuthCodeCache.checkValidTime(mailValidTime);
         emailAuthCodeCache.checkAuthCodeSame(authCode);
         emailAuthCodeCache.checkEmailSame(email);
+    }
+
+    private void validateSignUp(ValidatedSignUpRequest request) {
+        throwIfExistUsername(request.getUsername());
+        throwIfExistUniversityEmail(request.getUniversityEmail());
+        throwIfExistKakaoId(request.getKakaoId());
+    }
+
+    public void throwIfExistUsername(Username username) {
+        if (memberRepository.existsByUsername(username)) {
+            throw new TingApplicationException(MEMBER_006);
+        }
+    }
+
+    public void throwIfExistUniversityEmail(UniversityEmail email) {
+        if (memberRepository.existsByUniversityEmail(email)) {
+            throw new TingApplicationException(MEMBER_007);
+        }
+    }
+
+    public void throwIfExistKakaoId(KakaoId kakaoId) {
+        if (memberRepository.existsByKakaoId(kakaoId)) {
+            throw new TingApplicationException(MEMBER_008);
+        }
+    }
+
+    public MemberInfoResponse findMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
+
+        return MemberInfoResponse.from(member);
     }
 }

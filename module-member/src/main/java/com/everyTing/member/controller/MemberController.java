@@ -2,13 +2,17 @@ package com.everyTing.member.controller;
 
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
+import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.response.MemberInfoResponse;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 
 @RequestMapping("/api/v1/members")
 @RestController
@@ -29,11 +33,24 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/my/info")
+    public Response<MemberInfoResponse> MyInfoDetails(@LoginMember LoginMemberInfo memberInfo) {
+        final Long memberId = memberInfo.getId();
+        final var memberInfoResponse = memberService.findMemberInfo(memberId);
+        return Response.success(memberInfoResponse);
+    }
+
+    @GetMapping("/{memberId}/info")
+    public Response<MemberInfoResponse> MemberInfoDetails(@PathVariable Long memberId) {
+        final var myInfoResponse = memberService.findMemberInfo(memberId);
+        return Response.success(myInfoResponse);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        final ValidatedSignUpRequest validRequest = ValidatedSignUpRequest.from(request);
-        final MemberTokens memberTokens = memberService.signUp(validRequest);
+        final var validRequest = ValidatedSignUpRequest.from(request);
+        final var memberTokens = memberService.signUp(validRequest);
         return Response.success(memberTokens);
     }
 
@@ -41,30 +58,31 @@ public class MemberController {
     public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
         final MemberTokens memberTokens;
         try {
-            final ValidatedSignInRequest validRequest = ValidatedSignInRequest.from(request);
+            final var validRequest = ValidatedSignInRequest.from(request);
             memberTokens = memberService.signIn(validRequest);
         } catch (TingApplicationException e) {
-            throw new TingApplicationException(MEMBER_009);
+            throw new TingApplicationException(MEMBER_010);
         }
 
         return Response.success(memberTokens);
     }
 
     @GetMapping("/username/check")
-    public Response<Boolean> usernameCheck(@RequestParam String username) {
-        final boolean isExistUsername = memberService.existsMemberByUsername(Username.from(username));
-        return Response.success(isExistUsername);
+    public Response<Void> usernameCheck(@RequestParam String username) {
+        memberService.throwIfExistUsername(Username.from(username));
+        return Response.success();
     }
 
     @GetMapping("/kakaoId/check")
-    public Response<Boolean> kakaoIdCheck(@RequestParam String kakaoId) {
-        final boolean isExistUsername = memberService.existsMemberByKakaoId(KakaoId.from(kakaoId));
-        return Response.success(isExistUsername);
+    public Response<Void> kakaoIdCheck(@RequestParam String kakaoId) {
+        memberService.throwIfExistKakaoId(KakaoId.from(kakaoId));
+        return Response.success();
     }
 
     @PostMapping("/email/auth/send")
     public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
-        memberService.sendAuthCodeFromUniversityEmail(request.getUsername(), request.getUniversityEmail());
+        final var validatedRequest = ValidatedAuthCodeSendRequest.from(request);
+        memberService.sendAuthCodeFromUniversityEmail(validatedRequest);
         return Response.success();
     }
 
@@ -76,7 +94,7 @@ public class MemberController {
 
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
-        final MemberTokens memberTokens = memberService.reissueToken(request);
+        final var memberTokens = memberService.reissueToken(request);
         return Response.success(memberTokens);
     }
 }

@@ -68,8 +68,8 @@ public class MemberService {
     public void sendAuthCodeFromUniversityEmail(ValidatedAuthCodeSendRequest request) {
         throwIfExistUniversityEmail(request.getUniversityEmail());
 
-        final String username = request.getUsername().getValue();
-        final String universityEmail = request.getUniversityEmail().getValue();
+        final String username = request.getUsernameValue();
+        final String universityEmail = request.getUniversityEmailValue();
         final String emailAuthCode = RandomCodeUtils.generate();
 
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));

@@ -23,4 +23,12 @@ public class ValidatedAuthCodeSendRequest {
                 UniversityEmail.from(request.getUniversityEmail())
         );
     }
+
+    public String getUsernameValue() {
+        return username.getValue();
+    }
+
+    public String getUniversityEmailValue() {
+        return universityEmail.getValue();
+    }
 }

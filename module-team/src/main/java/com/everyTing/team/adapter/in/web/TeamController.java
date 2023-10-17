@@ -1,6 +1,8 @@
 package com.everyTing.team.adapter.in.web;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamControllerDocs;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
 import com.everyTing.team.application.port.in.TeamUseCase;
@@ -8,12 +10,19 @@ import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.domain.Team;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/teams")
 public class TeamController implements TeamControllerDocs {
-
-    private final Long mockMemberId = 100L;
 
     private final TeamUseCase teamUseCase;
 
@@ -21,16 +30,21 @@ public class TeamController implements TeamControllerDocs {
         this.teamUseCase = teamUseCase;
     }
 
-    public Response<Team> teamDetails(Long teamId) {
+    @GetMapping("/{teamId}")
+    public Response<Team> teamDetails(@PathVariable Long teamId) {
         return Response.success(teamUseCase.findTeamById(TeamFindByIdCommand.of(teamId)));
     }
 
-    public Response<Team> teamDetails(String teamCode) {
+    @GetMapping("/by-teamcode")
+    public Response<Team> teamDetails(@RequestParam String teamCode) {
         return Response.success(teamUseCase.findTeamByCode(TeamFindByCodeCommand.of(teamCode)));
     }
 
-    public Response<Long> teamSave(TeamSaveRequest request) {
-        TeamSaveCommand command = TeamSaveCommand.of(mockMemberId, request.getName(),
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Response<Long> teamSave(@RequestBody TeamSaveRequest request,
+        @LoginMember LoginMemberInfo loginMemberInfo) {
+        TeamSaveCommand command = TeamSaveCommand.of(loginMemberInfo.getId(), request.getName(),
             request.getMemberLimit(), request.getRegions(), request.getHashtags());
 
         return Response.success(teamUseCase.saveTeam(command));

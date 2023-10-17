@@ -3,7 +3,7 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.feign.dto.Member;
@@ -50,10 +50,14 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
 
     @Override
     public Long saveTeamMember(Long teamId, Member member) {
+        validateTeamMemberIsNotDuplicate(teamId, member);
+
         TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);
         validateTeamIsNotFull(teamEntity);
         validateMemberGender(teamEntity, member);
-        final TeamMemberEntity createdTeamMember = saveTeamMemberIfNotExist(teamId, member);
+
+        final TeamMemberEntity createdTeamMember = teamMemberEntityRepository.save(
+                TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
         teamEntity.increaseMemberNumber();
 
         return createdTeamMember.getId();
@@ -62,6 +66,12 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     private TeamEntity fetchTeamWithPessimisticLock(Long teamId) {
         return teamEntityRepository.findByIdWithPessimisticLock(teamId)
                                    .orElseThrow(() -> new TingApplicationException(TEAM_006));
+    }
+
+    private void validateTeamMemberIsNotDuplicate(Long teamId, Member member) {
+        if (teamMemberEntityRepository.existsByTeamIdAndMemberId(teamId, member.getMemberId())) {
+            throw new TingApplicationException(TEAM_013);
+        }
     }
 
     private void validateTeamIsNotFull(TeamEntity teamEntity) {
@@ -74,15 +84,6 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
         if (!teamEntity.getGender()
                        .equals(member.getGender())) {
             throw new TingApplicationException(TEAM_009);
-        }
-    }
-
-    private TeamMemberEntity saveTeamMemberIfNotExist(Long teamId, Member member) {
-        try {
-            return teamMemberEntityRepository.save(
-                TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
-        } catch (DataIntegrityViolationException e) {
-            throw new TingApplicationException(TEAM_010);
         }
     }
 }

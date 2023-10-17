@@ -40,6 +40,10 @@ hashtag:
   limit:
     max: 7
 
+request:
+  limit:
+    max: 2
+
 regions:
   서울,
   인천,

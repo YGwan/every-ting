@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/teams/{teamId}/hashtags")
 public class TeamHashtagController implements TeamHashtagControllerDocs {
 
     private final TeamHashtagUseCase hashtagUseCase;
@@ -19,6 +20,7 @@ public class TeamHashtagController implements TeamHashtagControllerDocs {
         this.hashtagUseCase = hashtagUseCase;
     }
 
+    @GetMapping
     public Response<TeamHashtags> hashtagList(@PathVariable Long teamId) {
         TeamHashtagFindCommand command = TeamHashtagFindCommand.of(teamId);
 

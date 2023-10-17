@@ -36,11 +36,12 @@ hashtag:
   content:
     length:
       min: 1
-      max: 10
+      max: 7
+  limit:
+    max: 7
 
 regions:
-  서울 남부,
-  서울 북부,
+  서울,
   인천,
   경기 남부,
   경기 북부,

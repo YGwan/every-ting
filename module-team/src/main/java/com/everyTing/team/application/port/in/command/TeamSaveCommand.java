@@ -33,8 +33,7 @@ public class TeamSaveCommand {
             regions.stream()
                    .map(Region::from)
                    .collect(Collectors.toList()),
-            hashtags.stream()
-                    .map(Hashtag::from)
-                    .collect(Collectors.toList()));
+            Hashtag.from(hashtags)
+        );
     }
 }

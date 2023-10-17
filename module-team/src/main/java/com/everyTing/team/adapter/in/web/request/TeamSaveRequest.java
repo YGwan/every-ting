@@ -16,7 +16,7 @@ public class TeamSaveRequest {
     @Schema(description = "지역", allowableValues = {"서울", "인천"})
     private List<String> regions;
 
-    @Schema(description = "해시태그, 1글자 이상 10글자 이하", nullable = true)
+    @Schema(description = "해시태그, 1글자 이상 7글자 이하, 7개 이하", nullable = true)
     private List<String> hashtags;
 
     public TeamSaveRequest() {

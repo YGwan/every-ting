@@ -13,6 +13,7 @@ public class TeamConstraints {
     public static int MEMBER_MIN_LIMIT;
     public static int MEMBER_MAX_LIMIT;
 
+    public static int HASHTAG_MAX_LIMIT;
     public static int HASHTAG_MIN_LENGTH;
     public static int HASHTAG_MAX_LENGTH;
 
@@ -27,6 +28,8 @@ public class TeamConstraints {
         int memberMinLimit,
         @Value("${member.limit.max}")
         int memberMaxLimit,
+        @Value("${hashtag.limit.max}")
+        int hashtagMaxLimit,
         @Value("${hashtag.content.length.min}")
         int hashtagMinLength,
         @Value("${hashtag.content.length.max}")
@@ -38,6 +41,7 @@ public class TeamConstraints {
         NAME_MAX_LENGTH = nameMaxLength;
         MEMBER_MIN_LIMIT = memberMinLimit;
         MEMBER_MAX_LIMIT = memberMaxLimit;
+        HASHTAG_MAX_LIMIT = hashtagMaxLimit;
         HASHTAG_MIN_LENGTH = hashtagMinLength;
         HASHTAG_MAX_LENGTH = hashtagMaxLength;
         REGIONS = regions;

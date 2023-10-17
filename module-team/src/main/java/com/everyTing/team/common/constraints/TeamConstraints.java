@@ -17,6 +17,8 @@ public class TeamConstraints {
     public static int HASHTAG_MIN_LENGTH;
     public static int HASHTAG_MAX_LENGTH;
 
+    public static int REQUEST_MAX_LIMIT;
+
     public static List<String> REGIONS;
 
     public TeamConstraints(
@@ -34,6 +36,8 @@ public class TeamConstraints {
         int hashtagMinLength,
         @Value("${hashtag.content.length.max}")
         int hashtagMaxLength,
+        @Value("${request.limit.max}")
+        int requestMaxLimit,
         @Value("${regions}")
         List<String> regions
     ) {
@@ -44,6 +48,7 @@ public class TeamConstraints {
         HASHTAG_MAX_LIMIT = hashtagMaxLimit;
         HASHTAG_MIN_LENGTH = hashtagMinLength;
         HASHTAG_MAX_LENGTH = hashtagMaxLength;
+        REQUEST_MAX_LIMIT = requestMaxLimit;
         REGIONS = regions;
     }
 }

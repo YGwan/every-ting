@@ -7,10 +7,13 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class SignUpAuthCodeValidateRequest {
 
-    private final String email;
+    private String email;
 
     @NotBlank
-    private final String authCode;
+    private String authCode;
+
+    public SignUpAuthCodeValidateRequest() {
+    }
 
     public SignUpAuthCodeValidateRequest(String email, String authCode) {
         this.email = email;

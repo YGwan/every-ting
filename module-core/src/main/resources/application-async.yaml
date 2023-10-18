@@ -1,0 +1,7 @@
+pool:
+  size:
+    core: 2
+    max: 2
+
+queue:
+  capacity: 20

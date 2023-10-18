@@ -22,21 +22,21 @@ public class TeamEntityQueryRepository {
     }
 
     public Slice<TeamEntityWithLikeCount> findOtherTeams(TeamEntity myTeam, Pageable pageable) {
-        QTeamEntity toTeam = QTeamEntity.teamEntity;
-        QTeamLikeEntity teamLike = QTeamLikeEntity.teamLikeEntity;
+        QTeamEntity teamEntity = QTeamEntity.teamEntity;
+        QTeamLikeEntity teamLikeEntity = QTeamLikeEntity.teamLikeEntity;
 
         List<TeamEntityWithLikeCount> teamsWithLikeCount = queryFactory
             .select(
-                Projections.constructor(TeamEntityWithLikeCount.class, toTeam, teamLike.count()))
-            .from(toTeam)
-            .leftJoin(teamLike)
-            .on(toTeam.eq(teamLike.toTeam)
-                      .and(teamLike.fromTeam.eq(myTeam)))
-            .where(toTeam.gender.ne(myTeam.getGender())
-                                .and(toTeam.memberLimit.value.eq(myTeam.getMemberLimit())))
-            .groupBy(toTeam)
-            .orderBy(teamLike.count()
-                             .desc(), toTeam.memberNumber.desc(), toTeam.createdAt.asc())
+                Projections.constructor(TeamEntityWithLikeCount.class, teamEntity, teamLikeEntity.count()))
+            .from(teamEntity)
+            .leftJoin(teamLikeEntity)
+            .on(teamEntity.eq(teamLikeEntity.toTeam)
+                      .and(teamLikeEntity.fromTeam.eq(myTeam)))
+            .where(teamEntity.gender.ne(myTeam.getGender())
+                                .and(teamEntity.memberLimit.value.eq(myTeam.getMemberLimit())))
+            .groupBy(teamEntity)
+            .orderBy(teamLikeEntity.count()
+                             .desc(), teamEntity.memberNumber.desc(), teamEntity.createdAt.asc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize() + 1)
             .fetch();

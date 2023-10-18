@@ -31,21 +31,21 @@ public class TeamEntityQueryRepository {
             .from(teamEntity)
             .leftJoin(teamLikeEntity)
             .on(teamEntity.eq(teamLikeEntity.toTeam)
-                      .and(teamLikeEntity.fromTeam.eq(myTeam)))
+                          .and(teamLikeEntity.fromTeam.eq(myTeam)))
             .where(teamEntity.gender.ne(myTeam.getGender())
-                                .and(teamEntity.memberLimit.value.eq(myTeam.getMemberLimit())))
+                                    .and(teamEntity.memberLimit.value.eq(myTeam.getMemberLimit())))
             .groupBy(teamEntity)
-            .orderBy(teamLikeEntity.count()
-                             .desc(), teamEntity.memberNumber.desc(), teamEntity.createdAt.asc())
+            .orderBy(teamLikeEntity.count().desc(),
+                teamEntity.memberNumber.desc(), teamEntity.createdAt.asc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize() + 1)
             .fetch();
 
-        return checkEndPage(pageable, teamsWithLikeCount);
+        return convertToSlice(teamsWithLikeCount, pageable);
     }
 
-    private Slice<TeamEntityWithLikeCount> checkEndPage(Pageable pageable,
-        List<TeamEntityWithLikeCount> results) {
+    private Slice<TeamEntityWithLikeCount> convertToSlice(List<TeamEntityWithLikeCount> results,
+        Pageable pageable) {
         boolean hasNext = false;
         if (results.size() > pageable.getPageSize()) {
             hasNext = true;

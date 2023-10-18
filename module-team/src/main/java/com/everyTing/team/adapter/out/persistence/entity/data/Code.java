@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 @Embeddable
 public class Code {
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", unique = true, nullable = false)
     private String value;
 
     protected Code() {

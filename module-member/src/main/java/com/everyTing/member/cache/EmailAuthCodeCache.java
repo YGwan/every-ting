@@ -1,4 +1,4 @@
-package com.everyTing.cache;
+package com.everyTing.member.cache;
 
 import com.everyTing.core.exception.TingApplicationException;
 import lombok.Getter;

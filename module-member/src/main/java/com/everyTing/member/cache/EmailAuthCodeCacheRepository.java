@@ -1,4 +1,4 @@
-package com.everyTing.cache;
+package com.everyTing.member.cache;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

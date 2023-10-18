@@ -1,10 +1,10 @@
 package com.everyTing.member.service;
 
-import com.everyTing.cache.EmailAuthCodeCache;
-import com.everyTing.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
+import com.everyTing.member.cache.EmailAuthCodeCache;
+import com.everyTing.member.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.UniversityEmail;
@@ -113,7 +113,6 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );
-
         return MemberInfoResponse.from(member);
     }
 }

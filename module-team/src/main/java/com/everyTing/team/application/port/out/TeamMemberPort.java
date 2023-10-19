@@ -7,6 +7,8 @@ public interface TeamMemberPort {
 
     Boolean existsTeamMemberByTeamLeaderId(Long memberId);
 
+    Boolean existsTeamLeaderByTeamIdAndMemberId(Long teamId, Long memberId);
+
     TeamMembers findTeamMembers(Long teamId);
 
     Long saveTeamLeader(Long teamId, Long memberId);

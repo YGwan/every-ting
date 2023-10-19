@@ -18,6 +18,11 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_011("같은 성별의 팀입니다.", HttpStatus.BAD_REQUEST),
     TEAM_012("이미 좋아요를 했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_013("이미 팀에 속해 있습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_014("하루 요청 가능 횟수를 초과했습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_015("팀의 팀장이 아닙니다.", HttpStatus.FORBIDDEN),
+    TEAM_016("이미 요청을 했습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_017("멤버를 모집 중인 상태에서 요청을 보낼 수 없습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_018("아직 멤버 모집 중인 팀에 요청을 보낼 수 없습니다.", HttpStatus.BAD_REQUEST),
     ;
 
     private String message;

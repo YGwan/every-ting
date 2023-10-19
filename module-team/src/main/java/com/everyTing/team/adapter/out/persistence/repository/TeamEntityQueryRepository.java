@@ -33,10 +33,10 @@ public class TeamEntityQueryRepository {
             .on(teamEntity.eq(teamLikeEntity.toTeam)
                           .and(teamLikeEntity.fromTeam.eq(myTeam)))
             .where(teamEntity.gender.ne(myTeam.getGender())
-                                    .and(teamEntity.memberLimit.value.eq(myTeam.getMemberLimit())))
+                                    .and(teamEntity.memberLimit.value.eq(myTeam.getMemberLimit()))
+                                    .and(teamEntity.memberLimit.value.eq(teamEntity.memberNumber)))
             .groupBy(teamEntity)
-            .orderBy(teamLikeEntity.count().desc(),
-                teamEntity.memberNumber.desc(), teamEntity.createdAt.asc())
+            .orderBy(teamLikeEntity.count().desc(), teamEntity.createdAt.asc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize() + 1)
             .fetch();

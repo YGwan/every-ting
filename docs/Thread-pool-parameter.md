@@ -1,9 +1,9 @@
-# Server Spring Thread Pool Parameter
+# Thread Pool Parameter
 
-### corePoolSize : 2
+### corePoolSize : 10
 - 최소한으로 유지해야 하는 스레드의 수
 
-### maxPoolSize : 2
+### maxPoolSize : 50
 - 스레드 풀의 최대 갯수
 - 동시에 동작할 수 있는 최대 쓰레드 수
 

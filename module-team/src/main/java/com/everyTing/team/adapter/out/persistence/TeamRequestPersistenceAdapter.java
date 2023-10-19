@@ -64,7 +64,8 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
     private void validateTeamsAreFull(TeamEntity fromTeam, TeamEntity toTeam) {
         if (!fromTeam.isFull()) {
             throw new TingApplicationException(TEAM_017);
-        } else if (!toTeam.isFull()) {
+        }
+        if (!toTeam.isFull()) {
             throw new TingApplicationException(TEAM_018);
         }
     }

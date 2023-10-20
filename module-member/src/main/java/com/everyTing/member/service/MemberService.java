@@ -126,4 +126,10 @@ public class MemberService {
                 new TingApplicationException(MEMBER_014)
         );
     }
+
+    public void throwIfNotExistEmail(UniversityEmail email) {
+        if (!memberRepository.existsByUniversityEmail(email)) {
+            throw new TingApplicationException(MEMBER_015);
+        }
+    }
 }

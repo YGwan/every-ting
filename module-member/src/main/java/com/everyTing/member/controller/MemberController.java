@@ -6,6 +6,7 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.AuthCodeSendRequest;
 import com.everyTing.member.dto.request.SignInRequest;
@@ -95,8 +96,15 @@ public class MemberController {
     @PutMapping("/username/modify")
     public Response<Void> usernameModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestParam String username) {
-        final Username newUsername = Username.from(username);
-        memberService.modifyUsername(memberInfo.getId(), newUsername);
+        final var newValidatedUsername = Username.from(username);
+        memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);
+        return Response.success();
+    }
+
+    @GetMapping("/email/exist/check")
+    public Response<Void> emailExistCheck(@RequestParam String email) {
+        final var validatedUniversityEmail = UniversityEmail.from(email);
+        memberService.throwIfNotExistEmail(validatedUniversityEmail);
         return Response.success();
     }
 

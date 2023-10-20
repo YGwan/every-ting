@@ -17,7 +17,8 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_011("입력 시간이 초과되었습니다.", HttpStatus.REQUEST_TIMEOUT),
     MEMBER_012("인증번호 값이 잘못되었습니다. 다시 입력해주세요.", HttpStatus.UNAUTHORIZED),
     MEMBER_013("이메일 값을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    MEMBER_014("멤버를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+    MEMBER_014("멤버를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    MEMBER_015("등록된 이메일이 아닙니다.", HttpStatus.NOT_FOUND);
 
 
     private final String message;

@@ -4,8 +4,10 @@ import com.everyTing.member.service.mail.form.MailForm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+@Async
 @Service
 public class MailService {
 

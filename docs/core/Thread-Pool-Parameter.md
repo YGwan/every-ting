@@ -1,9 +1,9 @@
 # Thread Pool Parameter
 
-### corePoolSize : 10
+### corePoolSize : 2
 - 최소한으로 유지해야 하는 스레드의 수
 
-### maxPoolSize : 50
+### maxPoolSize : 4
 - 스레드 풀의 최대 갯수
 - 동시에 동작할 수 있는 최대 쓰레드 수
 

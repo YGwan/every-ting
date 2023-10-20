@@ -10,7 +10,7 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
@@ -65,7 +65,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void sendAuthCodeFromUniversityEmail(ValidatedAuthCodeSendRequest request) {
+    public void sendAuthCodeForSignUp(ValidatedAuthCodeSendForSignUpRequest request) {
         throwIfExistUniversityEmail(request.getUniversityEmail());
 
         final String username = request.getUsernameValue();
@@ -110,6 +110,12 @@ public class MemberService {
         }
     }
 
+    public void throwIfNotExistEmail(UniversityEmail email) {
+        if (!memberRepository.existsByUniversityEmail(email)) {
+            throw new TingApplicationException(MEMBER_015);
+        }
+    }
+
     public void throwIfExistKakaoId(KakaoId kakaoId) {
         if (memberRepository.existsByKakaoId(kakaoId)) {
             throw new TingApplicationException(MEMBER_008);
@@ -125,11 +131,5 @@ public class MemberService {
         return memberRepository.findById(memberId).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );
-    }
-
-    public void throwIfNotExistEmail(UniversityEmail email) {
-        if (!memberRepository.existsByUniversityEmail(email)) {
-            throw new TingApplicationException(MEMBER_015);
-        }
     }
 }

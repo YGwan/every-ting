@@ -6,14 +6,13 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.AuthCodeSendRequest;
+import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -80,10 +79,10 @@ public class MemberController {
         return Response.success();
     }
 
-    @PostMapping("/email/auth/send")
-    public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
-        final var validatedRequest = ValidatedAuthCodeSendRequest.from(request);
-        memberService.sendAuthCodeFromUniversityEmail(validatedRequest);
+    @PostMapping("/signUp/email/auth/send")
+    public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
+        final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
+        memberService.sendAuthCodeForSignUp(validatedRequest);
         return Response.success();
     }
 
@@ -98,13 +97,6 @@ public class MemberController {
                                          @RequestParam String username) {
         final var newValidatedUsername = Username.from(username);
         memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);
-        return Response.success();
-    }
-
-    @GetMapping("/email/exist/check")
-    public Response<Void> emailExistCheck(@RequestParam String email) {
-        final var validatedUniversityEmail = UniversityEmail.from(email);
-        memberService.throwIfNotExistEmail(validatedUniversityEmail);
         return Response.success();
     }
 

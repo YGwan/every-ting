@@ -92,6 +92,14 @@ public class MemberController {
         return Response.success();
     }
 
+    @PutMapping("/username/modify")
+    public Response<Void> usernameModify(@LoginMember LoginMemberInfo memberInfo,
+                                         @RequestParam String username) {
+        final Username newUsername = Username.from(username);
+        memberService.modifyUsername(memberInfo.getId(), newUsername);
+        return Response.success();
+    }
+
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
         final var memberTokens = memberService.reissueToken(request);

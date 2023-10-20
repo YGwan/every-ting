@@ -76,6 +76,13 @@ public class MemberService {
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
     }
 
+    @Transactional
+    public void modifyUsername(Long memberId, Username newUsername) {
+        throwIfExistUsername(newUsername);
+        final Member member = findMemberById(memberId);
+        member.modifyUsername(newUsername);
+    }
+
     public void validateEmailAuthCode(String email, String authCode) {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
                 new TingApplicationException(MEMBER_013)
@@ -110,9 +117,13 @@ public class MemberService {
     }
 
     public MemberInfoResponse findMemberInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+        final Member member = findMemberById(memberId);
+        return MemberInfoResponse.from(member);
+    }
+
+    private Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );
-        return MemberInfoResponse.from(member);
     }
 }

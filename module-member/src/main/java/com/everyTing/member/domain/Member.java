@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.Year;
 
 @Getter
@@ -65,5 +66,15 @@ public class Member extends AuditingFields {
                 request.getMajor(),
                 request.getKakaoId()
         );
+    }
+
+
+    public void modifyUsername(Username newUsername) {
+        this.username = newUsername;
+        setUpdateTime();
+    }
+
+    private void setUpdateTime() {
+        this.updatedAt = LocalDateTime.now();
     }
 }

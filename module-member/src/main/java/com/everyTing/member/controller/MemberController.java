@@ -92,7 +92,7 @@ public class MemberController {
     }
 
     @PostMapping("/email/auth/verify")
-    public Response<Void> SignUpAuthCodeValidate(@RequestBody SignUpAuthCodeValidateRequest request) {
+    public Response<Void> emailAuthCodeValidate(@RequestBody EmailAuthCodeValidateRequest request) {
         memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
         return Response.success();
     }

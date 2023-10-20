@@ -5,17 +5,17 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-public class SignUpAuthCodeValidateRequest {
+public class EmailAuthCodeValidateRequest {
 
     private String email;
 
     @NotBlank
     private String authCode;
 
-    public SignUpAuthCodeValidateRequest() {
+    public EmailAuthCodeValidateRequest() {
     }
 
-    public SignUpAuthCodeValidateRequest(String email, String authCode) {
+    public EmailAuthCodeValidateRequest(String email, String authCode) {
         this.email = email;
         this.authCode = authCode;
     }

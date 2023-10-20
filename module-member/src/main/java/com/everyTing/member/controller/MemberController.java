@@ -75,6 +75,12 @@ public class MemberController {
         return Response.success();
     }
 
+    @GetMapping("/token/check")
+    public Response<Void> tokenCheck(HttpServletRequest request) {
+        memberService.throwIfNotValidateToken(request);
+        return Response.success();
+    }
+
     @PostMapping("/signUp/email/auth/send")
     public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
         final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);

@@ -159,6 +159,11 @@ public class MemberService {
         }
     }
 
+    public void throwIfNotValidateToken(HttpServletRequest request) {
+        final String accessToken = tokenService.getAccessTokenFromHeader(request);
+        tokenService.validateToken(accessToken);
+    }
+
     public MemberInfoResponse findMemberInfo(Long memberId) {
         final Member member = findMemberById(memberId);
         return MemberInfoResponse.from(member);

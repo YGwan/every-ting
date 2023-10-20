@@ -15,6 +15,7 @@ import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import com.everyTing.member.service.mail.MailService;
+import com.everyTing.member.service.mail.form.ResetPasswordForm;
 import com.everyTing.member.service.mail.form.SignUpForm;
 import com.everyTing.member.utils.RandomCodeUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,6 +74,17 @@ public class MemberService {
         final String emailAuthCode = RandomCodeUtils.generate();
 
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
+        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+    }
+
+    @Transactional
+    public void sendAuthCodeForResetPassword(UniversityEmail email) {
+        throwIfNotExistEmail(email);
+
+        final String universityEmail = email.getValue();
+        final String emailAuthCode = RandomCodeUtils.generate();
+
+        mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
     }
 

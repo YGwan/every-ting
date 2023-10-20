@@ -6,11 +6,9 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
-import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
@@ -83,6 +81,13 @@ public class MemberController {
     public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
         final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
         memberService.sendAuthCodeForSignUp(validatedRequest);
+        return Response.success();
+    }
+
+    @PostMapping("/password/reset/email/auth/send")
+    public Response<Void> authCodeSendForResetPassword(@RequestBody AuthCodeSendForResetPasswordRequest request) {
+        final var validatedUniversityEmail = UniversityEmail.from(request.getUniversityEmail());
+        memberService.sendAuthCodeForResetPassword(validatedUniversityEmail);
         return Response.success();
     }
 

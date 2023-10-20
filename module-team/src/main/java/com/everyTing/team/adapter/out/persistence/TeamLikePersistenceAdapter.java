@@ -13,7 +13,8 @@ import com.everyTing.team.adapter.out.persistence.repository.TeamLikeEntityRepos
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamLikePort;
 import com.everyTing.team.common.exception.errorCode.TeamErrorCode;
-import org.springframework.dao.DataIntegrityViolationException;
+import com.everyTing.team.domain.TeamLikes;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,6 +30,13 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
         this.teamLikeEntityRepository = teamLikeEntityRepository;
         this.teamEntityRepository = teamEntityRepository;
         this.teamMemberEntityRepository = teamMemberEntityRepository;
+    }
+
+    @Override
+    public TeamLikes findTeamLikeByFromTeamIdAndToTeamId(Long fromTeamId, Long toTeamId) {
+        final List<TeamLikeEntity> teamLikeEntities =
+            teamLikeEntityRepository.findAllByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
+        return TeamLikes.from(teamLikeEntities);
     }
 
     @Override
@@ -61,7 +69,7 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
 
     private void validateTeamsHaveDifferentGenders(TeamEntity fromTeam, TeamEntity toTeam) {
         if (fromTeam.getGender()
-                  .equals(toTeam.getGender())) {
+                    .equals(toTeam.getGender())) {
             throw new TingApplicationException(TeamErrorCode.TEAM_011);
         }
     }

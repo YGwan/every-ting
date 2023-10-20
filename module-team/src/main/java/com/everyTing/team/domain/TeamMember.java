@@ -12,15 +12,17 @@ public class TeamMember {
 
     private final Long teamMemberId;
     private final Role role;
+    private final Long teamId;
     private final Long memberId;
 
-    private TeamMember(Long teamMemberId, Role role, Long memberId) {
+    private TeamMember(Long teamMemberId, Role role, Long teamId, Long memberId) {
         this.teamMemberId = teamMemberId;
         this.role = role;
+        this.teamId = teamId;
         this.memberId = memberId;
     }
 
     public static TeamMember from(TeamMemberEntity entity) {
-        return new TeamMember(entity.getId(), entity.getRole(), entity.getMemberId());
+        return new TeamMember(entity.getId(), entity.getRole(), entity.getTeamId(), entity.getMemberId());
     }
 }

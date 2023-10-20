@@ -4,7 +4,7 @@ import com.everyTing.core.domain.Gender;
 import com.everyTing.member.domain.Member;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.Year;
 
 @Getter
 public class MemberInfoResponse {
@@ -15,7 +15,7 @@ public class MemberInfoResponse {
 
     private final Gender gender;
 
-    private final LocalDate birth;
+    private final Year birth;
 
     private final String universityEmail;
 
@@ -27,7 +27,7 @@ public class MemberInfoResponse {
 
     private final String profilePhoto;
 
-    public MemberInfoResponse(Long id, String username, Gender gender, LocalDate birth, String universityEmail,
+    public MemberInfoResponse(Long id, String username, Gender gender, Year birth, String universityEmail,
                               String university, String major, String kakaoId, String profilePhoto) {
         this.id = id;
         this.username = username;

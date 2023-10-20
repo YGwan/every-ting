@@ -5,7 +5,7 @@ import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.request.SignUpRequest;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.Year;
 
 @Getter
 public class ValidatedSignUpRequest {
@@ -14,7 +14,7 @@ public class ValidatedSignUpRequest {
 
     private final Gender gender;
 
-    private final LocalDate birth;
+    private final Year birth;
 
     private final UniversityEmail universityEmail;
 
@@ -26,7 +26,7 @@ public class ValidatedSignUpRequest {
 
     private final Major major;
 
-    public ValidatedSignUpRequest(Username username, Gender gender, LocalDate birth, UniversityEmail universityEmail,
+    public ValidatedSignUpRequest(Username username, Gender gender, Year birth, UniversityEmail universityEmail,
                                   Password password, KakaoId kakaoId, University university, Major major) {
         this.username = username;
         this.gender = gender;

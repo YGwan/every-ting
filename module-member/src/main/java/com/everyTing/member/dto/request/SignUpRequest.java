@@ -3,7 +3,7 @@ package com.everyTing.member.dto.request;
 import com.everyTing.core.domain.Gender;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.Year;
 
 @Getter
 public class SignUpRequest {
@@ -12,7 +12,7 @@ public class SignUpRequest {
 
     private Gender gender;
 
-    private LocalDate birth;
+    private Year birth;
 
     private String universityEmail;
 
@@ -27,7 +27,7 @@ public class SignUpRequest {
     public SignUpRequest() {
     }
 
-    public SignUpRequest(String username, Gender gender, LocalDate birth, String universityEmail,
+    public SignUpRequest(String username, Gender gender, Year birth, String universityEmail,
                          String password, String kakaoId, String university, String major) {
         this.username = username;
         this.gender = gender;

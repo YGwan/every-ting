@@ -7,13 +7,11 @@ import com.everyTing.member.cache.EmailAuthCodeCache;
 import com.everyTing.member.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
+import com.everyTing.member.dto.validatedDto.*;
 import com.everyTing.member.repository.MemberRepository;
 import com.everyTing.member.service.mail.MailService;
 import com.everyTing.member.service.mail.form.ResetPasswordForm;
@@ -94,6 +92,26 @@ public class MemberService {
         throwIfExistUsername(newUsername);
         final Member member = findMemberById(memberId);
         member.modifyUsername(newUsername);
+    }
+
+    @Transactional
+    public void modifyPassword(Long memberId, ValidatedPasswordModifyRequest request) {
+        final Member member = findMemberById(memberId);
+        validateModifyPassword(member, request);
+        member.modifyPassword(request.getNewPassword());
+    }
+
+    private void validateModifyPassword(Member member, ValidatedPasswordModifyRequest request) {
+        final Password password = request.getPassword();
+        final Password newPassword = request.getNewPassword();
+
+        if (!password.equals(member.getPassword())) {
+            throw new TingApplicationException(MEMBER_016);
+        }
+
+        if (newPassword.equals(password)) {
+            throw new TingApplicationException(MEMBER_017);
+        }
     }
 
     @Transactional

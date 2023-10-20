@@ -10,10 +10,7 @@ import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
+import com.everyTing.member.dto.validatedDto.*;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +100,14 @@ public class MemberController {
                                          @RequestParam String username) {
         final var newValidatedUsername = Username.from(username);
         memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);
+        return Response.success();
+    }
+
+    @PutMapping("/password/modify")
+    public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
+                                         @RequestBody PasswordModifyRequest request) {
+        final var validatedRequest = ValidatedPasswordModifyRequest.from(request);
+        memberService.modifyPassword(memberInfo.getId(), validatedRequest);
         return Response.success();
     }
 

@@ -28,7 +28,7 @@ public class JwtUtils {
 
     public static void throwIfNotExpired(Key key, String token) {
         if (!isExpired(key, token)) {
-            throw new TokenException(TOKEN_001);
+            throw new TokenException(TOKEN_007);
         }
     }
 

@@ -74,6 +74,11 @@ public class Member extends AuditingFields {
         setUpdateTime();
     }
 
+    public void modifyPassword(Password newPassword) {
+        this.password = newPassword;
+        setUpdateTime();
+    }
+
     private void setUpdateTime() {
         this.updatedAt = LocalDateTime.now();
     }

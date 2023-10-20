@@ -11,6 +11,7 @@ import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
@@ -95,6 +96,12 @@ public class MemberService {
         member.modifyUsername(newUsername);
     }
 
+    @Transactional
+    public void resetPassword(ValidatedPasswordResetRequest validatedRequest) {
+        final Member member = getMemberByEmail(validatedRequest.getUniversityEmail());
+        member.modifyPassword(validatedRequest.getPassword());
+    }
+
     public void validateEmailAuthCode(String email, String authCode) {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
                 new TingApplicationException(MEMBER_013)
@@ -141,6 +148,12 @@ public class MemberService {
 
     private Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
+    }
+
+    private Member getMemberByEmail(UniversityEmail email) {
+        return memberRepository.findByUniversityEmail(email).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );
     }

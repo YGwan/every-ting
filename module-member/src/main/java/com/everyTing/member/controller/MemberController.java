@@ -11,6 +11,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
@@ -102,6 +103,13 @@ public class MemberController {
                                          @RequestParam String username) {
         final var newValidatedUsername = Username.from(username);
         memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);
+        return Response.success();
+    }
+
+    @PutMapping("/password/reset")
+    public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
+        final var validatedRequest = ValidatedPasswordResetRequest.from(request);
+        memberService.resetPassword(validatedRequest);
         return Response.success();
     }
 

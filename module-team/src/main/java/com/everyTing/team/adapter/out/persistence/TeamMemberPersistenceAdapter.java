@@ -14,7 +14,7 @@ import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepositor
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.domain.TeamMembers;
-import org.springframework.dao.DataIntegrityViolationException;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -40,9 +40,19 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
+    public TeamMembers findTeamMembersByMemberIdAndRole(Long memberId, Role role) {
+        final List<TeamMemberEntity> teamMemberEntities =
+            teamMemberEntityRepository.findAllByMemberIdAndRoleOrderByCreatedAt(memberId, role);
+
+        return TeamMembers.from(teamMemberEntities);
+    }
+
+    @Override
     public TeamMembers findTeamMembers(Long teamId) {
-        return TeamMembers.from(
-            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId));
+        final List<TeamMemberEntity> teamMemberEntities =
+            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId);
+
+        return TeamMembers.from(teamMemberEntities);
     }
 
     @Override

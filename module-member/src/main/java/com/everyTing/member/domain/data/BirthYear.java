@@ -30,7 +30,7 @@ public class BirthYear {
     }
 
     public static void validate(Integer value) {
-        if ((value >= YEAR_MIN_LIMIT && value <= YEAR_MAX_LIMIT)) {
+        if (!(value >= YEAR_MIN_LIMIT && value <= YEAR_MAX_LIMIT)) {
             throw new TingApplicationException(MEMBER_015);
         }
     }

@@ -11,5 +11,5 @@ email:
 
 year:
   limit:
-    min: 2010
-    max: 1990
+    min: 1990
+    max: 2010

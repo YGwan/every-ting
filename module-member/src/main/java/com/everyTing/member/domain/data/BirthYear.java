@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.YEAR_MAX_LIMIT;
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.YEAR_MIN_LIMIT;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_015;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_017;
 
 @Embeddable
 public class BirthYear {
@@ -31,7 +31,7 @@ public class BirthYear {
 
     public static void validate(Integer value) {
         if (!(value >= YEAR_MIN_LIMIT && value <= YEAR_MAX_LIMIT)) {
-            throw new TingApplicationException(MEMBER_015);
+            throw new TingApplicationException(MEMBER_017);
         }
     }
 

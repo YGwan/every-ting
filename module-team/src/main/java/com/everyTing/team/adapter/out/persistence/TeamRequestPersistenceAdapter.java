@@ -11,20 +11,33 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
+import com.everyTing.team.adapter.out.persistence.repository.TeamRequestEntityQueryRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamRequestEntityRepository;
 import com.everyTing.team.application.port.out.TeamRequestPort;
+import com.everyTing.team.domain.TeamRequests;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class TeamRequestPersistenceAdapter implements TeamRequestPort {
 
     private final TeamRequestEntityRepository teamRequestEntityRepository;
+    private final TeamRequestEntityQueryRepository teamRequestEntityQueryRepository;
     private final TeamEntityRepository teamEntityRepository;
 
     public TeamRequestPersistenceAdapter(TeamRequestEntityRepository teamRequestEntityRepository,
+        TeamRequestEntityQueryRepository teamRequestEntityQueryRepository,
         TeamEntityRepository teamEntityRepository) {
         this.teamRequestEntityRepository = teamRequestEntityRepository;
+        this.teamRequestEntityQueryRepository = teamRequestEntityQueryRepository;
         this.teamEntityRepository = teamEntityRepository;
+    }
+
+    @Override
+    public TeamRequests findTeamRequest(Long fromTeamId, Long toTeamId) {
+        final List<TeamRequestEntity> teamRequestEntities =
+            teamRequestEntityQueryRepository.findAllByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
+        return TeamRequests.from(teamRequestEntities);
     }
 
     @Override

@@ -8,3 +8,8 @@ password:
 
 email:
   pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+
+year:
+  limit:
+    min: 2010
+    max: 1990

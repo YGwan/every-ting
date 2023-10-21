@@ -10,6 +10,8 @@ public class MemberConstraints {
     public static int USERNAME_MAX_LENGTH;
     public static String PASSWORD_PATTERN;
     public static String EMAIL_PATTERN;
+    public static int YEAR_MIN_LIMIT;
+    public static int YEAR_MAX_LIMIT;
 
     public MemberConstraints(
             @Value("${username.length.min}")
@@ -19,11 +21,17 @@ public class MemberConstraints {
             @Value("${password.pattern}")
             String passwordPattern,
             @Value("${email.pattern}")
-            String emailPattern
+            String emailPattern,
+            @Value("${year.limit.min}")
+            int yearLimitMin,
+            @Value("${year.limit.max}")
+            int yearLimitMax
     ) {
         USERNAME_MIN_LENGTH = usernameMinLength;
         USERNAME_MAX_LENGTH = usernameMaxLength;
         PASSWORD_PATTERN = passwordPattern;
         EMAIL_PATTERN = emailPattern;
+        YEAR_MIN_LIMIT = yearLimitMin;
+        YEAR_MAX_LIMIT = yearLimitMax;
     }
 }

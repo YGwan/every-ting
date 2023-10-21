@@ -1,10 +1,15 @@
 username:
   length:
     min: 2
-    max: 10
+    max: 8
 
 password:
   pattern: "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}"
 
 email:
   pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+
+year:
+  limit:
+    min: 1990
+    max: 2010

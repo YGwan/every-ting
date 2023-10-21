@@ -8,8 +8,6 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -25,8 +23,7 @@ public class Member extends AuditingFields {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @NotNull
-    private LocalDate birth;
+    private BirthYear birth;
 
     private UniversityEmail universityEmail;
 
@@ -43,7 +40,7 @@ public class Member extends AuditingFields {
     public Member() {
     }
 
-    public Member(Username username, Gender gender, LocalDate birth, UniversityEmail universityEmail,
+    public Member(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
                   Password password, University university, Major major, KakaoId kakaoId) {
         this.username = username;
         this.gender = gender;

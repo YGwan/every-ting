@@ -1,9 +1,8 @@
 package com.everyTing.member.dto.request;
 
 import com.everyTing.core.domain.Gender;
+import com.everyTing.member.domain.data.BirthYear;
 import lombok.Getter;
-
-import java.time.LocalDate;
 
 @Getter
 public class SignUpRequest {
@@ -12,7 +11,7 @@ public class SignUpRequest {
 
     private Gender gender;
 
-    private LocalDate birth;
+    private Integer birth;
 
     private String universityEmail;
 
@@ -27,7 +26,7 @@ public class SignUpRequest {
     public SignUpRequest() {
     }
 
-    public SignUpRequest(String username, Gender gender, LocalDate birth, String universityEmail,
+    public SignUpRequest(String username, Gender gender, Integer birth, String universityEmail,
                          String password, String kakaoId, String university, String major) {
         this.username = username;
         this.gender = gender;

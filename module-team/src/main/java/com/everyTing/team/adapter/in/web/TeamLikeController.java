@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/teams/{teamId}/likes")
+@RequestMapping("/api/v1/teams/likes")
 public class TeamLikeController implements TeamLikeControllerDocs {
 
     private final TeamLikeUseCase teamLikeUseCase;
@@ -30,26 +30,26 @@ public class TeamLikeController implements TeamLikeControllerDocs {
     }
 
     @GetMapping
-    public Response<TeamLikes> teamLikeList(@PathVariable Long teamId,
+    public Response<TeamLikes> teamLikeList(@RequestParam Long fromTeamId,
         @RequestParam Long toTeamId) {
-        final TeamLikeFindCommand command = TeamLikeFindCommand.of(teamId, toTeamId);
+        final TeamLikeFindCommand command = TeamLikeFindCommand.of(fromTeamId, toTeamId);
         return Response.success(teamLikeUseCase.findTeamLike(command));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<Void> teamLikeSave(@PathVariable Long teamId,
+    public Response<Void> teamLikeSave(@RequestParam Long fromTeamId,
         @RequestParam Long toTeamId, @LoginMember LoginMemberInfo loginMemberInfo) {
         teamLikeUseCase.saveTeamLike(
-            TeamLikeSaveCommand.of(toTeamId, teamId, loginMemberInfo.getId()));
+            TeamLikeSaveCommand.of(toTeamId, fromTeamId, loginMemberInfo.getId()));
         return Response.success();
     }
 
     @DeleteMapping
-    public Response<Void> teamLikeRemove(@PathVariable Long teamId,
+    public Response<Void> teamLikeRemove(@RequestParam Long fromTeamId,
         @RequestParam Long toTeamId, @LoginMember LoginMemberInfo loginMemberInfo) {
         teamLikeUseCase.removeTeamLike(
-            TeamLikeRemoveCommand.of(toTeamId, teamId, loginMemberInfo.getId()));
+            TeamLikeRemoveCommand.of(toTeamId, fromTeamId, loginMemberInfo.getId()));
         return Response.success();
     }
 }

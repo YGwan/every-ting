@@ -68,18 +68,11 @@ public class Member extends AuditingFields {
         );
     }
 
-
     public void modifyUsername(Username newUsername) {
         this.username = newUsername;
-        setUpdateTime();
     }
 
     public void modifyPassword(Password newPassword) {
         this.password = newPassword;
-        setUpdateTime();
-    }
-
-    private void setUpdateTime() {
-        this.updatedAt = LocalDateTime.now();
     }
 }

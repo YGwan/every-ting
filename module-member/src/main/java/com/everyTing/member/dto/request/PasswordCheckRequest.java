@@ -3,14 +3,14 @@ package com.everyTing.member.dto.request;
 import lombok.Getter;
 
 @Getter
-public class PasswordModifyRequest {
+public class PasswordCheckRequest {
 
     private String password;
 
-    public PasswordModifyRequest() {
+    public PasswordCheckRequest() {
     }
 
-    public PasswordModifyRequest(String password) {
+    public PasswordCheckRequest(String password) {
         this.password = password;
     }
 }

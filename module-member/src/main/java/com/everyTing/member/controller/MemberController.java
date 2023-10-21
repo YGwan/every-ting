@@ -6,6 +6,7 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
@@ -75,6 +76,14 @@ public class MemberController {
         return Response.success();
     }
 
+    @GetMapping("/password/check")
+    public Response<Void> passwordCheck(@LoginMember LoginMemberInfo memberInfo,
+                                        @RequestBody PasswordCheckRequest request) {
+        final Password password = Password.from(request.getPassword());
+        memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
+        return Response.success();
+    }
+
     @GetMapping("/token/check")
     public Response<Void> tokenCheck(HttpServletRequest request) {
         memberService.throwIfNotValidateToken(request);
@@ -112,8 +121,8 @@ public class MemberController {
     @PutMapping("/password/modify")
     public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestBody PasswordModifyRequest request) {
-        final var validatedRequest = ValidatedPasswordModifyRequest.from(request);
-        memberService.modifyPassword(memberInfo.getId(), validatedRequest);
+        final Password newPassword = Password.from(request.getPassword());
+        memberService.modifyPassword(memberInfo.getId(), newPassword);
         return Response.success();
     }
 

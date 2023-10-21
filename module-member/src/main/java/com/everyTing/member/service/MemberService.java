@@ -1,6 +1,7 @@
 package com.everyTing.member.service;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.cache.EmailAuthCodeCache;
@@ -90,28 +91,14 @@ public class MemberService {
     @Transactional
     public void modifyUsername(Long memberId, Username newUsername) {
         throwIfExistUsername(newUsername);
-        final Member member = findMemberById(memberId);
+        final Member member = getMemberById(memberId);
         member.modifyUsername(newUsername);
     }
 
     @Transactional
-    public void modifyPassword(Long memberId, ValidatedPasswordModifyRequest request) {
-        final Member member = findMemberById(memberId);
-        validateModifyPassword(member, request);
-        member.modifyPassword(request.getNewPassword());
-    }
-
-    private void validateModifyPassword(Member member, ValidatedPasswordModifyRequest request) {
-        final Password password = request.getPassword();
-        final Password newPassword = request.getNewPassword();
-
-        if (!password.equals(member.getPassword())) {
-            throw new TingApplicationException(MEMBER_016);
-        }
-
-        if (newPassword.equals(password)) {
-            throw new TingApplicationException(MEMBER_017);
-        }
+    public void modifyPassword(Long memberId, Password newPassword) {
+        final Member member = getMemberById(memberId);
+        member.modifyPassword(newPassword);
     }
 
     @Transactional
@@ -159,17 +146,24 @@ public class MemberService {
         }
     }
 
+    public void throwIfNotValidatePassword(Long memberId, Password password) {
+        final Member member = getMemberById(memberId);
+        if (!password.equals(member.getPassword())) {
+            throw new TingApplicationException(MEMBER_016);
+        }
+    }
+
     public void throwIfNotValidateToken(HttpServletRequest request) {
         final String accessToken = tokenService.getAccessTokenFromHeader(request);
         tokenService.validateToken(accessToken);
     }
 
     public MemberInfoResponse findMemberInfo(Long memberId) {
-        final Member member = findMemberById(memberId);
+        final Member member = getMemberById(memberId);
         return MemberInfoResponse.from(member);
     }
 
-    private Member findMemberById(Long memberId) {
+    private Member getMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );

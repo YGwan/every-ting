@@ -6,15 +6,12 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
+import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.AuthCodeSendRequest;
-import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpAuthCodeValidateRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
+import com.everyTing.member.dto.validatedDto.*;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -79,16 +76,60 @@ public class MemberController {
         return Response.success();
     }
 
-    @PostMapping("/email/auth/send")
-    public Response<Void> authCodeSend(@RequestBody AuthCodeSendRequest request) {
-        final var validatedRequest = ValidatedAuthCodeSendRequest.from(request);
-        memberService.sendAuthCodeFromUniversityEmail(validatedRequest);
+    @GetMapping("/password/check")
+    public Response<Void> passwordCheck(@LoginMember LoginMemberInfo memberInfo,
+                                        @RequestBody PasswordCheckRequest request) {
+        final Password password = Password.from(request.getPassword());
+        memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
+        return Response.success();
+    }
+
+    @GetMapping("/token/check")
+    public Response<Void> tokenCheck(HttpServletRequest request) {
+        memberService.throwIfNotValidateToken(request);
+        return Response.success();
+    }
+
+    @PostMapping("/signUp/email/auth/send")
+    public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
+        final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
+        memberService.sendAuthCodeForSignUp(validatedRequest);
+        return Response.success();
+    }
+
+    @PostMapping("/password/reset/email/auth/send")
+    public Response<Void> authCodeSendForResetPassword(@RequestBody AuthCodeSendForResetPasswordRequest request) {
+        final var validatedUniversityEmail = UniversityEmail.from(request.getUniversityEmail());
+        memberService.sendAuthCodeForResetPassword(validatedUniversityEmail);
         return Response.success();
     }
 
     @PostMapping("/email/auth/verify")
-    public Response<Void> SignUpAuthCodeValidate(@RequestBody SignUpAuthCodeValidateRequest request) {
+    public Response<Void> emailAuthCodeValidate(@RequestBody EmailAuthCodeValidateRequest request) {
         memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
+        return Response.success();
+    }
+
+    @PutMapping("/username/modify")
+    public Response<Void> usernameModify(@LoginMember LoginMemberInfo memberInfo,
+                                         @RequestParam String username) {
+        final var newValidatedUsername = Username.from(username);
+        memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);
+        return Response.success();
+    }
+
+    @PutMapping("/password/modify")
+    public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
+                                         @RequestBody PasswordModifyRequest request) {
+        final Password newPassword = Password.from(request.getPassword());
+        memberService.modifyPassword(memberInfo.getId(), newPassword);
+        return Response.success();
+    }
+
+    @PutMapping("/password/reset")
+    public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
+        final var validatedRequest = ValidatedPasswordResetRequest.from(request);
+        memberService.resetPassword(validatedRequest);
         return Response.success();
     }
 

@@ -64,4 +64,12 @@ public class Member extends AuditingFields {
                 request.getKakaoId()
         );
     }
+
+    public void modifyUsername(Username newUsername) {
+        this.username = newUsername;
+    }
+
+    public void modifyPassword(Password newPassword) {
+        this.password = newPassword;
+    }
 }

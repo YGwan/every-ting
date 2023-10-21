@@ -7,14 +7,17 @@ import com.everyTing.member.cache.EmailAuthCodeCache;
 import com.everyTing.member.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import com.everyTing.member.service.mail.MailService;
+import com.everyTing.member.service.mail.form.ResetPasswordForm;
 import com.everyTing.member.service.mail.form.SignUpForm;
 import com.everyTing.member.utils.RandomCodeUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,7 +68,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void sendAuthCodeFromUniversityEmail(ValidatedAuthCodeSendRequest request) {
+    public void sendAuthCodeForSignUp(ValidatedAuthCodeSendForSignUpRequest request) {
         throwIfExistUniversityEmail(request.getUniversityEmail());
 
         final String username = request.getUsernameValue();
@@ -74,6 +77,36 @@ public class MemberService {
 
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+    }
+
+    @Transactional
+    public void sendAuthCodeForResetPassword(UniversityEmail email) {
+        throwIfNotExistEmail(email);
+
+        final String universityEmail = email.getValue();
+        final String emailAuthCode = RandomCodeUtils.generate();
+
+        mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
+        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+    }
+
+    @Transactional
+    public void modifyUsername(Long memberId, Username newUsername) {
+        throwIfExistUsername(newUsername);
+        final Member member = getMemberById(memberId);
+        member.modifyUsername(newUsername);
+    }
+
+    @Transactional
+    public void modifyPassword(Long memberId, Password newPassword) {
+        final Member member = getMemberById(memberId);
+        member.modifyPassword(newPassword);
+    }
+
+    @Transactional
+    public void resetPassword(ValidatedPasswordResetRequest validatedRequest) {
+        final Member member = getMemberByEmail(validatedRequest.getUniversityEmail());
+        member.modifyPassword(validatedRequest.getPassword());
     }
 
     public void validateEmailAuthCode(String email, String authCode) {
@@ -103,16 +136,44 @@ public class MemberService {
         }
     }
 
+    public void throwIfNotExistEmail(UniversityEmail email) {
+        if (!memberRepository.existsByUniversityEmail(email)) {
+            throw new TingApplicationException(MEMBER_015);
+        }
+    }
+
     public void throwIfExistKakaoId(KakaoId kakaoId) {
         if (memberRepository.existsByKakaoId(kakaoId)) {
             throw new TingApplicationException(MEMBER_008);
         }
     }
 
+    public void throwIfNotValidatePassword(Long memberId, Password password) {
+        final Member member = getMemberById(memberId);
+        if (!password.equals(member.getPassword())) {
+            throw new TingApplicationException(MEMBER_016);
+        }
+    }
+
+    public void throwIfNotValidateToken(HttpServletRequest request) {
+        final String accessToken = tokenService.getAccessTokenFromHeader(request);
+        tokenService.validateToken(accessToken);
+    }
+
     public MemberInfoResponse findMemberInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+        final Member member = getMemberById(memberId);
+        return MemberInfoResponse.from(member);
+    }
+
+    private Member getMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() ->
                 new TingApplicationException(MEMBER_014)
         );
-        return MemberInfoResponse.from(member);
+    }
+
+    private Member getMemberByEmail(UniversityEmail email) {
+        return memberRepository.findByUniversityEmail(email).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
     }
 }

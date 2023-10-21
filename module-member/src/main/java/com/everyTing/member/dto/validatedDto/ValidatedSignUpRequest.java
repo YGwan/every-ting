@@ -5,8 +5,6 @@ import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.request.SignUpRequest;
 import lombok.Getter;
 
-import java.time.Year;
-
 @Getter
 public class ValidatedSignUpRequest {
 
@@ -14,7 +12,7 @@ public class ValidatedSignUpRequest {
 
     private final Gender gender;
 
-    private final Year birth;
+    private final BirthYear birth;
 
     private final UniversityEmail universityEmail;
 
@@ -26,7 +24,7 @@ public class ValidatedSignUpRequest {
 
     private final Major major;
 
-    public ValidatedSignUpRequest(Username username, Gender gender, Year birth, UniversityEmail universityEmail,
+    public ValidatedSignUpRequest(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
                                   Password password, KakaoId kakaoId, University university, Major major) {
         this.username = username;
         this.gender = gender;
@@ -42,7 +40,7 @@ public class ValidatedSignUpRequest {
         return new ValidatedSignUpRequest(
                 Username.from(request.getUsername()),
                 request.getGender(),
-                request.getBirth(),
+                BirthYear.from(request.getBirth()),
                 UniversityEmail.from(request.getUniversityEmail()),
                 Password.from(request.getPassword()),
                 KakaoId.from(request.getKakaoId()),

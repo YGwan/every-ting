@@ -21,6 +21,8 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_015("등록된 이메일이 아닙니다.", HttpStatus.NOT_FOUND),
     MEMBER_016("비밀번호가 일치하지 않습니다.", HttpStatus.NOT_FOUND),
     MEMBER_017("새 비밀번호는 이전 비밀번호와 다르게 설정해야 합니다.", HttpStatus.UNAUTHORIZED);
+    MEMBER_018("출생년도 값이 올바르지 않습니다.")
+    ;
 
 
     private final String message;

@@ -6,9 +6,11 @@ import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_0
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
+import com.everyTing.team.application.port.in.command.TeamRequestFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
+import com.everyTing.team.domain.TeamRequests;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +44,11 @@ public class TeamRequestService implements TeamRequestUseCase {
         if (teamRequestPort.countTodayRequest(teamId) >= REQUEST_MAX_LIMIT) {
             throw new TingApplicationException(TEAM_014);
         }
+    }
+
+    @Override
+    public TeamRequests findTeamRequest(TeamRequestFindCommand command) {
+        return teamRequestPort.findTeamRequest(command.getFromTeamId(),
+            command.getToTeamId());
     }
 }

@@ -1,7 +1,6 @@
 package com.everyTing.member.service;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.cache.EmailAuthCodeCache;
@@ -12,7 +11,10 @@ import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.*;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import com.everyTing.member.service.mail.MailService;
 import com.everyTing.member.service.mail.form.ResetPasswordForm;

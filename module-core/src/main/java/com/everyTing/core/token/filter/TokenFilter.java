@@ -17,7 +17,14 @@ import java.io.IOException;
 @Component
 public class TokenFilter extends OncePerRequestFilter {
 
-    public static final String[] APPLY_URL_PATTERNS = new String[]{"/api/v1/members/my/info"};
+    public static final String[] APPLY_URL_PATTERNS = new String[]{
+            "/api/v1/members/username/modify",
+            "/api/v1/members/password/modify",
+            "/api/v1/members/token/check",
+            "/api/v1/members/password/check",
+            "/api/v1/members/my/info"
+    };
+
     public static final String[] EXCLUDE_URL_PATTERNS = new String[]{};
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenFilter.class);

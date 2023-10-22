@@ -98,6 +98,13 @@ public class MemberService {
     }
 
     @Transactional
+    public void modifyKakaoId(Long memberId, KakaoId newValidateKakaoId) {
+        throwIfExistKakaoId(newValidateKakaoId);
+        final Member member = getMemberById(memberId);
+        member.modifyKakaoId(newValidateKakaoId);
+    }
+
+    @Transactional
     public void modifyPassword(Long memberId, Password newPassword) {
         final Member member = getMemberById(memberId);
         member.modifyPassword(newPassword);

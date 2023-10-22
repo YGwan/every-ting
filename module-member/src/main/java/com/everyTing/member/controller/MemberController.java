@@ -118,6 +118,14 @@ public class MemberController {
         return Response.success();
     }
 
+    @PutMapping("/kakaoId/modify")
+    public Response<Void> kakaoIdModify(@LoginMember LoginMemberInfo memberInfo,
+                                        @RequestParam String kakaoId) {
+        final var newValidateKakaoId = KakaoId.from(kakaoId);
+        memberService.modifyKakaoId(memberInfo.getId(), newValidateKakaoId);
+        return Response.success();
+    }
+
     @PutMapping("/password/modify")
     public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestBody PasswordModifyRequest request) {

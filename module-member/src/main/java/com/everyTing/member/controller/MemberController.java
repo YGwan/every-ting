@@ -11,12 +11,17 @@ import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.*;
+import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
+import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 
@@ -40,6 +45,12 @@ public class MemberController {
     @GetMapping("/{memberId}/info")
     public Response<MemberInfoResponse> MemberInfoDetails(@PathVariable Long memberId) {
         final var myInfoResponse = memberService.findMemberInfo(memberId);
+        return Response.success(myInfoResponse);
+    }
+
+    @GetMapping("/info")
+    public Response<List<MemberInfoResponse>> MembersInfoDetails(@RequestBody MembersInfoDetailsRequest request) {
+        final var myInfoResponse = memberService.findMembersInfo(request);
         return Response.success(myInfoResponse);
     }
 

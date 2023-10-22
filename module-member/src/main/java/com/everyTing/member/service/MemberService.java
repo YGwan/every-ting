@@ -10,6 +10,7 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.MembersInfoDetailsRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
@@ -60,6 +63,22 @@ public class MemberService {
         Member member = memberRepository.findByUniversityEmailAndPassword(request.getEmail(), request.getPassword())
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
         return tokenService.issue(member.getId());
+    }
+
+    public List<MemberInfoResponse> findMembersInfo(MembersInfoDetailsRequest request) {
+        final List<MemberInfoResponse> memberInfoResponses = new ArrayList<>();
+
+        for (Long memberId : request.getMemberIds()) {
+            final var memberInfo = findMemberInfo(memberId);
+            memberInfoResponses.add(memberInfo);
+        }
+
+        return memberInfoResponses;
+    }
+
+    public MemberInfoResponse findMemberInfo(Long memberId) {
+        final Member member = getMemberById(memberId);
+        return MemberInfoResponse.from(member);
     }
 
     @Transactional
@@ -165,11 +184,6 @@ public class MemberService {
     public void throwIfNotValidateToken(HttpServletRequest request) {
         final String accessToken = tokenService.getAccessTokenFromHeader(request);
         tokenService.validateToken(accessToken);
-    }
-
-    public MemberInfoResponse findMemberInfo(Long memberId) {
-        final Member member = getMemberById(memberId);
-        return MemberInfoResponse.from(member);
     }
 
     private Member getMemberById(Long memberId) {

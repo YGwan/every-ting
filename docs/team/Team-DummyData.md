@@ -1,3 +1,4 @@
+```sql
 -- 과팅 더미 데이터
 insert into team (id, name, university, major, code, member_limit, member_number, gender, created_at,
                   updated_at)
@@ -67,7 +68,4 @@ values (4, 3, "서울");
 
 insert into team_region (id, team_id, region)
 values (5, 4, "서울");
-
-
-
-
+```

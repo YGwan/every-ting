@@ -14,6 +14,8 @@ public interface TeamMemberEntityRepository extends JpaRepository<TeamMemberEnti
 
     Boolean existsByTeamIdAndMemberIdAndRole(Long teamId, Long memberId, Role role);
 
+    List<TeamMemberEntity> findAllByMemberIdAndRoleOrderByCreatedAt(Long memberId, Role role);
+
     List<TeamMemberEntity> findAllByTeamIdOrderByRoleAscCreatedAtAsc(Long teamId);
     
     Long countByTeamId(Long teamId);

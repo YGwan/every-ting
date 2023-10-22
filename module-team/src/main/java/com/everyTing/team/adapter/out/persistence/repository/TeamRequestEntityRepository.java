@@ -9,4 +9,6 @@ public interface TeamRequestEntityRepository extends JpaRepository<TeamRequestEn
     Boolean existsByFromTeamIdAndToTeamId(Long fromTeamId, Long toTeamId);
 
     Long countAllByCreatedAtAfter(LocalDateTime sinceDateTime);
+
+    void deleteByFromTeamIdAndToTeamId(Long fromTeamId, Long toTeamId);
 }

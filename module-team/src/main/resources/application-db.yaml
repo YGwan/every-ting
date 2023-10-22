@@ -4,6 +4,10 @@ spring:
     username: ${RDB_USERNAME}
     password: ${RDB_PASSWORD}
 
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
   jpa:
     defer-datasource-initialization: true
     hibernate.ddl-auto: create

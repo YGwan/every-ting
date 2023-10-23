@@ -44,6 +44,10 @@ request:
   limit:
     max: 2
 
+date:
+  weekly:
+    limit: 3
+
 regions:
   서울,
   인천,
@@ -63,6 +67,13 @@ regions:
   광주,
   전북,
   제주도
+
+team:
+  date:
+    cache:
+      key: DATE_KEY
+      ttl:
+        days: 1
 
 # JWT token
 jwt:

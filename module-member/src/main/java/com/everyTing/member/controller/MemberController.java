@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
@@ -149,6 +148,12 @@ public class MemberController {
     public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
         final var validatedRequest = ValidatedPasswordResetRequest.from(request);
         memberService.resetPassword(validatedRequest);
+        return Response.success();
+    }
+
+    @DeleteMapping
+    public Response<Void> memberRemove(@LoginMember LoginMemberInfo memberInfo) {
+        memberService.removeMember(memberInfo.getId());
         return Response.success();
     }
 

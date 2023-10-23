@@ -6,9 +6,11 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamMemberControllerDocs;
 import com.everyTing.team.application.port.in.TeamMemberUseCase;
 import com.everyTing.team.application.port.in.command.TeamMemberFindCommand;
+import com.everyTing.team.application.port.in.command.TeamMemberRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamMemberSaveCommand;
 import com.everyTing.team.domain.TeamMembers;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,8 @@ public class TeamMemberController implements TeamMemberControllerDocs {
 
     @GetMapping
     public Response<TeamMembers> memberList(@PathVariable Long teamId) {
-        TeamMemberFindCommand command = TeamMemberFindCommand.of(teamId);
+        final TeamMemberFindCommand command = TeamMemberFindCommand.of(teamId);
+
         return Response.success(teamMemberUseCase.findTeamMembers(command));
     }
 
@@ -36,7 +39,19 @@ public class TeamMemberController implements TeamMemberControllerDocs {
     @ResponseStatus(HttpStatus.CREATED)
     public Response<Long> memberSave(@PathVariable Long teamId,
         @LoginMember LoginMemberInfo loginMemberInfo) {
-        teamMemberUseCase.saveTeamMember(TeamMemberSaveCommand.of(teamId, loginMemberInfo.getId()));
+        final TeamMemberSaveCommand command = TeamMemberSaveCommand.of(teamId,
+            loginMemberInfo.getId());
+
+        return Response.success(teamMemberUseCase.saveTeamMember(command));
+    }
+
+    @DeleteMapping("/{teamMemberId}")
+    public Response<Void> memberRemove(@PathVariable Long teamId, @PathVariable Long teamMemberId,
+        @LoginMember LoginMemberInfo loginMemberInfo) {
+        final TeamMemberRemoveCommand command = TeamMemberRemoveCommand.of(teamId, teamMemberId,
+            loginMemberInfo.getId());
+
+        teamMemberUseCase.removeTeamMember(command);
         return Response.success();
     }
 }

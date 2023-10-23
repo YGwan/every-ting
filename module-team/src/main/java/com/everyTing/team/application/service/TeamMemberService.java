@@ -24,7 +24,7 @@ public class TeamMemberService implements TeamMemberUseCase {
 
     @Override
     public TeamMembers findTeamMembers(TeamMemberFindCommand command) {
-        return teamMemberPort.findTeamMembers(command.getTeamId());
+        return teamMemberPort.findTeamMembersByTeamId(command.getTeamId());
     }
 
     @Override

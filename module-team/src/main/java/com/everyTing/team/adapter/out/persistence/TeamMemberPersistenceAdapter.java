@@ -4,8 +4,11 @@ import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_0
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_025;
+import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_008;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.exception.TingServerException;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
@@ -13,6 +16,7 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamMemberPort;
+import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.domain.TeamMembers;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -40,6 +44,14 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
+    public TeamMembers findTeamMembersByTeamId(Long teamId) {
+        final List<TeamMemberEntity> teamMemberEntities =
+            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId);
+
+        return TeamMembers.from(teamMemberEntities);
+    }
+
+    @Override
     public TeamMembers findTeamMembersByMemberIdAndRole(Long memberId, Role role) {
         final List<TeamMemberEntity> teamMemberEntities =
             teamMemberEntityRepository.findAllByMemberIdAndRoleOrderByCreatedAt(memberId, role);
@@ -48,11 +60,22 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
-    public TeamMembers findTeamMembers(Long teamId) {
-        final List<TeamMemberEntity> teamMemberEntities =
-            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId);
+    public TeamMember findTeamLeader(Long teamId) {
+        final TeamMemberEntity teamLeader = teamMemberEntityRepository.findByTeamIdAndRole(teamId, Role.LEADER)
+            .orElseThrow(() -> new TingServerException(TSER_008));
+        return TeamMember.from(teamLeader);
+    }
 
-        return TeamMembers.from(teamMemberEntities);
+    @Override
+    public void removeTeamMember(Long teamId, Long teamMemberId) {
+        if (!teamMemberEntityRepository.existsByIdAndTeamId(teamMemberId, teamId)) {
+            throw new TingApplicationException(TEAM_025);
+        }
+
+        teamMemberEntityRepository.deleteById(teamMemberId);
+
+        TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);
+        teamEntity.decreaseMemberNumber();
     }
 
     @Override

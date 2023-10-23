@@ -14,6 +14,8 @@ public interface TeamMemberEntityRepository extends JpaRepository<TeamMemberEnti
 
     Boolean existsByTeamIdAndMemberIdAndRole(Long teamId, Long memberId, Role role);
 
+    Boolean existsByIdAndTeamId(Long teamMemberId, Long teamId);
+
     List<TeamMemberEntity> findAllByMemberIdAndRoleOrderByCreatedAt(Long memberId, Role role);
 
     List<TeamMemberEntity> findAllByTeamIdOrderByRoleAscCreatedAtAsc(Long teamId);
@@ -21,4 +23,6 @@ public interface TeamMemberEntityRepository extends JpaRepository<TeamMemberEnti
     Long countByTeamId(Long teamId);
 
     Optional<TeamMemberEntity> findByTeamIdAndMemberId(Long teamId, Long memberId);
+
+    Optional<TeamMemberEntity> findByTeamIdAndRole(Long teamId, Role role);
 }

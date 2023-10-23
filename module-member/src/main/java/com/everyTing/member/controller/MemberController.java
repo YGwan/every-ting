@@ -49,8 +49,8 @@ public class MemberController {
     }
 
     @GetMapping("/info")
-    public Response<List<MemberInfoResponse>> MembersInfoDetails(@RequestBody MembersInfoDetailsRequest request) {
-        final var myInfoResponse = memberService.findMembersInfo(request);
+    public Response<List<MemberInfoResponse>> MembersInfoDetails(@RequestParam List<Long> memberIds) {
+        final var myInfoResponse = memberService.findMembersInfo(memberIds);
         return Response.success(myInfoResponse);
     }
 

@@ -10,7 +10,6 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.MembersInfoDetailsRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
@@ -27,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
@@ -65,15 +64,11 @@ public class MemberService {
         return tokenService.issue(member.getId());
     }
 
-    public List<MemberInfoResponse> findMembersInfo(MembersInfoDetailsRequest request) {
-        final List<MemberInfoResponse> memberInfoResponses = new ArrayList<>();
-
-        for (Long memberId : request.getMemberIds()) {
-            final var memberInfo = findMemberInfo(memberId);
-            memberInfoResponses.add(memberInfo);
-        }
-
-        return memberInfoResponses;
+    public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {
+        return memberRepository.findByIdIn(memberIds)
+                .stream()
+                .map(MemberInfoResponse::from)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     public MemberInfoResponse findMemberInfo(Long memberId) {

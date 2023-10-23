@@ -1,9 +1,11 @@
 package com.everyTing.team.application.service;
 
 import com.everyTing.team.application.port.in.TeamLikeUseCase;
+import com.everyTing.team.application.port.in.command.TeamLikeFindCommand;
 import com.everyTing.team.application.port.in.command.TeamLikeRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamLikeSaveCommand;
 import com.everyTing.team.application.port.out.TeamLikePort;
+import com.everyTing.team.domain.TeamLikes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,12 @@ public class TeamLikeService implements TeamLikeUseCase {
 
     public TeamLikeService(TeamLikePort teamLikePort) {
         this.teamLikePort = teamLikePort;
+    }
+
+    @Override
+    public TeamLikes findTeamLike(TeamLikeFindCommand command) {
+        return teamLikePort.findTeamLikeByFromTeamIdAndToTeamId(command.getFromTeamId(),
+            command.getToTeamId());
     }
 
     @Override

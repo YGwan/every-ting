@@ -3,17 +3,20 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_012;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_100;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamLikeEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
+import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamLikeEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamLikePort;
 import com.everyTing.team.common.exception.errorCode.TeamErrorCode;
-import org.springframework.dao.DataIntegrityViolationException;
+import com.everyTing.team.domain.TeamLikes;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,6 +35,13 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
     }
 
     @Override
+    public TeamLikes findTeamLikeByFromTeamIdAndToTeamId(Long fromTeamId, Long toTeamId) {
+        final List<TeamLikeEntity> teamLikeEntities =
+            teamLikeEntityRepository.findAllByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
+        return TeamLikes.from(teamLikeEntities);
+    }
+
+    @Override
     public Long saveTeamLike(Long toTeamId, Long fromTeamId, Long fromMemberId) {
         validateTeamLikeIsNotDuplicate(toTeamId, fromMemberId);
 
@@ -42,6 +52,8 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
 
         final TeamMemberEntity fromTeamMember = findTeamMemberByTeamIdAndMemberId(fromTeamId,
             fromMemberId);
+        validateTeamMemberIsNotTeamLeader(fromTeamMember);
+
         final TeamLikeEntity created = teamLikeEntityRepository.save(
             TeamLikeEntity.of(fromTeamMember, fromTeam, toTeam));
 
@@ -61,8 +73,15 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
 
     private void validateTeamsHaveDifferentGenders(TeamEntity fromTeam, TeamEntity toTeam) {
         if (fromTeam.getGender()
-                  .equals(toTeam.getGender())) {
+                    .equals(toTeam.getGender())) {
             throw new TingApplicationException(TeamErrorCode.TEAM_011);
+        }
+    }
+
+    private void validateTeamMemberIsNotTeamLeader(TeamMemberEntity teamMemberEntity) {
+        if (teamMemberEntity.getRole()
+                            .equals(Role.LEADER)) {
+            throw new TingApplicationException(TEAM_100);
         }
     }
 

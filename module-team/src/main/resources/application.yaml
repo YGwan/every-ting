@@ -4,6 +4,4 @@ spring:
       - server
       - db
       - constraint
-      - token
-      - feign
-      - swagger
+      - core

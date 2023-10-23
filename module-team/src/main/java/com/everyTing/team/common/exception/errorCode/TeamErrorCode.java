@@ -14,7 +14,7 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_007("해시태그는 7개 이하여야 합니다.", HttpStatus.BAD_REQUEST),
     TEAM_008("팀이 꽉 찼습니다.", HttpStatus.BAD_REQUEST),
     TEAM_009("같은 성별의 팀이 아닙니다.", HttpStatus.BAD_REQUEST),
-    TEAM_010("팀의 멤버가 아닙니다.", HttpStatus.FORBIDDEN),
+    TEAM_010("팀 멤버가 아닙니다.", HttpStatus.FORBIDDEN),
     TEAM_011("같은 성별의 팀입니다.", HttpStatus.BAD_REQUEST),
     TEAM_012("이미 좋아요를 했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_013("이미 팀에 속해 있습니다.", HttpStatus.BAD_REQUEST),
@@ -29,6 +29,8 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_022("상대팀의 멤버 수가 부족합니다.", HttpStatus.BAD_REQUEST),
     TEAM_023("우리팀이 일주일에 사용 가능한 매칭권을 모두 사용했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_024("상대팀이 일주일에 사용 가능한 매칭권을 모두 사용했습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_025("요청된 정보를 가지는 팀 멤버가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    TEAM_026("팀장은 팀을 나갈 수 없습니다.", HttpStatus.BAD_REQUEST),
     TEAM_100("팀장은 상대팀에 좋아요를 할 수 없습니다.", HttpStatus.FORBIDDEN),
     ;
 

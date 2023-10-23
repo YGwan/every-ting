@@ -19,6 +19,8 @@ public class TeamConstraints {
 
     public static int REQUEST_MAX_LIMIT;
 
+    public static int WEEKLY_DATE_LIMIT;
+
     public static List<String> REGIONS;
 
     public TeamConstraints(
@@ -38,6 +40,8 @@ public class TeamConstraints {
         int hashtagMaxLength,
         @Value("${request.limit.max}")
         int requestMaxLimit,
+        @Value("${date.weekly.limit}")
+        int weeklyDateLimit,
         @Value("${regions}")
         List<String> regions
     ) {
@@ -49,6 +53,7 @@ public class TeamConstraints {
         HASHTAG_MIN_LENGTH = hashtagMinLength;
         HASHTAG_MAX_LENGTH = hashtagMaxLength;
         REQUEST_MAX_LIMIT = requestMaxLimit;
+        WEEKLY_DATE_LIMIT = weeklyDateLimit;
         REGIONS = regions;
     }
 }

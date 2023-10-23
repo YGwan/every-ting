@@ -4,4 +4,5 @@ spring:
       - server
       - db
       - constraint
+      - date
       - core

@@ -157,6 +157,7 @@ public class MemberController {
         return Response.success();
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
         final var memberTokens = memberService.reissueToken(request);

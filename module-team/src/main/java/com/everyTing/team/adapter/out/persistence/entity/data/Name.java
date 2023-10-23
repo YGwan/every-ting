@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Name {
 
-    @Column(name = "name", nullable = false, length = 20)
+    @Column(name = "name", nullable = false, length = 10)
     private String value;
 
     protected Name() {

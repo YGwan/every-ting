@@ -24,8 +24,8 @@ service:
 
 name:
   length:
-    min: 3
-    max: 20
+    min: 1
+    max: 10
 
 member:
   limit:

@@ -8,5 +8,5 @@ public interface TeamMemberUseCase {
 
     TeamMembers findTeamMembers(TeamMemberFindCommand command);
 
-    void saveTeamMember(TeamMemberSaveCommand command);
+    Long saveTeamMember(TeamMemberSaveCommand command);
 }

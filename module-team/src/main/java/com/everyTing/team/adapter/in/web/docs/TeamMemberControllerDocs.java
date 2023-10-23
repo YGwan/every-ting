@@ -21,5 +21,5 @@ public interface TeamMemberControllerDocs {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "팀원 추가 및 가입 완료", content = @Content),
         @ApiResponse(responseCode = "404", description = "TEAM_006, TEAM_007, TEAM_008, TEAM_009", content = @Content)})
-    Response<Void> memberSave(Long teamId, LoginMemberInfo loginMemberInfo);
+    Response<Long> memberSave(Long teamId, LoginMemberInfo loginMemberInfo);
 }

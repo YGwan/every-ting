@@ -34,7 +34,7 @@ public class TeamMemberController implements TeamMemberControllerDocs {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<Void> memberSave(@PathVariable Long teamId,
+    public Response<Long> memberSave(@PathVariable Long teamId,
         @LoginMember LoginMemberInfo loginMemberInfo) {
         teamMemberUseCase.saveTeamMember(TeamMemberSaveCommand.of(teamId, loginMemberInfo.getId()));
         return Response.success();

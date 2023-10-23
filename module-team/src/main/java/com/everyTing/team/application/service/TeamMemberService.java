@@ -29,9 +29,9 @@ public class TeamMemberService implements TeamMemberUseCase {
 
     @Override
     @Transactional
-    public void saveTeamMember(TeamMemberSaveCommand command) {
-        Member member = memberPort.getMemberById(command.getMemberId());
+    public Long saveTeamMember(TeamMemberSaveCommand command) {
+        final Member member = memberPort.getMemberById(command.getMemberId());
 
-        teamMemberPort.saveTeamMember(command.getTeamId(), member);
+        return teamMemberPort.saveTeamMember(command.getTeamId(), member);
     }
 }

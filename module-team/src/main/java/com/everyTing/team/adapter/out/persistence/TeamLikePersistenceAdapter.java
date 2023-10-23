@@ -3,11 +3,13 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_012;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_100;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamLikeEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
+import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamLikeEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
@@ -50,6 +52,8 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
 
         final TeamMemberEntity fromTeamMember = findTeamMemberByTeamIdAndMemberId(fromTeamId,
             fromMemberId);
+        validateTeamMemberIsNotTeamLeader(fromTeamMember);
+
         final TeamLikeEntity created = teamLikeEntityRepository.save(
             TeamLikeEntity.of(fromTeamMember, fromTeam, toTeam));
 
@@ -71,6 +75,13 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
         if (fromTeam.getGender()
                     .equals(toTeam.getGender())) {
             throw new TingApplicationException(TeamErrorCode.TEAM_011);
+        }
+    }
+
+    private void validateTeamMemberIsNotTeamLeader(TeamMemberEntity teamMemberEntity) {
+        if (teamMemberEntity.getRole()
+                            .equals(Role.LEADER)) {
+            throw new TingApplicationException(TEAM_100);
         }
     }
 

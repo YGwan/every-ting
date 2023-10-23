@@ -23,7 +23,8 @@ public interface TeamLikeControllerDocs {
     @Operation(summary = "좋아요")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "좋아요 성공", content = @Content),
-        @ApiResponse(responseCode = "403", description = "TEAM_010, TEAM_011, TEAM_012, TEAM_014", content = @Content)})
+        @ApiResponse(responseCode = "403", description = "TEAM_010, TEAM_100", content = @Content),
+        @ApiResponse(responseCode = "400", description = "EAM_011, TEAM_012", content = @Content)})
     Response<Void> teamLikeSave(Long fromTeamId, Long toTeamId, LoginMemberInfo loginMemberInfo);
 
     @Operation(summary = "좋아요 취소")

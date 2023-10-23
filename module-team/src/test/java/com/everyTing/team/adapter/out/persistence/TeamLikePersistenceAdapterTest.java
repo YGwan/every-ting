@@ -28,7 +28,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 @ExtendWith(MockitoExtension.class)
 class TeamLikePersistenceAdapterTest extends BaseTest {
 
-    TeamMemberEntity fromTeamMember = TeamMemberEntityFixture.get(1L);
+    TeamMemberEntity fromTeamMember = TeamMemberEntityFixture.getList().get(1);
     TeamEntity fromTeam = TeamEntityFixture.get(1L);
     TeamEntity toTeam = TeamEntityFixture.get(1L + 1);
     TeamLikeEntity teamLike = TeamLikeEntity.of(fromTeamMember, fromTeam, toTeam);
@@ -47,8 +47,6 @@ class TeamLikePersistenceAdapterTest extends BaseTest {
     void saveTeamLike() {
         ReflectionTestUtils.setField(teamLike, "id", 1L);
         ReflectionTestUtils.setField(toTeam, "gender", Gender.MALE);
-
-        System.out.println("toTeam.getGender() = " + toTeam.getGender());
 
         // given
         given(teamEntityRepository.findById(any())).willReturn(

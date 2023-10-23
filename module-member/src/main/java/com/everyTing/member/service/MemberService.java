@@ -26,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
@@ -62,6 +64,18 @@ public class MemberService {
         return tokenService.issue(member.getId());
     }
 
+    public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {
+        return memberRepository.findByIdIn(memberIds)
+                .stream()
+                .map(MemberInfoResponse::from)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public MemberInfoResponse findMemberInfo(Long memberId) {
+        final Member member = getMemberById(memberId);
+        return MemberInfoResponse.from(member);
+    }
+
     @Transactional
     public MemberTokens reissueToken(HttpServletRequest request) {
         return tokenService.reissue(request);
@@ -95,6 +109,13 @@ public class MemberService {
         throwIfExistUsername(newUsername);
         final Member member = getMemberById(memberId);
         member.modifyUsername(newUsername);
+    }
+
+    @Transactional
+    public void modifyKakaoId(Long memberId, KakaoId newValidateKakaoId) {
+        throwIfExistKakaoId(newValidateKakaoId);
+        final Member member = getMemberById(memberId);
+        member.modifyKakaoId(newValidateKakaoId);
     }
 
     @Transactional
@@ -158,11 +179,6 @@ public class MemberService {
     public void throwIfNotValidateToken(HttpServletRequest request) {
         final String accessToken = tokenService.getAccessTokenFromHeader(request);
         tokenService.validateToken(accessToken);
-    }
-
-    public MemberInfoResponse findMemberInfo(Long memberId) {
-        final Member member = getMemberById(memberId);
-        return MemberInfoResponse.from(member);
     }
 
     private Member getMemberById(Long memberId) {

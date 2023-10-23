@@ -72,4 +72,8 @@ public class Member extends AuditingFields {
     public void modifyPassword(Password newPassword) {
         this.password = newPassword;
     }
+
+    public void modifyKakaoId(KakaoId newKakaoId) {
+        this.kakaoId = newKakaoId;
+    }
 }

@@ -45,7 +45,7 @@ class TeamMemberPersistenceAdapterTest extends BaseTest {
             teamMemberEntities);
 
         // when
-        TeamMembers teamMembers = sut.findTeamMembers(1L);
+        TeamMembers teamMembers = sut.findTeamMembersByTeamId(1L);
 
         // then
         assertThat(teamMembers.getTeamMembers()

@@ -8,9 +8,12 @@ import org.springframework.test.util.ReflectionTestUtils;
 public class TeamMemberEntityFixture {
 
     public static List<TeamMemberEntity> getList() {
-        return List.of(
-            TeamMemberEntity.of(1L, 1L, Role.LEADER),
-            TeamMemberEntity.of(1L, 2L, Role.MEMBER));
+        TeamMemberEntity teamLeaderEntity = TeamMemberEntity.of(1L, 1L, Role.LEADER);
+        ReflectionTestUtils.setField(teamLeaderEntity, "id", 1L);
+
+        TeamMemberEntity teamMemberEntity = TeamMemberEntity.of(1L, 2L, Role.MEMBER);
+        ReflectionTestUtils.setField(teamMemberEntity, "id", 2L);
+        return List.of(teamLeaderEntity, teamMemberEntity);
     }
 
     public static TeamMemberEntity get(Long teamMemberId) {

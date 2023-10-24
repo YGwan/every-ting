@@ -14,6 +14,9 @@ public class Response<T> {
     private Meta meta;
     private T data;
 
+    protected Response() {
+    }
+
     private Response(T data) {
         this.data = data;
     }

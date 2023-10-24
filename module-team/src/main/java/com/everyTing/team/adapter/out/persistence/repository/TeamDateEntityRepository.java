@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamDateEntityRepository extends JpaRepository<TeamDateEntity, Long> {
 
-    Boolean existsByWomenTeamAndMenTeam(TeamEntity womenTeam, TeamEntity menTeam);
+    Long countByWomenTeamIdOrMenTeamId(Long teamId1, Long teamId2);
+
+    Boolean existsByWomenTeamIdAndMenTeamId(Long womenTeamId, Long menTeamId);
 }

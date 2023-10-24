@@ -1,0 +1,4 @@
+team:
+  date:
+    lock:
+      key.prefix: "TEAM_DATE:"

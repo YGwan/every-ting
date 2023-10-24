@@ -76,6 +76,11 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
         teamRequestEntityRepository.deleteByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
     }
 
+    @Override
+    public void removeTeamRequestsBetweenTeams(Long teamId1, Long teamId2) {
+        teamRequestEntityQueryRepository.deleteAllRequestsBetweenTeams(teamId1, teamId2);
+    }
+
     private void validateTeamRequestIsNotDuplicate(Long fromTeamId, Long toTeamId) {
         if (teamRequestEntityRepository.existsByFromTeamIdAndToTeamId(fromTeamId, toTeamId)) {
             throw new TingApplicationException(TEAM_016);

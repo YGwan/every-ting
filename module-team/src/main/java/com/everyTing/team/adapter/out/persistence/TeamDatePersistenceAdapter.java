@@ -1,18 +1,10 @@
 package com.everyTing.team.adapter.out.persistence;
 
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_011;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_021;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_022;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_020;
-
-import com.everyTing.core.domain.Gender;
-import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
-import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.repository.TeamDateEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.application.port.out.TeamDatePort;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,48 +20,21 @@ public class TeamDatePersistenceAdapter implements TeamDatePort {
     }
 
     @Override
-    public Long saveTeamDate(Long fromTeamId, Long myTeamId) {
-        final TeamEntity fromTeam = findTeamById(fromTeamId);
-        final TeamEntity myTeam = findTeamById(myTeamId);
+    public Long countByTeamIdAndCreatedAtAfter(Long teamId, LocalDateTime time) {
+        final Long dateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamId(teamId, teamId);
+        return dateCount;
+    }
 
-        validateTeamsHaveDifferentGenders(fromTeam, myTeam);
-        validateTeamsAreFull(fromTeam, myTeam);
-
-        final TeamEntity womenTeam = fromTeam.getGender() == Gender.FEMALE ? fromTeam : myTeam;
-        final TeamEntity menTeam = fromTeam.getGender() == Gender.MALE ? fromTeam : myTeam;
-
-        validateTeamDateIsNotDuplicate(womenTeam, menTeam);
-
+    @Override
+    public Long saveTeamDate(Long womenTeamId, Long menTeamId) {
         final TeamDateEntity created = teamDateEntityRepository.save(
-            TeamDateEntity.of(womenTeam, menTeam));
+            TeamDateEntity.of(womenTeamId, menTeamId));
 
         return created.getId();
     }
 
-    private TeamEntity findTeamById(Long teamId) {
-        return teamEntityRepository.findById(teamId)
-                                   .orElseThrow(() -> new TingApplicationException(TEAM_006));
-    }
-
-    private void validateTeamDateIsNotDuplicate(TeamEntity womenTeam, TeamEntity menTeam){
-        if (teamDateEntityRepository.existsByWomenTeamAndMenTeam(womenTeam, menTeam)) {
-            throw new TingApplicationException(TEAM_020);
-        }
-    }
-
-    private void validateTeamsHaveDifferentGenders(TeamEntity fromTeam, TeamEntity toTeam) {
-        if (fromTeam.getGender()
-                    .equals(toTeam.getGender())) {
-            throw new TingApplicationException(TEAM_011);
-        }
-    }
-
-    private void validateTeamsAreFull(TeamEntity fromTeam, TeamEntity toTeam) {
-        if (!fromTeam.isFull()) {
-            throw new TingApplicationException(TEAM_022);
-        }
-        if (!toTeam.isFull()) {
-            throw new TingApplicationException(TEAM_021);
-        }
+    @Override
+    public Boolean existsTeamDate(Long womenTeamId, Long menTeamId) {
+        return teamDateEntityRepository.existsByWomenTeamIdAndMenTeamId(womenTeamId, menTeamId);
     }
 }

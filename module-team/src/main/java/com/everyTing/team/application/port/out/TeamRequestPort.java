@@ -14,4 +14,6 @@ public interface TeamRequestPort {
     Long saveTeamRequest(Long fromTeamId, Long toTeamId);
 
     void removeTeamRequest(Long fromTeamId, Long toTeamId);
+
+    void removeTeamRequestsBetweenTeams(Long teamId1, Long teamId2);
 }

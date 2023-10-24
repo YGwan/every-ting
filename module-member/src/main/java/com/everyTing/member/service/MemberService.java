@@ -51,17 +51,16 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberTokens signUp(ValidatedSignUpRequest request) {
+    public Long signUp(ValidatedSignUpRequest request) {
         validateSignUp(request);
         final Member newMember = memberRepository.save(Member.from(request));
-        return tokenService.issue(newMember.getId());
+        return newMember.getId();
     }
 
-    @Transactional
-    public MemberTokens signIn(ValidatedSignInRequest request) {
+    public Long signIn(ValidatedSignInRequest request) {
         Member member = memberRepository.findByUniversityEmailAndPassword(request.getEmail(), request.getPassword())
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
-        return tokenService.issue(member.getId());
+        return member.getId();
     }
 
     @Transactional
@@ -80,11 +79,6 @@ public class MemberService {
     public MemberInfoResponse findMemberInfo(Long memberId) {
         final Member member = getMemberById(memberId);
         return MemberInfoResponse.from(member);
-    }
-
-    @Transactional
-    public MemberTokens reissueToken(HttpServletRequest request) {
-        return tokenService.reissue(request);
     }
 
     @Transactional
@@ -180,11 +174,6 @@ public class MemberService {
         if (!password.equals(member.getPassword())) {
             throw new TingApplicationException(MEMBER_016);
         }
-    }
-
-    public void throwIfNotValidateToken(HttpServletRequest request) {
-        final String accessToken = tokenService.getAccessTokenFromHeader(request);
-        tokenService.validateToken(accessToken);
     }
 
     private Member getMemberById(Long memberId) {

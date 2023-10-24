@@ -5,6 +5,7 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.data.MemberTokens;
+import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
@@ -19,7 +20,6 @@ import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
@@ -29,9 +29,11 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TokenService tokenService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, TokenService tokenService) {
         this.memberService = memberService;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/my/info")
@@ -57,20 +59,23 @@ public class MemberController {
     @PostMapping("/signUp")
     public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
         final var validRequest = ValidatedSignUpRequest.from(request);
-        final var memberTokens = memberService.signUp(validRequest);
-        return Response.success(memberTokens);
+        final var memberId = memberService.signUp(validRequest);
+        return getMemberTokensResponse(memberId);
     }
 
     @PostMapping("/signIn")
     public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
-        final MemberTokens memberTokens;
         try {
             final var validRequest = ValidatedSignInRequest.from(request);
-            memberTokens = memberService.signIn(validRequest);
+            final var memberId = memberService.signIn(validRequest);
+            return getMemberTokensResponse(memberId);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);
         }
+    }
 
+    private Response<MemberTokens> getMemberTokensResponse(Long memberId) {
+        final var memberTokens = tokenService.issue(memberId);
         return Response.success(memberTokens);
     }
 
@@ -91,12 +96,6 @@ public class MemberController {
                                         @RequestBody PasswordCheckRequest request) {
         final Password password = Password.from(request.getPassword());
         memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
-        return Response.success();
-    }
-
-    @GetMapping("/token/check")
-    public Response<Void> tokenCheck(HttpServletRequest request) {
-        memberService.throwIfNotValidateToken(request);
         return Response.success();
     }
 
@@ -155,12 +154,5 @@ public class MemberController {
     public Response<Void> memberRemove(@LoginMember LoginMemberInfo memberInfo) {
         memberService.removeMember(memberInfo.getId());
         return Response.success();
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @GetMapping("/token/reissue")
-    public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
-        final var memberTokens = memberService.reissueToken(request);
-        return Response.success(memberTokens);
     }
 }

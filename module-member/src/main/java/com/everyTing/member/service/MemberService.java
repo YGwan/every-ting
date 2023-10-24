@@ -1,74 +1,54 @@
 package com.everyTing.member.service;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.core.token.data.MemberTokens;
-import com.everyTing.core.token.service.TokenService;
-import com.everyTing.member.cache.EmailAuthCodeCache;
-import com.everyTing.member.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.member.service.mail.MailService;
-import com.everyTing.member.service.mail.form.ResetPasswordForm;
-import com.everyTing.member.service.mail.form.SignUpForm;
-import com.everyTing.member.utils.RandomCodeUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
-@Transactional(readOnly = true)
+@Transactional
 @Service
-public class MemberService {
-
-    @Value("${mail.valid.time}")
-    private Long mailValidTime;
+public class MemberService extends MemberValidateCheckService {
 
     private final MemberRepository memberRepository;
-    private final TokenService tokenService;
-    private final MailService mailService;
-    private final EmailAuthCodeCacheRepository emailAuthCodeCacheRepository;
 
-    public MemberService(MemberRepository memberRepository, TokenService tokenService, MailService mailService, EmailAuthCodeCacheRepository emailAuthCodeCacheRepository) {
+    public MemberService(MemberRepository memberRepository) {
+        super(memberRepository);
         this.memberRepository = memberRepository;
-        this.tokenService = tokenService;
-        this.mailService = mailService;
-        this.emailAuthCodeCacheRepository = emailAuthCodeCacheRepository;
     }
 
-    @Transactional
     public Long signUp(ValidatedSignUpRequest request) {
         validateSignUp(request);
         final Member newMember = memberRepository.save(Member.from(request));
         return newMember.getId();
     }
 
+    @Transactional(readOnly = true)
     public Long signIn(ValidatedSignInRequest request) {
         Member member = memberRepository.findByUniversityEmailAndPassword(request.getEmail(), request.getPassword())
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
         return member.getId();
     }
 
-    @Transactional
     public void removeMember(Long memberId) {
         final Member member = getMemberById(memberId);
         memberRepository.delete(member);
     }
 
+    @Transactional(readOnly = true)
     public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {
         return memberRepository.findByIdIn(memberIds)
                 .stream()
@@ -76,97 +56,38 @@ public class MemberService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
+    @Transactional(readOnly = true)
     public MemberInfoResponse findMemberInfo(Long memberId) {
         final Member member = getMemberById(memberId);
         return MemberInfoResponse.from(member);
     }
 
-    @Transactional
-    public void sendAuthCodeForSignUp(ValidatedAuthCodeSendForSignUpRequest request) {
-        throwIfExistUniversityEmail(request.getUniversityEmail());
-
-        final String username = request.getUsernameValue();
-        final String universityEmail = request.getUniversityEmailValue();
-        final String emailAuthCode = RandomCodeUtils.generate();
-
-        mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
-        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
-    }
-
-    @Transactional
-    public void sendAuthCodeForResetPassword(UniversityEmail email) {
-        throwIfNotExistEmail(email);
-
-        final String universityEmail = email.getValue();
-        final String emailAuthCode = RandomCodeUtils.generate();
-
-        mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
-        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
-    }
-
-    @Transactional
     public void modifyUsername(Long memberId, Username newUsername) {
         throwIfExistUsername(newUsername);
         final Member member = getMemberById(memberId);
         member.modifyUsername(newUsername);
     }
 
-    @Transactional
     public void modifyKakaoId(Long memberId, KakaoId newValidateKakaoId) {
         throwIfExistKakaoId(newValidateKakaoId);
         final Member member = getMemberById(memberId);
         member.modifyKakaoId(newValidateKakaoId);
     }
 
-    @Transactional
     public void modifyPassword(Long memberId, Password newPassword) {
         final Member member = getMemberById(memberId);
         member.modifyPassword(newPassword);
     }
 
-    @Transactional
     public void resetPassword(ValidatedPasswordResetRequest validatedRequest) {
         final Member member = getMemberByEmail(validatedRequest.getUniversityEmail());
         member.modifyPassword(validatedRequest.getPassword());
     }
 
-    public void validateEmailAuthCode(String email, String authCode) {
-        final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
-                new TingApplicationException(MEMBER_013)
-        );
-        emailAuthCodeCache.checkValidTime(mailValidTime);
-        emailAuthCodeCache.checkAuthCodeSame(authCode);
-        emailAuthCodeCache.checkEmailSame(email);
-    }
-
     private void validateSignUp(ValidatedSignUpRequest request) {
         throwIfExistUsername(request.getUsername());
-        throwIfExistUniversityEmail(request.getUniversityEmail());
+        throwIfExistEmail(request.getUniversityEmail());
         throwIfExistKakaoId(request.getKakaoId());
-    }
-
-    public void throwIfExistUsername(Username username) {
-        if (memberRepository.existsByUsername(username)) {
-            throw new TingApplicationException(MEMBER_006);
-        }
-    }
-
-    public void throwIfExistUniversityEmail(UniversityEmail email) {
-        if (memberRepository.existsByUniversityEmail(email)) {
-            throw new TingApplicationException(MEMBER_007);
-        }
-    }
-
-    public void throwIfNotExistEmail(UniversityEmail email) {
-        if (!memberRepository.existsByUniversityEmail(email)) {
-            throw new TingApplicationException(MEMBER_015);
-        }
-    }
-
-    public void throwIfExistKakaoId(KakaoId kakaoId) {
-        if (memberRepository.existsByKakaoId(kakaoId)) {
-            throw new TingApplicationException(MEMBER_008);
-        }
     }
 
     public void throwIfNotValidatePassword(Long memberId, Password password) {

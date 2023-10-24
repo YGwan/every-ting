@@ -8,11 +8,9 @@ import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
-import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
@@ -96,26 +94,6 @@ public class MemberController {
                                         @RequestBody PasswordCheckRequest request) {
         final Password password = Password.from(request.getPassword());
         memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
-        return Response.success();
-    }
-
-    @PostMapping("/signUp/email/auth/send")
-    public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
-        final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
-        memberService.sendAuthCodeForSignUp(validatedRequest);
-        return Response.success();
-    }
-
-    @PostMapping("/password/reset/email/auth/send")
-    public Response<Void> authCodeSendForResetPassword(@RequestBody AuthCodeSendForResetPasswordRequest request) {
-        final var validatedUniversityEmail = UniversityEmail.from(request.getUniversityEmail());
-        memberService.sendAuthCodeForResetPassword(validatedUniversityEmail);
-        return Response.success();
-    }
-
-    @PostMapping("/email/auth/verify")
-    public Response<Void> emailAuthCodeValidate(@RequestBody EmailAuthCodeValidateRequest request) {
-        memberService.validateEmailAuthCode(request.getEmail(), request.getAuthCode());
         return Response.success();
     }
 

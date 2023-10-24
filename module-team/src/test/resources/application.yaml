@@ -70,10 +70,8 @@ regions:
 
 team:
   date:
-    cache:
-      key: DATE_KEY
-      ttl:
-        days: 1
+    lock:
+      key.prefix: DATE_KEY
 
 # JWT token
 jwt:

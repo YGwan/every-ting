@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/mail/send")
+@RequestMapping("/api/v1/mail")
 @RestController
 public class SendMailController {
 
@@ -25,7 +25,7 @@ public class SendMailController {
         this.memberValidateCheckService = memberValidateCheckService;
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/signUp/send")
     public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
         final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
 
@@ -34,7 +34,7 @@ public class SendMailController {
         return Response.success();
     }
 
-    @PostMapping("/password/reset")
+    @PostMapping("/password/reset/send")
     public Response<Void> authCodeSendForResetPassword(@RequestBody AuthCodeSendForResetPasswordRequest request) {
         final var validatedUniversityEmail = UniversityEmail.from(request.getUniversityEmail());
 

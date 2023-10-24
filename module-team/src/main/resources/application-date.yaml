@@ -1,6 +1,0 @@
-team:
-  date:
-    cache:
-      key: "TEAM_DATE:"
-      ttl:
-        days: 7

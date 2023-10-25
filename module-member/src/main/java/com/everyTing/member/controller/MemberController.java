@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_010;
@@ -152,6 +151,13 @@ public class MemberController {
         return Response.success();
     }
 
+    @DeleteMapping
+    public Response<Void> memberRemove(@LoginMember LoginMemberInfo memberInfo) {
+        memberService.removeMember(memberInfo.getId());
+        return Response.success();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/token/reissue")
     public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
         final var memberTokens = memberService.reissueToken(request);

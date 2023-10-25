@@ -64,6 +64,12 @@ public class MemberService {
         return tokenService.issue(member.getId());
     }
 
+    @Transactional
+    public void removeMember(Long memberId) {
+        final Member member = getMemberById(memberId);
+        memberRepository.delete(member);
+    }
+
     public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {
         return memberRepository.findByIdIn(memberIds)
                 .stream()

@@ -68,6 +68,8 @@ class TeamMemberServiceTest extends BaseTest {
 
         // given
         given(teamMemberPort.findTeamLeader(any())).willReturn(teamLeader);
+        given(teamMemberPort.existsTeamMemberByTeamIdAndTeamMemberId(any(), any()))
+            .willReturn(true);
         willDoNothing().given(teamMemberPort).removeTeamMember(any(), any());
 
         // when

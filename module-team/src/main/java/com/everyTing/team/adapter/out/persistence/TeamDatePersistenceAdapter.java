@@ -2,7 +2,6 @@ package com.everyTing.team.adapter.out.persistence;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
 import com.everyTing.team.adapter.out.persistence.repository.TeamDateEntityRepository;
-import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.application.port.out.TeamDatePort;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
@@ -11,12 +10,9 @@ import org.springframework.stereotype.Repository;
 public class TeamDatePersistenceAdapter implements TeamDatePort {
 
     private final TeamDateEntityRepository teamDateEntityRepository;
-    private final TeamEntityRepository teamEntityRepository;
 
-    public TeamDatePersistenceAdapter(TeamDateEntityRepository teamDateEntityRepository,
-        TeamEntityRepository teamEntityRepository) {
+    public TeamDatePersistenceAdapter(TeamDateEntityRepository teamDateEntityRepository) {
         this.teamDateEntityRepository = teamDateEntityRepository;
-        this.teamEntityRepository = teamEntityRepository;
     }
 
     @Override

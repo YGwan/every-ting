@@ -17,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -49,6 +50,10 @@ public class TeamEntity extends AuditingFields {
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     List<TeamRegionEntity> regions = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "fromTeamId")
+    List<TeamRequestEntity> sentRequests = new ArrayList<>();
 
     protected TeamEntity() {
     }

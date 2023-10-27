@@ -25,8 +25,8 @@ public class TeamRequest extends CreatedDateFields {
     public static TeamRequest from(TeamRequestEntity entity) {
         return new TeamRequest(
             entity.getId(),
-            entity.getFromTeam().getId(),
-            entity.getToTeam().getId(),
+            entity.getFromTeamId(),
+            entity.getToTeamId(),
             entity.getCreatedAt());
     }
 }

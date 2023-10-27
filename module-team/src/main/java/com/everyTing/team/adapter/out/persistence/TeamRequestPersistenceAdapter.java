@@ -47,11 +47,8 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
 
     @Override
     public Long saveTeamRequest(Long fromTeamId, Long toTeamId) {
-        final TeamEntity fromTeam = teamEntityRepository.getReferenceById(fromTeamId);
-        final TeamEntity toTeam = teamEntityRepository.getReferenceById(toTeamId);
-
         final TeamRequestEntity teamRequest = teamRequestEntityRepository.save(
-            TeamRequestEntity.of(fromTeam, toTeam));
+            TeamRequestEntity.of(fromTeamId, toTeamId));
         return teamRequest.getId();
     }
 

@@ -3,7 +3,7 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_012;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_100;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_028;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
@@ -81,7 +81,7 @@ public class TeamLikePersistenceAdapter implements TeamLikePort {
     private void validateTeamMemberIsNotTeamLeader(TeamMemberEntity teamMemberEntity) {
         if (teamMemberEntity.getRole()
                             .equals(Role.LEADER)) {
-            throw new TingApplicationException(TEAM_100);
+            throw new TingApplicationException(TEAM_028);
         }
     }
 

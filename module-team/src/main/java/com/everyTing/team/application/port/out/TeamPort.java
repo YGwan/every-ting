@@ -19,4 +19,6 @@ public interface TeamPort {
 
     Long saveTeam(Long memberId, Name name, List<Region> regions, University university, Major major,
         Code code, MemberLimit memberLimit, Gender gender, List<Hashtag> hashtags);
+
+    void removeTeam(Long teamId);
 }

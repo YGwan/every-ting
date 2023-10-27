@@ -1,6 +1,7 @@
 package com.everyTing.team.application.service;
 
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_015;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_025;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_026;
 
 import com.everyTing.core.exception.TingApplicationException;
@@ -48,6 +49,7 @@ public class TeamMemberService implements TeamMemberUseCase {
 
         validateMemberIsTeamLeader(command.getMemberId(), teamLeader);
         validateTeamMemberToBeRemovedIsNotTeamLeader(command.getTeamMemberId(), teamLeader);
+        validateTeamMemberExists(command.getTeamId(), command.getTeamMemberId());
 
         teamMemberPort.removeTeamMember(command.getTeamId(), command.getTeamMemberId());
     }
@@ -62,6 +64,12 @@ public class TeamMemberService implements TeamMemberUseCase {
         Long teamMemberId, TeamMember teamLeader) {
         if (teamMemberId == teamLeader.getTeamMemberId()) {
             throw new TingApplicationException(TEAM_026);
+        }
+    }
+
+    private void validateTeamMemberExists(Long teamId, Long teamMemberId) {
+        if (!teamMemberPort.existsTeamMemberByTeamIdAndTeamMemberId(teamId, teamMemberId)) {
+            throw new TingApplicationException(TEAM_025);
         }
     }
 }

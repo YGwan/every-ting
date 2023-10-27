@@ -4,7 +4,6 @@ import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_0
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_025;
 import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_008;
 
 import com.everyTing.core.exception.TingApplicationException;
@@ -34,7 +33,10 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
-    public Boolean existsTeamMemberByTeamLeaderId(Long memberId) {
+    public Boolean existsTeamMemberByTeamIdAndTeamMemberId(Long teamId, Long teamMemberId) {
+        return teamMemberEntityRepository.existsByIdAndTeamId(teamMemberId, teamId);
+    }
+
     @Override
     public Boolean existsTeamLeaderByMemberId(Long memberId) {
         return teamMemberEntityRepository.existsByMemberIdAndRole(memberId, Role.LEADER);
@@ -70,10 +72,6 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
 
     @Override
     public void removeTeamMember(Long teamId, Long teamMemberId) {
-        if (!teamMemberEntityRepository.existsByIdAndTeamId(teamMemberId, teamId)) {
-            throw new TingApplicationException(TEAM_025);
-        }
-
         teamMemberEntityRepository.deleteById(teamMemberId);
 
         TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);

@@ -6,7 +6,7 @@ import com.everyTing.team.domain.TeamRequests;
 
 public interface TeamRequestUseCase {
 
-    Long saveTeamRequest(TeamRequestSaveCommand command);
-
     TeamRequests findTeamRequest(TeamRequestFindCommand command);
+
+    Long saveTeamRequest(TeamRequestSaveCommand command);
 }

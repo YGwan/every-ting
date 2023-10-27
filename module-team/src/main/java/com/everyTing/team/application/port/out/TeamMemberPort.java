@@ -8,6 +8,7 @@ import com.everyTing.team.domain.TeamMembers;
 public interface TeamMemberPort {
 
     Boolean existsTeamMemberByTeamLeaderId(Long memberId);
+    Boolean existsTeamLeaderByMemberId(Long memberId);
 
     Boolean existsTeamLeaderByTeamIdAndMemberId(Long teamId, Long memberId);
 

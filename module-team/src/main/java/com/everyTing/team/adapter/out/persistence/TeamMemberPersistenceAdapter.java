@@ -4,10 +4,8 @@ import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_0
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
-import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_008;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.core.exception.TingServerException;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
@@ -66,7 +64,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     @Override
     public TeamMember findTeamLeader(Long teamId) {
         final TeamMemberEntity teamLeader = teamMemberEntityRepository.findByTeamIdAndRole(teamId, Role.LEADER)
-            .orElseThrow(() -> new TingServerException(TSER_008));
+            .orElseThrow(() -> new TingApplicationException(TEAM_006));
         return TeamMember.from(teamLeader);
     }
 

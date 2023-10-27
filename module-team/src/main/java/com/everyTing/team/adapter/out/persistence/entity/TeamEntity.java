@@ -55,6 +55,10 @@ public class TeamEntity extends AuditingFields {
     @JoinColumn(name = "fromTeamId")
     List<TeamRequestEntity> sentRequests = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "teamId")
+    List<TeamMemberEntity> members = new ArrayList<>();
+
     protected TeamEntity() {
     }
 

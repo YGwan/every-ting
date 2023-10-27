@@ -15,6 +15,4 @@ spring:
 
 mail:
   fromAddr : everyting@gmail.com
-  valid:
-    time : 200 # 3분 20초
 

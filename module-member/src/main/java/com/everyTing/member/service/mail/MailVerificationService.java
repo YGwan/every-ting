@@ -8,25 +8,19 @@ import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpReque
 import com.everyTing.member.service.mail.form.ResetPasswordForm;
 import com.everyTing.member.service.mail.form.SignUpForm;
 import com.everyTing.member.utils.RandomCodeUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalTime;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_013;
 
 @Transactional
 @Service
-public class SendMailService {
-
-    @Value("${mail.valid.time}")
-    private Long mailValidTime;
+public class MailVerificationService {
 
     private final MailService mailService;
     private final EmailAuthCodeCacheRepository emailAuthCodeCacheRepository;
 
-    public SendMailService(MailService mailService, EmailAuthCodeCacheRepository emailAuthCodeCacheRepository) {
+    public MailVerificationService(MailService mailService, EmailAuthCodeCacheRepository emailAuthCodeCacheRepository) {
         this.mailService = mailService;
         this.emailAuthCodeCacheRepository = emailAuthCodeCacheRepository;
     }
@@ -37,7 +31,7 @@ public class SendMailService {
         final String emailAuthCode = RandomCodeUtils.generate();
 
         mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
-        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode));
     }
 
     public void sendAuthCodeForResetPassword(UniversityEmail email) {
@@ -45,7 +39,7 @@ public class SendMailService {
         final String emailAuthCode = RandomCodeUtils.generate();
 
         mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
-        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode, LocalTime.now()));
+        emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode));
     }
 
     @Transactional(readOnly = true)
@@ -53,7 +47,6 @@ public class SendMailService {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
                 new TingApplicationException(MEMBER_013)
         );
-        emailAuthCodeCache.checkValidTime(mailValidTime);
         emailAuthCodeCache.checkAuthCodeSame(authCode);
         emailAuthCodeCache.checkEmailSame(email);
     }

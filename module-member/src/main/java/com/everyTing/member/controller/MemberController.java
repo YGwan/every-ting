@@ -79,13 +79,13 @@ public class MemberController {
 
     @GetMapping("/username/check")
     public Response<Void> usernameCheck(@RequestParam String username) {
-        memberService.throwIfExistUsername(Username.from(username));
+        memberService.throwIfAlreadyExisted(Username.from(username));
         return Response.success();
     }
 
     @GetMapping("/kakaoId/check")
     public Response<Void> kakaoIdCheck(@RequestParam String kakaoId) {
-        memberService.throwIfExistKakaoId(KakaoId.from(kakaoId));
+        memberService.throwIfAlreadyExisted(KakaoId.from(kakaoId));
         return Response.success();
     }
 

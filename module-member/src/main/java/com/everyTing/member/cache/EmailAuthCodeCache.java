@@ -4,33 +4,23 @@ import com.everyTing.core.exception.TingApplicationException;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
-import java.time.Duration;
-import java.time.LocalTime;
-
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_011;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
+import static org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP;
 
 @Getter
-@RedisHash(value = "EmailAuthCodeCache", timeToLive = 60 * 5)
+@EnableRedisRepositories(enableKeyspaceEvents = ON_STARTUP)
+@RedisHash(value = "EmailAuthCodeCache", timeToLive = 200)
 public class EmailAuthCodeCache {
 
     @Id
     private final String email;
     private final String authCode;
-    private final LocalTime createdTime;
 
-    public EmailAuthCodeCache(String email, String authCode, LocalTime createdTime) {
+    public EmailAuthCodeCache(String email, String authCode) {
         this.email = email;
         this.authCode = authCode;
-        this.createdTime = createdTime;
-    }
-
-    public void checkValidTime(long mailValidTime) {
-        long afterSeconds = Duration.between(createdTime, LocalTime.now()).getSeconds();
-        if (afterSeconds > mailValidTime) {
-            throw new TingApplicationException(MEMBER_011);
-        }
     }
 
     public void checkEmailSame(String email) {

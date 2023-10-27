@@ -30,7 +30,7 @@ public class TokenController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/reissue")
-    public Response<MemberTokens> TokenReissue(HttpServletRequest request) {
+    public Response<MemberTokens> tokenReissue(HttpServletRequest request) {
         final var memberTokens = tokenService.reissue(request);
         return Response.success(memberTokens);
     }

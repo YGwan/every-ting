@@ -21,7 +21,7 @@ import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
 @Transactional
 @Service
-public class MemberService extends MemberValidateCheckService {
+public class MemberService extends MemberServiceValidator {
 
     private final MemberRepository memberRepository;
 
@@ -63,13 +63,13 @@ public class MemberService extends MemberValidateCheckService {
     }
 
     public void modifyUsername(Long memberId, Username newUsername) {
-        throwIfExistUsername(newUsername);
+        throwIfAlreadyExisted(newUsername);
         final Member member = getMemberById(memberId);
         member.modifyUsername(newUsername);
     }
 
     public void modifyKakaoId(Long memberId, KakaoId newValidateKakaoId) {
-        throwIfExistKakaoId(newValidateKakaoId);
+        throwIfAlreadyExisted(newValidateKakaoId);
         final Member member = getMemberById(memberId);
         member.modifyKakaoId(newValidateKakaoId);
     }
@@ -85,9 +85,9 @@ public class MemberService extends MemberValidateCheckService {
     }
 
     private void validateSignUp(ValidatedSignUpRequest request) {
-        throwIfExistUsername(request.getUsername());
-        throwIfExistEmail(request.getUniversityEmail());
-        throwIfExistKakaoId(request.getKakaoId());
+        throwIfAlreadyExisted(request.getUsername());
+        throwIfAlreadyExisted(request.getUniversityEmail());
+        throwIfAlreadyExisted(request.getKakaoId());
     }
 
     public void throwIfNotValidatePassword(Long memberId, Password password) {

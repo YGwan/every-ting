@@ -10,35 +10,35 @@ import org.springframework.stereotype.Service;
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
 @Service
-public class MemberValidateCheckService {
+public class MemberServiceValidator {
 
     private final MemberRepository memberRepository;
 
-    public MemberValidateCheckService(MemberRepository memberRepository) {
+    public MemberServiceValidator(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
-    public void throwIfExistUsername(Username username) {
+    public void throwIfAlreadyExisted(Username username) {
         if (memberRepository.existsByUsername(username)) {
             throw new TingApplicationException(MEMBER_006);
         }
     }
 
-    public void throwIfExistEmail(UniversityEmail email) {
+    public void throwIfAlreadyExisted(UniversityEmail email) {
         if (memberRepository.existsByUniversityEmail(email)) {
             throw new TingApplicationException(MEMBER_007);
         }
     }
-
-    public void throwIfNotExistEmail(UniversityEmail email) {
-        if (!memberRepository.existsByUniversityEmail(email)) {
-            throw new TingApplicationException(MEMBER_015);
+    
+    public void throwIfAlreadyExisted(KakaoId kakaoId) {
+        if (memberRepository.existsByKakaoId(kakaoId)) {
+            throw new TingApplicationException(MEMBER_008);
         }
     }
 
-    public void throwIfExistKakaoId(KakaoId kakaoId) {
-        if (memberRepository.existsByKakaoId(kakaoId)) {
-            throw new TingApplicationException(MEMBER_008);
+    public void throwIfNotExisted(UniversityEmail email) {
+        if (!memberRepository.existsByUniversityEmail(email)) {
+            throw new TingApplicationException(MEMBER_015);
         }
     }
 }

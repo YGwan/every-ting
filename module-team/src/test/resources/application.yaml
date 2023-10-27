@@ -41,8 +41,8 @@ hashtag:
     max: 7
 
 request:
-  limit:
-    max: 2
+  daily:
+    limit: 2
 
 date:
   weekly:
@@ -72,6 +72,10 @@ team:
   date:
     lock:
       key.prefix: DATE_KEY
+
+  request:
+    lock:
+      key.prefix: REQUEST_KEY
 
 # JWT token
 jwt:

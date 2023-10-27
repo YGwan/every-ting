@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
 
 @Table(name = "team_date",
     uniqueConstraints = {
@@ -20,10 +19,8 @@ public class TeamDateEntity extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private Long womenTeamId;
 
-    @NotNull
     private Long menTeamId;
 
     protected TeamDateEntity() {

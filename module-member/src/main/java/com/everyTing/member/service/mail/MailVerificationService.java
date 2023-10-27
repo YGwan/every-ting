@@ -11,6 +11,7 @@ import com.everyTing.member.utils.RandomCodeUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_013;
 
 @Transactional
@@ -30,16 +31,16 @@ public class MailVerificationService {
         final String universityEmail = request.getUniversityEmailValue();
         final String emailAuthCode = RandomCodeUtils.generate();
 
-        mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode));
+        mailService.sendMail(universityEmail, new SignUpForm(username, emailAuthCode));
     }
 
     public void sendAuthCodeForResetPassword(UniversityEmail email) {
         final String universityEmail = email.getValue();
         final String emailAuthCode = RandomCodeUtils.generate();
 
-        mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode));
+        mailService.sendMail(universityEmail, new ResetPasswordForm(emailAuthCode));
     }
 
     @Transactional(readOnly = true)
@@ -47,7 +48,10 @@ public class MailVerificationService {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
                 new TingApplicationException(MEMBER_013)
         );
-        emailAuthCodeCache.checkAuthCodeSame(authCode);
-        emailAuthCodeCache.checkEmailSame(email);
+
+        final String storedAuthCode = emailAuthCodeCache.getAuthCode();
+        if (!authCode.equals(storedAuthCode)) {
+            throw new TingApplicationException(MEMBER_012);
+        }
     }
 }

@@ -77,7 +77,7 @@ class TeamServiceTest extends BaseTest {
     @DisplayName("팀 생성")
     @Test
     void saveTeam() {
-        TeamSaveCommand command = TeamSaveCommand.of(member.getMemberId(), name.getValue(),
+        TeamSaveCommand command = TeamSaveCommand.of(member.getId(), name.getValue(),
             memberLimit.getValue(), List.of("서울", "인천"), List.of("모두E", "보드게임"));
         Long createdTeamMemberId = 1L;
 

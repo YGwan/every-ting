@@ -3,6 +3,7 @@ package com.everyTing.team.domain;
 import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.time.LocalDateTime;
@@ -41,5 +42,10 @@ public class Team extends AuditingFields {
             teamEntity.getMajor(), teamEntity.getCode(), teamEntity.getMemberLimit(),
             teamEntity.getMemberNumber(), teamEntity.getGender(), teamEntity.getCreatedAt(),
             teamEntity.getUpdatedAt());
+    }
+
+    @JsonIgnore
+    public boolean isFull() {
+        return memberNumber >= getMemberLimit();
     }
 }

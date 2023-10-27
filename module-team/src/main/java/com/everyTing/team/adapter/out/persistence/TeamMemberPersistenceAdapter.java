@@ -72,7 +72,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
         validateMemberGender(teamEntity, member);
 
         final TeamMemberEntity createdTeamMember = teamMemberEntityRepository.save(
-                TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
+                TeamMemberEntity.of(teamId, member.getId(), Role.MEMBER));
         teamEntity.increaseMemberNumber();
 
         return createdTeamMember.getId();
@@ -84,7 +84,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     private void validateTeamMemberIsNotDuplicate(Long teamId, Member member) {
-        if (teamMemberEntityRepository.existsByTeamIdAndMemberId(teamId, member.getMemberId())) {
+        if (teamMemberEntityRepository.existsByTeamIdAndMemberId(teamId, member.getId())) {
             throw new TingApplicationException(TEAM_013);
         }
     }

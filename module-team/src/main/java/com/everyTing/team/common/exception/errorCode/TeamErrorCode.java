@@ -22,7 +22,13 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_015("팀의 팀장이 아닙니다.", HttpStatus.FORBIDDEN),
     TEAM_016("이미 요청을 했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_017("멤버를 모집 중인 상태에서 요청을 보낼 수 없습니다.", HttpStatus.BAD_REQUEST),
-    TEAM_018("아직 멤버 모집 중인 팀에 요청을 보낼 수 없습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_018("멤버를 모집 중인 팀에 요청을 보낼 수 없습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_019("유효하지 않은 요청입니다.", HttpStatus.NOT_FOUND),
+    TEAM_020("이미 매칭이 된 팀입니다.", HttpStatus.BAD_REQUEST),
+    TEAM_021("우리팀의 멤버 수가 부족합니다.", HttpStatus.BAD_REQUEST),
+    TEAM_022("상대팀의 멤버 수가 부족합니다.", HttpStatus.BAD_REQUEST),
+    TEAM_023("우리팀이 일주일에 사용 가능한 매칭권을 모두 사용했습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_024("상대팀이 일주일에 사용 가능한 매칭권을 모두 사용했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_100("팀장은 상대팀에 좋아요를 할 수 없습니다.", HttpStatus.FORBIDDEN),
     ;
 

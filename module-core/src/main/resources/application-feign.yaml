@@ -3,8 +3,8 @@ spring.cloud.config.enabled: false
 service:
   member:
     name: member-module
-    url: http://localhost:8080
+    url: ${MEMBER_MODULE_URL}
 
   team:
     name: team-module
-    url: http://localhost:8081
+    url: ${TEAM_MODULE_URL}

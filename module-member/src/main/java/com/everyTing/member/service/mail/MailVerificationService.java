@@ -11,8 +11,7 @@ import com.everyTing.member.utils.RandomCodeUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_013;
+import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
 @Transactional
 @Service
@@ -46,10 +45,11 @@ public class MailVerificationService {
     @Transactional(readOnly = true)
     public void validateEmailAuthCode(String email, String authCode) {
         final EmailAuthCodeCache emailAuthCodeCache = emailAuthCodeCacheRepository.findById(email).orElseThrow(() ->
-                new TingApplicationException(MEMBER_013)
+                new TingApplicationException(MEMBER_011)
         );
 
         final String storedAuthCode = emailAuthCodeCache.getAuthCode();
+
         if (!authCode.equals(storedAuthCode)) {
             throw new TingApplicationException(MEMBER_012);
         }

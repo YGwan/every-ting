@@ -15,6 +15,7 @@ import com.everyTing.core.domain.Gender;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.team.application.port.in.TeamDateUseCase;
+import com.everyTing.team.application.port.in.command.TeamDateCountCommand;
 import com.everyTing.team.application.port.in.command.TeamDateSaveCommand;
 import com.everyTing.team.application.port.out.TeamDatePort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -55,6 +56,13 @@ public class TeamDateService implements TeamDateUseCase {
         this.teamMemberPort = teamMemberPort;
         this.teamRequestPort = teamRequestPort;
         this.redissonClient = redissonClient;
+    }
+
+    @Override
+    public Long countRemainingTeamDate(TeamDateCountCommand command) {
+        final Long count = teamDatePort.countByTeamIdAndCreatedAtAfter(command.getTeamId(),
+            getPreviousSundayWithMaxTime());
+        return WEEKLY_DATE_LIMIT - count;
     }
 
     @Override

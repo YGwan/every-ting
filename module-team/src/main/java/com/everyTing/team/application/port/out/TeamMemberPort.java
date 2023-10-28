@@ -19,6 +19,8 @@ public interface TeamMemberPort {
 
     TeamMembers findTeamMembersByMemberIdAndRole(Long memberId, Role role);
 
+    TeamMember findTeamMemberByTeamIdAndMemberId(Long teamId, Long memberId);
+
     TeamMember findTeamLeader(Long teamId);
 
     void removeTeamMember(Long teamId, Long teamMemberId);

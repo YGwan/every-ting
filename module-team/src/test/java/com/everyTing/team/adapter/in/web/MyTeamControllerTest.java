@@ -3,6 +3,8 @@ package com.everyTing.team.adapter.in.web;
 import static java.time.LocalDateTime.now;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,7 +62,8 @@ class MyTeamControllerTest extends BaseTest {
         TeamDateEntity entity = TeamDateEntity.of(1L, 2L);
         ReflectionTestUtils.setField(entity, "id", 1L);
         ReflectionTestUtils.setField(entity, "createdAt", now());
-        given(myTeamUseCase.findMyTeamDates(any())).willReturn(TeamDates.from(List.of(entity), List.of(1L)));
+        given(myTeamUseCase.findMyTeamDates(any())).willReturn(
+            TeamDates.from(List.of(entity), List.of(1L)));
 
         mockMvc.perform(get("/api/v1/my/teams/dates"))
                .andExpect(status().isOk())
@@ -83,5 +86,14 @@ class MyTeamControllerTest extends BaseTest {
                .andExpect(jsonPath("$.data.size()").value(1))
                .andExpect(jsonPath("$.data.teamRequests[0].size()").value(4));
 
+    }
+
+    @DisplayName("팀 나가기(팀원용) api 테스트")
+    @Test
+    void myTeamRemove() throws Exception {
+        willDoNothing().given(myTeamUseCase).removeMyTeam(any());
+
+        mockMvc.perform(delete("/api/v1/my/teams/1"))
+               .andExpect(status().isOk());
     }
 }

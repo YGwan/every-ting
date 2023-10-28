@@ -59,7 +59,7 @@ public class TeamRequestService implements TeamRequestUseCase {
 
     @Override
     public TeamRequests findTeamRequests(TeamRequestsFindCommand command) {
-        return teamRequestPort.findTeamRequest(command.getFromTeamId(),
+        return teamRequestPort.findTeamRequests(command.getFromTeamId(),
             command.getToTeamId());
     }
 

@@ -3,10 +3,13 @@ package com.everyTing.team.application.port.out;
 import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface TeamRequestPort {
 
-    TeamRequests findTeamRequest(Long fromTeamId, Long toTeamId);
+    TeamRequests findTeamRequests(Long fromTeamId, Long toTeamId);
+
+    TeamRequests findTeamRequestsByFromTeamIdIn(List<Long> fromTeamId);
 
     TeamRequest findTeamRequest(Long requestId);
 

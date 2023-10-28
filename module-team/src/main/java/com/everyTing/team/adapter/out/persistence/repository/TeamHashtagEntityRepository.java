@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TeamHashtagEntityRepository extends JpaRepository<TeamHashtagEntity, Long> {
 
     List<TeamHashtagEntity> findByTeamIdOrderByCreatedAt(Long teamId);
+
+    void deleteAllByIdIn(List<Long> hashtagIds);
 }

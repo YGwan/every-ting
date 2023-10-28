@@ -23,7 +23,6 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_017("출생년도 값이 올바르지 않습니다.")
     ;
 
-
     private final String message;
     private final HttpStatus status;
 
@@ -52,4 +51,3 @@ public enum MemberErrorCode implements ApplicationErrorCode {
         return this.status;
     }
 }
-

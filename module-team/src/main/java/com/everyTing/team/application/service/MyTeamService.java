@@ -1,8 +1,13 @@
 package com.everyTing.team.application.service;
 
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_026;
+
+import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.MyTeamUseCase;
 import com.everyTing.team.application.port.in.command.MyTeamDateFindCommand;
 import com.everyTing.team.application.port.in.command.MyTeamFindCommand;
+import com.everyTing.team.application.port.in.command.MyTeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRequestFindCommand;
 import com.everyTing.team.application.port.out.TeamDatePort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -62,5 +67,21 @@ public class MyTeamService implements MyTeamUseCase {
                       .map(TeamMember::getTeamId)
                       .collect(
                           Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    @Transactional
+    public void removeMyTeam(MyTeamRemoveCommand command) {
+        final TeamMember teamMember = teamMemberPort.findTeamMemberByTeamIdAndMemberId(
+            command.getTeamId(), command.getMemberId());
+
+        validateNotTeamLeader(teamMember);
+        teamMemberPort.removeTeamMember(command.getTeamId(), teamMember.getTeamMemberId());
+    }
+
+    private void validateNotTeamLeader(TeamMember teamMember) {
+        if (teamMember.getRole() == Role.LEADER) {
+            throw new TingApplicationException(TEAM_026);
+        }
     }
 }

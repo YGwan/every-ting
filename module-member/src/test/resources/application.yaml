@@ -1,0 +1,90 @@
+spring:
+  datasource.url: jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false
+  sql.init.mode: never
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true # 사용자 인증 시도 여부 (기본값 : false)
+          timeout: 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
+          starttls:
+            enable: true # StartTLS 활성화 여부 (기본값 : false)
+
+
+mail:
+    fromAddr: everyting@gmail.com
+
+spring.cloud.config.enabled: false
+
+service:
+  member:
+    name: member-module
+    url: member-url
+
+  team:
+    name: team-module
+    url: team-url
+
+username:
+  length:
+    min: 2
+    max: 8
+
+password:
+  pattern: "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{9,16}"
+
+email:
+  pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+
+year:
+  limit:
+    min: 1990
+    max: 2010
+
+# ------- core module ------
+
+# swagger
+constraint:
+  docs:
+    name: name1
+    url: url1
+
+error:
+  docs:
+    name: name2
+    url: url2
+
+# JWT token
+jwt:
+  secretKey: testtesttesttesttesttesttesttesttest
+
+# Key
+auth:
+  jwt:
+    token:
+      access:
+        key: token1
+        ttl:
+          time: 1
+
+      refresh:
+        key: token2
+        ttl:
+          time: 2
+
+    payload:
+      key: id
+
+# async
+pool:
+  size:
+    core: 2
+    max: 4
+
+queue:
+  capacity: 20

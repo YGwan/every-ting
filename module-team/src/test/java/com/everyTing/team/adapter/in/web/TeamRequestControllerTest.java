@@ -11,6 +11,7 @@ import com.everyTing.core.token.service.TokenService;
 import com.everyTing.team.adapter.in.web.request.TeamRequestSaveRequest;
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
+import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.TeamRequestEntityFixture;
@@ -41,7 +42,7 @@ class TeamRequestControllerTest extends BaseTest {
     @MockBean
     private TeamRequestUseCase teamRequestUseCase;
 
-    @DisplayName("팀 과팅 요청 api 테스트")
+    @DisplayName("미팅 요청 api 테스트")
     @Test
     void requestSave() throws Exception {
         TeamRequestSaveRequest request = new TeamRequestSaveRequest(1L, 2L);
@@ -53,10 +54,10 @@ class TeamRequestControllerTest extends BaseTest {
                .andExpect(jsonPath("$.data").value(1));
     }
 
-    @DisplayName("팀 과팅 요청 조회 api 테스트")
+    @DisplayName("미팅 요청 조회 api 테스트")
     @Test
-    void requestDetails() throws Exception {
-        given(teamRequestUseCase.findTeamRequest(any())).willReturn(
+    void requestList() throws Exception {
+        given(teamRequestUseCase.findTeamRequests(any())).willReturn(
             TeamRequests.from(List.of(teamRequestEntity)));
 
         mockMvc.perform(get("/api/v1/teams/requests")
@@ -64,5 +65,16 @@ class TeamRequestControllerTest extends BaseTest {
                    .param("toTeamId", "2"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.data.teamRequests.size()").value(1));
+    }
+
+    @DisplayName("미팅 요청 조회 api 테스트")
+    @Test
+    void requestDetails() throws Exception {
+        given(teamRequestUseCase.findTeamRequest(any())).willReturn(
+            TeamRequest.from(teamRequestEntity));
+
+        mockMvc.perform(get("/api/v1/teams/requests/1"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.data.length()").value(4));
     }
 }

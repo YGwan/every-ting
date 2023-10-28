@@ -14,11 +14,13 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.command.TeamRequestFindCommand;
+import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
 import com.everyTing.team.domain.Team;
+import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,7 +52,12 @@ public class TeamRequestService implements TeamRequestUseCase {
     }
 
     @Override
-    public TeamRequests findTeamRequest(TeamRequestFindCommand command) {
+    public TeamRequest findTeamRequest(TeamRequestFindCommand command) {
+        return teamRequestPort.findTeamRequest(command.getRequestId());
+    }
+
+    @Override
+    public TeamRequests findTeamRequests(TeamRequestsFindCommand command) {
         return teamRequestPort.findTeamRequest(command.getFromTeamId(),
             command.getToTeamId());
     }

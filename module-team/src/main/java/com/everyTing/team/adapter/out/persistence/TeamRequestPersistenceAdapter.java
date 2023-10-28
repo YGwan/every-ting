@@ -48,6 +48,11 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
     }
 
     @Override
+    public void removeTeamRequest(Long requestId) {
+        teamRequestEntityRepository.deleteById(requestId);
+    }
+
+    @Override
     public void removeTeamRequestsBetweenTeams(Long teamId1, Long teamId2) {
         teamRequestEntityQueryRepository.deleteAllRequestsBetweenTeams(teamId1, teamId2);
     }

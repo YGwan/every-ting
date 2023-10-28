@@ -1,16 +1,21 @@
 package com.everyTing.team.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
+import com.everyTing.team.application.port.in.command.TeamRequestRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
 import com.everyTing.team.domain.Team;
+import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.TeamRequestEntityFixture;
 import java.util.concurrent.TimeUnit;
@@ -61,5 +66,25 @@ class TeamRequestServiceTest extends BaseTest {
 
         // then
         assertThat(created).isEqualTo(teamRequestEntity.getId());
+    }
+
+    @DisplayName("팀 요청 삭제")
+    @Test
+    void removeTeamRequest() {
+        TeamRequestRemoveCommand command = TeamRequestRemoveCommand.of(1L, 2L);
+
+        // given
+        given(teamRequestPort.findTeamRequest(any())).willReturn(
+            TeamRequest.from(teamRequestEntity));
+        given(teamMemberPort.existsTeamLeaderByTeamIdAndMemberId(any(), any())).willReturn(true)
+                                                                               .willReturn(false);
+        willDoNothing().given(teamRequestPort).removeTeamRequest(any());
+
+        // when
+        Throwable t = catchThrowable(() -> sut.removeTeamRequest(command));
+
+        // then
+        assertThat(t).doesNotThrowAnyException();
+        then(teamRequestPort).should().removeTeamRequest(command.getRequestId());
     }
 }

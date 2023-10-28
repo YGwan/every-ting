@@ -1,8 +1,10 @@
 package com.everyTing.team.adapter.out.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
@@ -16,6 +18,7 @@ import com.everyTing.team.utils.TeamEntityFixture;
 import com.everyTing.team.utils.TeamMemberEntityFixture;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +48,7 @@ class TeamMemberPersistenceAdapterTest extends BaseTest {
             teamMemberEntities);
 
         // when
-        TeamMembers teamMembers = sut.findTeamMembers(1L);
+        TeamMembers teamMembers = sut.findTeamMembersByTeamId(1L);
 
         // then
         assertThat(teamMembers.getTeamMembers()
@@ -73,5 +76,25 @@ class TeamMemberPersistenceAdapterTest extends BaseTest {
         // then
         assertThat(createdId).isEqualTo(expected);
         assertThat(teamEntity.getMemberNumber()).isEqualTo((short)(memberNumberBefore + 1));
+    }
+
+    @DisplayName("팀원 추방")
+    @Test
+    void removeTeamMember() {
+        Long teamId = 1L;
+        TeamEntity teamEntity = TeamEntityFixture.get(teamId);
+        Short before = teamEntity.getMemberNumber();
+
+        // given
+        willDoNothing().given(teamMemberEntityRepository)
+                       .deleteById(any());
+        given(teamEntityRepository.findByIdWithPessimisticLock(any())).willReturn(Optional.of(teamEntity));
+
+        // when
+        Throwable t = catchThrowable(() -> sut.removeTeamMember(1L, 1L));
+
+        // then
+        assertThat(t).doesNotThrowAnyException();
+        assertThat(teamEntity.getMemberNumber()).isEqualTo((short)(before - 1));
     }
 }

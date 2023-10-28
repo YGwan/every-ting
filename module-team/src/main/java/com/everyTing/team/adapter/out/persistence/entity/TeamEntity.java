@@ -107,4 +107,8 @@ public class TeamEntity extends AuditingFields {
     public void increaseMemberNumber() {
         this.memberNumber++;
     }
+
+    public void decreaseMemberNumber() {
+        this.memberNumber--;
+    }
 }

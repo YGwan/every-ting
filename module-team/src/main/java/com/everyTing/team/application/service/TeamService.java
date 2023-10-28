@@ -45,7 +45,7 @@ public class TeamService implements TeamUseCase {
     @Override
     @Transactional
     public Long saveTeam(TeamSaveCommand command) {
-        if (teamMemberPort.existsTeamMemberByTeamLeaderId(command.getMemberId())) {
+        if (teamMemberPort.existsTeamLeaderByMemberId(command.getMemberId())) {
             throw new TingApplicationException(TEAM_005);
         }
 

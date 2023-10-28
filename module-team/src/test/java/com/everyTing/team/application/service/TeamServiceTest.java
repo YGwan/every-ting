@@ -85,7 +85,7 @@ class TeamServiceTest extends BaseTest {
         given(memberPort.getMemberById(any())).willReturn(member);
         given(teamPort.saveTeam(any(), any(), any(), any(), any(), any(), any(), any(),
             any())).willReturn(teamEntity.getId());
-        given(teamMemberPort.existsTeamMemberByTeamLeaderId(any())).willReturn(false);
+        given(teamMemberPort.existsTeamLeaderByMemberId(any())).willReturn(false);
         given(teamMemberPort.saveTeamLeader(any(), any())).willReturn(createdTeamMemberId);
 
         // when

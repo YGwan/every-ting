@@ -28,6 +28,9 @@ public interface TeamControllerDocs {
     @Operation(summary = "남은 요청 횟수 조회")
     Response<Long> teamRequestCount(Long teamId);
 
+    @Operation(summary = "남은 매칭 횟수 조회")
+    Response<Long> teamDateCount(Long teamId);
+
     @Operation(summary = "팀 생성")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "생성 완료, 생성된 팀의 id 반환"),

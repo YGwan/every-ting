@@ -2,3 +2,6 @@ team:
   date:
     lock:
       key.prefix: "TEAM_DATE:"
+  request:
+    lock:
+      key.prefix: "TEAM_REQUEST:"

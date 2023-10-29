@@ -1,12 +1,6 @@
 package com.everyTing.team.adapter.out.persistence;
 
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_011;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_016;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_017;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_018;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_019;
-import static java.time.LocalDateTime.now;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
@@ -17,6 +11,7 @@ import com.everyTing.team.adapter.out.persistence.repository.TeamRequestEntityRe
 import com.everyTing.team.application.port.out.TeamRequestPort;
 import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -51,20 +46,9 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
     }
 
     @Override
-    public Long countTodayRequest(Long fromTeamId) {
-        final Long count = teamRequestEntityRepository.countAllByCreatedAtAfter(now().minusDays(1));
-        return count;
-    }
-
-    @Override
     public Long saveTeamRequest(Long fromTeamId, Long toTeamId) {
-        validateTeamRequestIsNotDuplicate(fromTeamId, toTeamId);
-
-        final TeamEntity fromTeam = findTeamById(fromTeamId);
-        final TeamEntity toTeam = findTeamById(toTeamId);
-
-        validateTeamsHaveDifferentGenders(fromTeam, toTeam);
-        validateTeamsAreFull(fromTeam, toTeam);
+        final TeamEntity fromTeam = teamEntityRepository.getReferenceById(fromTeamId);
+        final TeamEntity toTeam = teamEntityRepository.getReferenceById(toTeamId);
 
         final TeamRequestEntity teamRequest = teamRequestEntityRepository.save(
             TeamRequestEntity.of(fromTeam, toTeam));
@@ -81,30 +65,15 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
         teamRequestEntityQueryRepository.deleteAllRequestsBetweenTeams(teamId1, teamId2);
     }
 
-    private void validateTeamRequestIsNotDuplicate(Long fromTeamId, Long toTeamId) {
-        if (teamRequestEntityRepository.existsByFromTeamIdAndToTeamId(fromTeamId, toTeamId)) {
-            throw new TingApplicationException(TEAM_016);
-        }
+    @Override
+    public Boolean existsTeamRequest(Long fromTeamId, Long toTeamId) {
+        return teamRequestEntityRepository.existsByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
     }
 
-    private void validateTeamsHaveDifferentGenders(TeamEntity fromTeam, TeamEntity toTeam) {
-        if (fromTeam.getGender()
-                    .equals(toTeam.getGender())) {
-            throw new TingApplicationException(TEAM_011);
-        }
-    }
-
-    private void validateTeamsAreFull(TeamEntity fromTeam, TeamEntity toTeam) {
-        if (!fromTeam.isFull()) {
-            throw new TingApplicationException(TEAM_017);
-        }
-        if (!toTeam.isFull()) {
-            throw new TingApplicationException(TEAM_018);
-        }
-    }
-
-    private TeamEntity findTeamById(Long teamId) {
-        return teamEntityRepository.findById(teamId)
-                                   .orElseThrow(() -> new TingApplicationException(TEAM_006));
+    @Override
+    public Long countByFromTeamIdAndCreatedAtAfter(Long fromTeamId, LocalDateTime time) {
+        final Long requestCount =
+            teamRequestEntityRepository.countByFromTeamIdAndCreatedAtAfter(fromTeamId, time);
+        return requestCount;
     }
 }

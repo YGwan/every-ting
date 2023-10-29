@@ -9,7 +9,6 @@ import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepositor
 import com.everyTing.team.adapter.out.persistence.repository.TeamRequestEntityRepository;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.TeamRequestEntityFixture;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,10 +33,8 @@ class TeamRequestPersistenceAdapterTest extends BaseTest {
         TeamRequestEntity fixture = TeamRequestEntityFixture.get();
 
         // given
-        given(teamRequestEntityRepository.existsByFromTeamIdAndToTeamId(any(), any())).willReturn(
-            false);
-        given(teamEntityRepository.findById(any())).willReturn(Optional.of(fixture.getFromTeam()))
-                                                   .willReturn(Optional.of(fixture.getToTeam()));
+        given(teamEntityRepository.getReferenceById(any())).willReturn(fixture.getFromTeam())
+                                                           .willReturn(fixture.getToTeam());
         given(teamRequestEntityRepository.save(any())).willReturn(fixture);
 
         // when

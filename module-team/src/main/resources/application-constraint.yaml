@@ -17,8 +17,8 @@ hashtag:
       max: 7
 
 request:
-  limit:
-    max: 2
+  daily:
+    limit: 2
 
 date:
   weekly:

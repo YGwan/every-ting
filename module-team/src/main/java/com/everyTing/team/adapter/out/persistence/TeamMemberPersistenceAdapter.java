@@ -13,6 +13,7 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.repository.TeamEntityRepository;
 import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRepository;
 import com.everyTing.team.application.port.out.TeamMemberPort;
+import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.domain.TeamMembers;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -30,13 +31,26 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
-    public Boolean existsTeamMemberByTeamLeaderId(Long memberId) {
+    public Boolean existsTeamMemberByTeamIdAndTeamMemberId(Long teamId, Long teamMemberId) {
+        return teamMemberEntityRepository.existsByIdAndTeamId(teamMemberId, teamId);
+    }
+
+    @Override
+    public Boolean existsTeamLeaderByMemberId(Long memberId) {
         return teamMemberEntityRepository.existsByMemberIdAndRole(memberId, Role.LEADER);
     }
 
     @Override
     public Boolean existsTeamLeaderByTeamIdAndMemberId(Long teamId, Long memberId) {
         return teamMemberEntityRepository.existsByTeamIdAndMemberIdAndRole(teamId, memberId, Role.LEADER);
+    }
+
+    @Override
+    public TeamMembers findTeamMembersByTeamId(Long teamId) {
+        final List<TeamMemberEntity> teamMemberEntities =
+            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId);
+
+        return TeamMembers.from(teamMemberEntities);
     }
 
     @Override
@@ -48,11 +62,18 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
-    public TeamMembers findTeamMembers(Long teamId) {
-        final List<TeamMemberEntity> teamMemberEntities =
-            teamMemberEntityRepository.findAllByTeamIdOrderByRoleAscCreatedAtAsc(teamId);
+    public TeamMember findTeamLeader(Long teamId) {
+        final TeamMemberEntity teamLeader = teamMemberEntityRepository.findByTeamIdAndRole(teamId, Role.LEADER)
+            .orElseThrow(() -> new TingApplicationException(TEAM_006));
+        return TeamMember.from(teamLeader);
+    }
 
-        return TeamMembers.from(teamMemberEntities);
+    @Override
+    public void removeTeamMember(Long teamId, Long teamMemberId) {
+        teamMemberEntityRepository.deleteById(teamMemberId);
+
+        TeamEntity teamEntity = fetchTeamWithPessimisticLock(teamId);
+        teamEntity.decreaseMemberNumber();
     }
 
     @Override
@@ -72,7 +93,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
         validateMemberGender(teamEntity, member);
 
         final TeamMemberEntity createdTeamMember = teamMemberEntityRepository.save(
-                TeamMemberEntity.of(teamId, member.getMemberId(), Role.MEMBER));
+                TeamMemberEntity.of(teamId, member.getId(), Role.MEMBER));
         teamEntity.increaseMemberNumber();
 
         return createdTeamMember.getId();
@@ -84,7 +105,7 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     private void validateTeamMemberIsNotDuplicate(Long teamId, Member member) {
-        if (teamMemberEntityRepository.existsByTeamIdAndMemberId(teamId, member.getMemberId())) {
+        if (teamMemberEntityRepository.existsByTeamIdAndMemberId(teamId, member.getId())) {
             throw new TingApplicationException(TEAM_013);
         }
     }

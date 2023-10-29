@@ -77,7 +77,7 @@ class TeamServiceTest extends BaseTest {
     @DisplayName("팀 생성")
     @Test
     void saveTeam() {
-        TeamSaveCommand command = TeamSaveCommand.of(member.getMemberId(), name.getValue(),
+        TeamSaveCommand command = TeamSaveCommand.of(member.getId(), name.getValue(),
             memberLimit.getValue(), List.of("서울", "인천"), List.of("모두E", "보드게임"));
         Long createdTeamMemberId = 1L;
 
@@ -85,7 +85,7 @@ class TeamServiceTest extends BaseTest {
         given(memberPort.getMemberById(any())).willReturn(member);
         given(teamPort.saveTeam(any(), any(), any(), any(), any(), any(), any(), any(),
             any())).willReturn(teamEntity.getId());
-        given(teamMemberPort.existsTeamMemberByTeamLeaderId(any())).willReturn(false);
+        given(teamMemberPort.existsTeamLeaderByMemberId(any())).willReturn(false);
         given(teamMemberPort.saveTeamLeader(any(), any())).willReturn(createdTeamMemberId);
 
         // when

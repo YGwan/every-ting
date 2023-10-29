@@ -3,6 +3,7 @@ package com.everyTing.team.adapter.in.web;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -57,10 +58,21 @@ class TeamMemberControllerTest extends BaseTest {
     @DisplayName("팀 멤버 저장 api 테스트")
     @Test
     void memberSave() throws Exception {
-        willDoNothing().given(teamMemberUseCase)
-                       .saveTeamMember(any());
+        given(teamMemberUseCase.saveTeamMember(any())).willReturn(1L);
 
         mockMvc.perform(post("/api/v1/teams/1/members"))
-               .andExpect(status().isCreated());
+               .andExpect(status().isCreated())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data").value(1));
+    }
+
+    @DisplayName("팀 멤버 삭제 api 테스트")
+    @Test
+    void memberRemove() throws Exception {
+        willDoNothing().given(teamMemberUseCase)
+                       .removeTeamMember(any());
+
+        mockMvc.perform(delete("/api/v1/teams/1/members/1"))
+               .andExpect(status().isOk());
     }
 }

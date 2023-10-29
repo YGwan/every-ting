@@ -18,6 +18,17 @@ public class TeamRequestEntityQueryRepository {
         this.queryFactory = queryFactory;
     }
 
+    public void deleteAllRequestsBetweenTeams(Long teamId1, Long teamId2) {
+        QTeamRequestEntity teamRequestEntity = QTeamRequestEntity.teamRequestEntity;
+
+        queryFactory.delete(teamRequestEntity)
+                    .where(teamRequestEntity.fromTeam.id.eq(teamId1)
+                        .and(teamRequestEntity.toTeam.id.eq(teamId2))
+                    .or(teamRequestEntity.fromTeam.id.eq(teamId2)
+                        .and(teamRequestEntity.toTeam.id.eq(teamId1))))
+                    .execute();
+    }
+
     public List<TeamRequestEntity> findAllByFromTeamIdAndToTeamId(Long fromTeamId, Long toTeamId) {
         QTeamRequestEntity teamRequestEntity = QTeamRequestEntity.teamRequestEntity;
 

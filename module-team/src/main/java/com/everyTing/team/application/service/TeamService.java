@@ -6,7 +6,6 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.data.Code;
 import com.everyTing.team.adapter.out.persistence.entity.data.Major;
-import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
@@ -46,7 +45,7 @@ public class TeamService implements TeamUseCase {
     @Override
     @Transactional
     public Long saveTeam(TeamSaveCommand command) {
-        if (teamMemberPort.existsTeamMemberByTeamLeaderId(command.getMemberId())) {
+        if (teamMemberPort.existsTeamLeaderByMemberId(command.getMemberId())) {
             throw new TingApplicationException(TEAM_005);
         }
 
@@ -54,12 +53,12 @@ public class TeamService implements TeamUseCase {
 
         final String teamCode = generateCode();
         Long savedTeamId = teamPort.saveTeam(
-            member.getMemberId(), command.getName(), command.getRegions(),
+            member.getId(), command.getName(), command.getRegions(),
             University.from(member.getUniversity()), Major.from(member.getMajor()),
             Code.from(teamCode), command.getMemberLimit(), member.getGender(),
             command.getHashtags());
 
-        teamMemberPort.saveTeamLeader(savedTeamId, member.getMemberId());
+        teamMemberPort.saveTeamLeader(savedTeamId, member.getId());
 
         return savedTeamId;
     }

@@ -2,6 +2,11 @@ package com.everyTing.team.adapter.in.web.docs;
 
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMemberInfo;
+import com.everyTing.core.swagger.ApiErrorCode;
+import com.everyTing.team.common.exception.errorCode.details.NotTeamLeaderErrorCode;
+import com.everyTing.team.common.exception.errorCode.details.TeamMemberRemoveErrorCode;
+import com.everyTing.team.common.exception.errorCode.details.TeamMemberSaveErrorCode;
+import com.everyTing.team.common.exception.errorCode.details.TeamNotFoundErrorCode;
 import com.everyTing.team.domain.TeamMembers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,21 +18,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface TeamMemberControllerDocs {
 
     @Operation(summary = "팀원 조회")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "조회 완료"),
-        @ApiResponse(responseCode = "404", description = "TEAM_006", content = @Content)})
+    @ApiErrorCode(values = TeamNotFoundErrorCode.class)
     Response<TeamMembers> memberList(Long teamId);
 
     @Operation(summary = "팀원 추가, 팀 가입")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "팀원 추가 및 가입 완료", content = @Content),
-        @ApiResponse(responseCode = "404", description = "TEAM_006, TEAM_007, TEAM_008, TEAM_009", content = @Content)})
+    @ApiErrorCode(values = {TeamNotFoundErrorCode.class, TeamMemberSaveErrorCode.class})
     Response<Long> memberSave(Long teamId, LoginMemberInfo loginMemberInfo);
 
     @Operation(summary = "팀원 추방")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "추방 완료", content = @Content),
-        @ApiResponse(responseCode = "400", description = "TEAM_026", content = @Content),
-        @ApiResponse(responseCode = "403", description = "TEAM_015", content = @Content),
-        @ApiResponse(responseCode = "404", description = "TEAM_025", content = @Content)})
+    @ApiErrorCode(values = {NotTeamLeaderErrorCode.class, TeamMemberRemoveErrorCode.class})
     Response<Void> memberRemove(Long teamId, Long teamMemberId, LoginMemberInfo loginMemberInfo);
 }

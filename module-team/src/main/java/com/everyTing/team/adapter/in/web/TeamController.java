@@ -9,8 +9,10 @@ import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
+import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.domain.Team;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,9 +46,17 @@ public class TeamController implements TeamControllerDocs {
     @ResponseStatus(HttpStatus.CREATED)
     public Response<Long> teamSave(@RequestBody TeamSaveRequest request,
         @LoginMember LoginMemberInfo loginMemberInfo) {
-        TeamSaveCommand command = TeamSaveCommand.of(loginMemberInfo.getId(), request.getName(),
+        final TeamSaveCommand command = TeamSaveCommand.of(loginMemberInfo.getId(), request.getName(),
             request.getMemberLimit(), request.getRegions(), request.getHashtags());
 
         return Response.success(teamUseCase.saveTeam(command));
+    }
+
+    @DeleteMapping("/{teamId}")
+    public Response<Void> teamRemove(@PathVariable Long teamId,
+        @LoginMember LoginMemberInfo loginMemberInfo) {
+        final TeamRemoveCommand command = TeamRemoveCommand.of(loginMemberInfo.getId(), teamId);
+        teamUseCase.removeTeam(command);
+        return Response.success();
     }
 }

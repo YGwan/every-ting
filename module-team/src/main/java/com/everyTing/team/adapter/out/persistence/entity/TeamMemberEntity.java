@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 
 @Table(name = "team_member",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"team_id", "member_id"})
+        @UniqueConstraint(columnNames = {"teamId", "memberId"})
     })
 @Entity
 public class TeamMemberEntity extends AuditingFields {
@@ -29,11 +29,9 @@ public class TeamMemberEntity extends AuditingFields {
     private Long id;
 
     @NotNull
-    @Column(name = "team_id")
     private Long teamId;
 
     @NotNull
-    @Column(name = "member_id")
     private Long memberId;
 
     @NotNull

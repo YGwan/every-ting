@@ -107,4 +107,9 @@ public class TeamPersistenceAdapter implements TeamPort, OtherTeamPort {
         return teamEntityRepository.findByCode(code)
                             .orElseThrow(() -> new TingApplicationException(TEAM_006));
     }
+
+    @Override
+    public void removeTeam(Long teamId) {
+        teamEntityRepository.deleteById(teamId);
+    }
 }

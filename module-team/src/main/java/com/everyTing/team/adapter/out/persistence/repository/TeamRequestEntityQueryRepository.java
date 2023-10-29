@@ -22,10 +22,10 @@ public class TeamRequestEntityQueryRepository {
         QTeamRequestEntity teamRequestEntity = QTeamRequestEntity.teamRequestEntity;
 
         queryFactory.delete(teamRequestEntity)
-                    .where(teamRequestEntity.fromTeam.id.eq(teamId1)
-                        .and(teamRequestEntity.toTeam.id.eq(teamId2))
-                    .or(teamRequestEntity.fromTeam.id.eq(teamId2)
-                        .and(teamRequestEntity.toTeam.id.eq(teamId1))))
+                    .where(teamRequestEntity.fromTeamId.eq(teamId1)
+                        .and(teamRequestEntity.toTeamId.eq(teamId2))
+                    .or(teamRequestEntity.fromTeamId.eq(teamId2)
+                        .and(teamRequestEntity.toTeamId.eq(teamId1))))
                     .execute();
     }
 
@@ -44,10 +44,10 @@ public class TeamRequestEntityQueryRepository {
     }
 
     private Predicate fromTeamIdEq(QTeamRequestEntity qTeamRequestEntity, Long fromTeamId) {
-        return fromTeamId != null ? qTeamRequestEntity.fromTeam.id.eq(fromTeamId) : null;
+        return fromTeamId != null ? qTeamRequestEntity.fromTeamId.eq(fromTeamId) : null;
     }
 
     private Predicate toTeamIdEq(QTeamRequestEntity qTeamRequestEntity, Long toTeamId) {
-        return toTeamId != null ? qTeamRequestEntity.toTeam.id.eq(toTeamId) : null;
+        return toTeamId != null ? qTeamRequestEntity.toTeamId.eq(toTeamId) : null;
     }
 }

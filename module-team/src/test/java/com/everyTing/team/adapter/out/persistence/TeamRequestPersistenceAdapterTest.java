@@ -33,8 +33,6 @@ class TeamRequestPersistenceAdapterTest extends BaseTest {
         TeamRequestEntity fixture = TeamRequestEntityFixture.get();
 
         // given
-        given(teamEntityRepository.getReferenceById(any())).willReturn(fixture.getFromTeam())
-                                                           .willReturn(fixture.getToTeam());
         given(teamRequestEntityRepository.save(any())).willReturn(fixture);
 
         // when

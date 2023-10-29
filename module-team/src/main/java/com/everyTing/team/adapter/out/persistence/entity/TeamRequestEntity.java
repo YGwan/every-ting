@@ -2,18 +2,15 @@ package com.everyTing.team.adapter.out.persistence.entity;
 
 import com.everyTing.core.domain.CreatedDateFields;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Table(name = "team_request",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"from_team_id", "to_team_id"})
+        @UniqueConstraint(columnNames = {"fromTeamId", "toTeamId"})
     })
 @Entity
 public class TeamRequestEntity extends CreatedDateFields {
@@ -22,35 +19,31 @@ public class TeamRequestEntity extends CreatedDateFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "from_team_id")
-    private TeamEntity fromTeam;
+    private Long fromTeamId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "to_team_id")
-    private TeamEntity toTeam;
+    private Long toTeamId;
 
     protected TeamRequestEntity() {
     }
 
-    private TeamRequestEntity(TeamEntity fromTeam, TeamEntity toTeam) {
-        this.fromTeam = fromTeam;
-        this.toTeam = toTeam;
+    private TeamRequestEntity(Long fromTeamId, Long toTeamId) {
+        this.fromTeamId = fromTeamId;
+        this.toTeamId = toTeamId;
     }
 
-    public static TeamRequestEntity of(TeamEntity fromTeam, TeamEntity toTeam) {
-        return new TeamRequestEntity(fromTeam, toTeam);
+    public static TeamRequestEntity of(Long fromTeamId, Long toTeamId) {
+        return new TeamRequestEntity(fromTeamId, toTeamId);
     }
 
     public Long getId() {
         return id;
     }
 
-    public TeamEntity getFromTeam() {
-        return fromTeam;
+    public Long getFromTeamId() {
+        return fromTeamId;
     }
 
-    public TeamEntity getToTeam() {
-        return toTeam;
+    public Long getToTeamId() {
+        return toTeamId;
     }
 }

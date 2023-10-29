@@ -1,6 +1,8 @@
 package com.everyTing.team.application.service;
 
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_005;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_015;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_027;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.feign.dto.Member;
@@ -10,11 +12,13 @@ import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
+import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.domain.Team;
+import com.everyTing.team.domain.TeamMember;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,5 +65,29 @@ public class TeamService implements TeamUseCase {
         teamMemberPort.saveTeamLeader(savedTeamId, member.getId());
 
         return savedTeamId;
+    }
+
+    @Override
+    @Transactional
+    public void removeTeam(TeamRemoveCommand command) {
+        TeamMember teamLeader = teamMemberPort.findTeamLeader(command.getTeamId());
+        validateMemberIsTeamLeader(teamLeader, command.getMemberId());
+
+        final Team team = teamPort.findTeamById(command.getTeamId());
+        validateTeamHasOnlyOneMember(team);
+
+        teamPort.removeTeam(command.getTeamId());
+    }
+
+    private void validateMemberIsTeamLeader(TeamMember leader, Long memberId) {
+        if (leader.getMemberId() != memberId) {
+            throw new TingApplicationException(TEAM_015);
+        }
+    }
+
+    private void validateTeamHasOnlyOneMember(Team team) {
+        if (team.getMemberNumber() > 1) { // 팀장 한 명만 남았는지 확인합니다.
+            throw new TingApplicationException(TEAM_027);
+        }
     }
 }

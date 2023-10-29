@@ -37,8 +37,6 @@ class TeamRequestServiceTest extends BaseTest {
     private TeamPort teamPort;
     @Mock
     private RedissonClient redissonClient;
-    @Mock
-    RLock lock;
 
     private TeamRequestEntity teamRequestEntity = TeamRequestEntityFixture.get();
 
@@ -54,8 +52,8 @@ class TeamRequestServiceTest extends BaseTest {
         given(redissonClient.getLock(any())).willReturn(mockLock);
         given(mockLock.tryLock(3, 10, TimeUnit.SECONDS)).willReturn(true);
         given(teamRequestPort.countByFromTeamIdAndCreatedAtAfter(any(), any())).willReturn(1L);
-        given(teamPort.findTeamById(any())).willReturn(Team.from(teamRequestEntity.getFromTeam()))
-                                           .willReturn(Team.from(teamRequestEntity.getToTeam()));
+        given(teamPort.findTeamById(any())).willReturn(Team.from(TeamRequestEntityFixture.getFromTeam()))
+                                           .willReturn(Team.from(TeamRequestEntityFixture.getToTeam()));
         given(teamRequestPort.saveTeamRequest(any(), any())).willReturn(teamRequestEntity.getId());
 
         // when

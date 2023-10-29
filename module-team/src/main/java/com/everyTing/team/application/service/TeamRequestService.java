@@ -4,9 +4,9 @@ import static com.everyTing.team.common.constraints.TeamConstraints.DAILY_REQUES
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_011;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_014;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_015;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_016;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_017;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_018;
-import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_020;
 import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_009;
 import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_010;
 
@@ -122,7 +122,7 @@ public class TeamRequestService implements TeamRequestUseCase {
 
     private void validateTeamRequestIsNotDuplicate(Long myTeamId, Long toTeamId) {
         if (teamRequestPort.existsTeamRequest(myTeamId, toTeamId)) {
-            throw new TingApplicationException(TEAM_020);
+            throw new TingApplicationException(TEAM_016);
         }
     }
 

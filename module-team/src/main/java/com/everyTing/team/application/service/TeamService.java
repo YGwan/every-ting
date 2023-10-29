@@ -3,11 +3,15 @@ package com.everyTing.team.application.service;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_005;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_015;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_027;
+import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_008;
+import static com.everyTing.team.common.util.UniqueCodeGenerator.generateCode;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.core.exception.TingServerException;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.data.Code;
 import com.everyTing.team.adapter.out.persistence.entity.data.Major;
+import com.everyTing.team.adapter.out.persistence.entity.data.Name;
 import com.everyTing.team.adapter.out.persistence.entity.data.University;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
@@ -55,16 +59,29 @@ public class TeamService implements TeamUseCase {
 
         Member member = memberPort.getMemberById(command.getMemberId());
 
-        final String teamCode = generateCode();
+        final Code code = getUniqueCode(command.getName());
         Long savedTeamId = teamPort.saveTeam(
             member.getId(), command.getName(), command.getRegions(),
             University.from(member.getUniversity()), Major.from(member.getMajor()),
-            Code.from(teamCode), command.getMemberLimit(), member.getGender(),
+            code, command.getMemberLimit(), member.getGender(),
             command.getHashtags());
 
         teamMemberPort.saveTeamLeader(savedTeamId, member.getId());
 
         return savedTeamId;
+    }
+
+    private Code getUniqueCode(Name name) {
+        final String nameWithoutSpaces = name.getValue()
+                                             .replace(" ", "");
+
+        for (int i = 0; i < 10 ; i++) {
+            final Code code = Code.from(nameWithoutSpaces + "_" + generateCode());
+            if (!teamPort.existsTeamByCode(code)) {
+                return code;
+            }
+        }
+        throw new TingServerException(TSER_008);
     }
 
     @Override

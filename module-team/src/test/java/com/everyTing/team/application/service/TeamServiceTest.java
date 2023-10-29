@@ -14,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
+import com.everyTing.team.adapter.out.persistence.entity.data.Code;
+import com.everyTing.team.adapter.out.persistence.entity.data.Name;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
@@ -27,6 +29,8 @@ import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.MemberFixture;
 import com.everyTing.team.utils.TeamEntityFixture;
 import com.everyTing.team.utils.TeamMemberEntityFixture;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -92,6 +96,7 @@ class TeamServiceTest extends BaseTest {
 
         // given
         given(memberPort.getMemberById(any())).willReturn(member);
+        given(teamPort.existsTeamByCode(any())).willReturn(false);
         given(teamPort.saveTeam(any(), any(), any(), any(), any(), any(), any(), any(),
             any())).willReturn(teamEntity.getId());
         given(teamMemberPort.existsTeamLeaderByMemberId(any())).willReturn(false);
@@ -102,6 +107,22 @@ class TeamServiceTest extends BaseTest {
 
         // then
         assertThat(createdTeamId).isEqualTo(teamEntity.getId());
+    }
+
+    @DisplayName("getUniqueCode 테스트")
+    @Test
+    void getUniqueCodeWithName()
+        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = sut.getClass()
+                           .getDeclaredMethod("getUniqueCode", Name.class);
+        method.setAccessible(true);
+
+        Name name = Name.from(" 여기여기 모여라 !");
+
+        Code result = (Code) method.invoke(sut, name);
+
+        assertThat(result.getValue()
+                         .split("_")[0]).isEqualTo("여기여기모여라!");
     }
 
     @DisplayName("팀 삭제")

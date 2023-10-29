@@ -48,6 +48,11 @@ public class TeamPersistenceAdapter implements TeamPort, OtherTeamPort {
     }
 
     @Override
+    public Boolean existsTeamByCode(Code code) {
+        return teamEntityRepository.existsByCode(code);
+    }
+
+    @Override
     public Team findTeamById(Long teamId) {
         final TeamEntity team = getTeamEntityById(teamId);
         return Team.from(team);
@@ -105,7 +110,7 @@ public class TeamPersistenceAdapter implements TeamPort, OtherTeamPort {
 
     private TeamEntity getTeamEntityByCode(Code code) {
         return teamEntityRepository.findByCode(code)
-                            .orElseThrow(() -> new TingApplicationException(TEAM_006));
+                                   .orElseThrow(() -> new TingApplicationException(TEAM_006));
     }
 
     @Override

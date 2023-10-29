@@ -18,4 +18,6 @@ public interface TeamEntityRepository extends JpaRepository<TeamEntity, Long> {
     Optional<TeamEntity> findByIdWithPessimisticLock(@Param("teamId") Long teamId);
 
     Optional<TeamEntity> findByCode(Code code);
+
+    Boolean existsByCode(Code code);
 }

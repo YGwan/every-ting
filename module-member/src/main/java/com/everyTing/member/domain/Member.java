@@ -35,13 +35,13 @@ public class Member extends AuditingFields {
 
     private KakaoId kakaoId;
 
-    private String profilePhoto;
+    private ProfilePhoto profilePhoto;
 
     public Member() {
     }
 
     public Member(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
-                  Password password, University university, Major major, KakaoId kakaoId) {
+                  Password password, University university, Major major, KakaoId kakaoId, ProfilePhoto profilePhoto) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
@@ -50,6 +50,7 @@ public class Member extends AuditingFields {
         this.university = university;
         this.major = major;
         this.kakaoId = kakaoId;
+        this.profilePhoto = profilePhoto;
     }
 
     public static Member from(ValidatedSignUpRequest request) {
@@ -61,7 +62,8 @@ public class Member extends AuditingFields {
                 request.getPassword(),
                 request.getUniversity(),
                 request.getMajor(),
-                request.getKakaoId()
+                request.getKakaoId(),
+                request.getProfilePhoto()
         );
     }
 

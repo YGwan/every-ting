@@ -48,7 +48,7 @@ public class MemberInfoResponse {
                 member.getUniversity().getValue(),
                 member.getMajor().getValue(),
                 member.getKakaoId().getValue(),
-                member.getProfilePhoto()
+                member.getProfilePhoto().getValue()
         );
     }
 }

@@ -1,7 +1,6 @@
 package com.everyting.member.utils;
 
 import com.everyTing.member.domain.data.constraints.MemberConstraints;
-import com.everyTing.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.test.util.ReflectionTestUtils;
 

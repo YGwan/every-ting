@@ -74,7 +74,7 @@ public class TeamService implements TeamUseCase {
         validateMemberIsTeamLeader(teamLeader, command.getMemberId());
 
         final Team team = teamPort.findTeamById(command.getTeamId());
-        validateTeamIsEmpty(team);
+        validateTeamHasOnlyOneMember(team);
 
         teamPort.removeTeam(command.getTeamId());
     }
@@ -85,8 +85,8 @@ public class TeamService implements TeamUseCase {
         }
     }
 
-    private void validateTeamIsEmpty(Team team) {
-        if (team.getMemberNumber() > 1) {
+    private void validateTeamHasOnlyOneMember(Team team) {
+        if (team.getMemberNumber() > 1) { // 팀장 한 명만 남았는지 확인합니다.
             throw new TingApplicationException(TEAM_027);
         }
     }

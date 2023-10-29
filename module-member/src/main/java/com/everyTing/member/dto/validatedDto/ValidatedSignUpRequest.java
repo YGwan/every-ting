@@ -24,8 +24,10 @@ public class ValidatedSignUpRequest {
 
     private final Major major;
 
+    private final ProfilePhoto profilePhoto;
+
     public ValidatedSignUpRequest(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
-                                  Password password, KakaoId kakaoId, University university, Major major) {
+                                  Password password, KakaoId kakaoId, University university, Major major, ProfilePhoto profilePhoto) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
@@ -34,6 +36,7 @@ public class ValidatedSignUpRequest {
         this.kakaoId = kakaoId;
         this.university = university;
         this.major = major;
+        this.profilePhoto = profilePhoto;
     }
 
     public static ValidatedSignUpRequest from(SignUpRequest request) {
@@ -45,7 +48,8 @@ public class ValidatedSignUpRequest {
                 Password.from(request.getPassword()),
                 KakaoId.from(request.getKakaoId()),
                 University.from(request.getUniversity()),
-                Major.from(request.getMajor())
+                Major.from(request.getMajor()),
+                ProfilePhoto.from(request.getProfilePhoto())
         );
     }
 }

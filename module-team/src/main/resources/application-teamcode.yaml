@@ -1,0 +1,6 @@
+team:
+  code:
+    separator: _
+    random:
+      characters: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-
+      string.length: 10

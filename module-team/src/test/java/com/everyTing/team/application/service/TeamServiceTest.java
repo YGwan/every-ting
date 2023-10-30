@@ -23,6 +23,7 @@ import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.common.util.TeamCodeGenerator;
 import com.everyTing.team.domain.Team;
 import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.utils.BaseTest;
@@ -55,6 +56,8 @@ class TeamServiceTest extends BaseTest {
     private MemberPort memberPort;
     @Mock
     private TeamMemberPort teamMemberPort;
+    @Mock
+    private TeamCodeGenerator teamCodeGenerator;
 
     @DisplayName("id로 팀 조회")
     @Test
@@ -107,22 +110,6 @@ class TeamServiceTest extends BaseTest {
 
         // then
         assertThat(createdTeamId).isEqualTo(teamEntity.getId());
-    }
-
-    @DisplayName("getUniqueCode 테스트")
-    @Test
-    void getUniqueCodeWithName()
-        throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = sut.getClass()
-                           .getDeclaredMethod("getUniqueCode", Name.class);
-        method.setAccessible(true);
-
-        Name name = Name.from(" 여기여기 모여라 !");
-
-        Code result = (Code) method.invoke(sut, name);
-
-        assertThat(result.getValue()
-                         .split("_")[0]).isEqualTo("여기여기모여라!");
     }
 
     @DisplayName("팀 삭제")

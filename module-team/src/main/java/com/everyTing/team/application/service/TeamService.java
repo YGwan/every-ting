@@ -4,7 +4,7 @@ import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_0
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_015;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_027;
 import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.TSER_008;
-import static com.everyTing.team.common.util.UniqueCodeGenerator.generateCode;
+import static com.everyTing.team.common.util.UniqueStringGenerator.generateUniqueString;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
@@ -21,6 +21,7 @@ import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.common.util.TeamCodeGenerator;
 import com.everyTing.team.domain.Team;
 import com.everyTing.team.domain.TeamMember;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,14 @@ public class TeamService implements TeamUseCase {
     private final TeamPort teamPort;
     private final MemberPort memberPort;
     private final TeamMemberPort teamMemberPort;
+    private final TeamCodeGenerator teamCodeGenerator;
 
-    public TeamService(TeamPort teamPort, MemberPort memberPort, TeamMemberPort teamMemberPort) {
+    public TeamService(TeamPort teamPort, MemberPort memberPort, TeamMemberPort teamMemberPort,
+        TeamCodeGenerator teamCodeGenerator) {
         this.teamPort = teamPort;
         this.memberPort = memberPort;
         this.teamMemberPort = teamMemberPort;
+        this.teamCodeGenerator = teamCodeGenerator;
     }
 
     @Override
@@ -72,11 +76,8 @@ public class TeamService implements TeamUseCase {
     }
 
     private Code getUniqueCode(Name name) {
-        final String nameWithoutSpaces = name.getValue()
-                                             .replace(" ", "");
-
         for (int i = 0; i < 10 ; i++) {
-            final Code code = Code.from(nameWithoutSpaces + "_" + generateCode());
+            final Code code = teamCodeGenerator.generate(name);
             if (!teamPort.existsTeamByCode(code)) {
                 return code;
             }

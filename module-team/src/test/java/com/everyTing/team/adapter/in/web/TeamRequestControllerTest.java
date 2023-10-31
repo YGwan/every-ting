@@ -2,6 +2,8 @@ package com.everyTing.team.adapter.in.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -76,5 +78,14 @@ class TeamRequestControllerTest extends BaseTest {
         mockMvc.perform(get("/api/v1/teams/requests/1"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.data.length()").value(4));
+    }
+
+    @DisplayName("미팅 요청 삭제 api 테스트")
+    @Test
+    void requestRemove() throws Exception {
+        willDoNothing().given(teamRequestUseCase).removeTeamRequest(any());
+
+        mockMvc.perform(delete("/api/v1/teams/requests/1"))
+               .andExpect(status().isOk());
     }
 }

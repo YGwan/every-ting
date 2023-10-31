@@ -14,6 +14,7 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.command.TeamRequestFindCommand;
+import com.everyTing.team.application.port.in.command.TeamRequestRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -60,6 +61,26 @@ public class TeamRequestService implements TeamRequestUseCase {
     public TeamRequests findTeamRequests(TeamRequestsFindCommand command) {
         return teamRequestPort.findTeamRequest(command.getFromTeamId(),
             command.getToTeamId());
+    }
+
+    @Override
+    @Transactional
+    public void removeTeamRequest(TeamRequestRemoveCommand command) {
+        TeamRequest request = teamRequestPort.findTeamRequest(command.getRequestId());
+        validateMemberIsTeamLeader(request.getFromTeamId(), request.getToTeamId(),
+            command.getMemberId());
+
+        teamRequestPort.removeTeamRequest(command.getRequestId());
+    }
+
+    private void validateMemberIsTeamLeader(Long fromTeamId, Long toTeamId, Long memberId) {
+        final boolean isTeamLeader =
+            teamMemberPort.existsTeamLeaderByTeamIdAndMemberId(fromTeamId, memberId)
+                || teamMemberPort.existsTeamLeaderByTeamIdAndMemberId(toTeamId, memberId);
+
+        if (!isTeamLeader) {
+            throw new TingApplicationException(TEAM_015);
+        }
     }
 
     @Override

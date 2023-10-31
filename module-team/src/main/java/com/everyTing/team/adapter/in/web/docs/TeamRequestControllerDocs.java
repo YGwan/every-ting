@@ -33,7 +33,13 @@ public interface TeamRequestControllerDocs {
     @Operation(summary = "requestId 를 이용한 미팅 요청 조회")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "조회 성공"),
-        @ApiResponse(responseCode = "404", description = "TEAM_019", content = @Content)
-    })
+        @ApiResponse(responseCode = "404", description = "TEAM_019", content = @Content)})
     Response<TeamRequest> requestDetails(Long requestId);
+
+    @Operation(summary = "미팅 요청 거절, 미팅 요청 취소")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "조회 성공"),
+        @ApiResponse(responseCode = "403", description = "TEAM_015", content = @Content),
+        @ApiResponse(responseCode = "404", description = "TEAM_019", content = @Content)})
+    Response<Void> requestRemove(Long requestId, LoginMemberInfo loginMemberInfo);
 }

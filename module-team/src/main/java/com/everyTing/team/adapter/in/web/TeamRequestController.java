@@ -7,7 +7,9 @@ import com.everyTing.team.adapter.in.web.docs.TeamRequestControllerDocs;
 import com.everyTing.team.adapter.in.web.request.TeamRequestSaveRequest;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.command.TeamRequestFindCommand;
+import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
+import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,10 +39,16 @@ public class TeamRequestController implements TeamRequestControllerDocs {
     }
 
     @GetMapping
-    public Response<TeamRequests> requestDetails(
+    public Response<TeamRequests> requestList(
         @PathVariable(required = false) Long fromTeamId,
         @PathVariable(required = false) Long toTeamId) {
-        final TeamRequestFindCommand command = TeamRequestFindCommand.of(fromTeamId, toTeamId);
+        final TeamRequestsFindCommand command = TeamRequestsFindCommand.of(fromTeamId, toTeamId);
+        return Response.success(teamRequestUseCase.findTeamRequests(command));
+    }
+
+    @GetMapping("/{requestId}")
+    public Response<TeamRequest> requestDetails(@PathVariable Long requestId) {
+        final TeamRequestFindCommand command = TeamRequestFindCommand.of(requestId);
         return Response.success(teamRequestUseCase.findTeamRequest(command));
     }
 }

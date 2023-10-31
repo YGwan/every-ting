@@ -86,7 +86,7 @@ public class TeamDateServiceBootTest {
             menTeamLeader.getMemberId());
 
 
-        given(teamRequestPort.findTeamRequest(any())).willReturn(TeamRequest.from(TeamRequestEntity.of(womenTeam, menTeam)));
+        given(teamRequestPort.findTeamRequest(any())).willReturn(TeamRequest.from(TeamRequestEntity.of(womenTeam.getId(), menTeam.getId())));
 
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {

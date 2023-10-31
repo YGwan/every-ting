@@ -31,7 +31,8 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_024("상대팀이 일주일에 사용 가능한 매칭권을 모두 사용했습니다.", HttpStatus.BAD_REQUEST),
     TEAM_025("요청된 정보를 가지는 팀 멤버가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     TEAM_026("팀장은 팀을 나갈 수 없습니다.", HttpStatus.BAD_REQUEST),
-    TEAM_100("팀장은 상대팀에 좋아요를 할 수 없습니다.", HttpStatus.FORBIDDEN),
+    TEAM_027("팀원이 남아있어 팀을 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    TEAM_028("팀장은 상대팀에 좋아요를 할 수 없습니다.", HttpStatus.FORBIDDEN),
     ;
 
     private String message;

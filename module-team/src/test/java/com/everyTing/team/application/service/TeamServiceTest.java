@@ -4,22 +4,31 @@ import static com.everyTing.team.utils.TeamEntityFixture.code;
 import static com.everyTing.team.utils.TeamEntityFixture.memberLimit;
 import static com.everyTing.team.utils.TeamEntityFixture.name;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.verify;
 
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
+import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
+import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.domain.Team;
+import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.MemberFixture;
 import com.everyTing.team.utils.TeamEntityFixture;
+import com.everyTing.team.utils.TeamMemberEntityFixture;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -93,5 +102,26 @@ class TeamServiceTest extends BaseTest {
 
         // then
         assertThat(createdTeamId).isEqualTo(teamEntity.getId());
+    }
+
+    @DisplayName("팀 삭제")
+    @Test
+    void removeTeam() {
+        TeamRemoveCommand command = TeamRemoveCommand.of(member.getId(), teamEntity.getId());
+        teamEntity.decreaseMemberNumber();
+        teamEntity.decreaseMemberNumber();
+        TeamMemberEntity teamLeaderEntity = TeamMemberEntityFixture.getList().get(0);
+
+        // given
+        given(teamMemberPort.findTeamLeader(any())).willReturn(TeamMember.from(teamLeaderEntity));
+        given(teamPort.findTeamById(any())).willReturn(Team.from(teamEntity));
+        willDoNothing().given(teamPort).removeTeam(any());
+
+        // when
+        Throwable t = catchThrowable(() -> sut.removeTeam(command));
+
+        // then
+        assertThat(t).doesNotThrowAnyException();
+        then(teamPort).should().removeTeam(command.getTeamId());
     }
 }

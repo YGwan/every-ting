@@ -30,6 +30,12 @@ public interface TeamControllerDocs {
         @ApiResponse(responseCode = "201", description = "생성 완료, 생성된 팀의 id 반환"),
         @ApiResponse(responseCode = "400", description = "TEAM_005", content = @Content),
         @ApiResponse(responseCode = "400", description = "유효성 검사 실패", content = @Content)})
-
     Response<Long> teamSave(TeamSaveRequest request, LoginMemberInfo loginMemberInfo);
+
+    @Operation(summary = "팀 삭제")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "삭제 완료", content = @Content),
+        @ApiResponse(responseCode = "400", description = "TEAM_015, TEAM_027", content = @Content)
+    })
+    Response<Void> teamRemove(Long teamId, LoginMemberInfo loginMemberInfo);
 }

@@ -20,7 +20,7 @@ values (2,
         "32190002@dankook.ac.kr",
         "qwer1234!",
         "단국대학교", "컴퓨터공학과",
-        "dreamCatcher92", null
+        "dreamCatcher92", "https://i.stack.imgur.com/l60Hf.png"
         ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
@@ -32,7 +32,7 @@ values (3,
         "32190003@dankook.ac.kr",
         "qwer1234!",
         "단국대학교", "컴퓨터공학과",
-        "blazingFireworks", null
+        "blazingFireworks", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
@@ -44,7 +44,7 @@ values (4,
         "32180001@kyonggi.ac.kr",
         "qwer1234!",
         "경기대학교", "신소재공학과",
-        "midnightWhisperer", null
+        "midnightWhisperer", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
@@ -56,7 +56,7 @@ values (5,
         "32180002@kyonggi.ac.kr",
         "qwer1234!",
         "경기대학교", "신소재공학과",
-        "cosmicExplorer", null
+        "cosmicExplorer", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
@@ -68,7 +68,7 @@ values (6,
         "32180003@kyonggi.ac.kr",
         "qwer1234!",
         "경기대학교", "신소재공학과",
-        "secretAgentX", null
+        "secretAgentX", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 
@@ -81,7 +81,7 @@ values (7,
         "32170001@cau.ac.kr",
         "qwer1234!",
         "중앙대학교", "신소재공학과",
-        "moonlightD", null
+        "moonlightD", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
@@ -93,7 +93,7 @@ values (8,
         "32160001@korea.ac.kr",
         "qwer1234!",
         "고려대학교", "철학과",
-        "mystic12", null
+        "mystic12", "https://i.stack.imgur.com/l60Hf.png"
            ,now(), now());
 
 insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,

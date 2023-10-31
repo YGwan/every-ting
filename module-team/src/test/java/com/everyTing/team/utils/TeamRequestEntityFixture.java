@@ -4,6 +4,7 @@ import com.everyTing.core.domain.Gender;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.MemberLimit;
+import java.time.LocalDateTime;
 import org.springframework.test.util.ReflectionTestUtils;
 
 public class TeamRequestEntityFixture {
@@ -31,6 +32,7 @@ public class TeamRequestEntityFixture {
         TeamEntity menTeam = getToTeam();
         TeamRequestEntity entity = TeamRequestEntity.of(womenTeam.getId(), menTeam.getId());
         ReflectionTestUtils.setField(entity, "id", 1L);
+        ReflectionTestUtils.setField(entity, "createdAt", LocalDateTime.now());
         return entity;
     }
 }

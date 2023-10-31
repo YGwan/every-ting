@@ -5,15 +5,13 @@ import lombok.Getter;
 @Getter
 public class TeamRequestFindCommand {
 
-    private final Long fromTeamId;
-    private final Long toTeamId;
+    private final Long requestId;
 
-    private TeamRequestFindCommand(Long fromTeamId, Long toTeamId) {
-        this.fromTeamId = fromTeamId;
-        this.toTeamId = toTeamId;
+    private TeamRequestFindCommand(Long requestId) {
+        this.requestId = requestId;
     }
 
-    public static TeamRequestFindCommand of(Long fromTeamId, Long toTeamId) {
-        return new TeamRequestFindCommand(fromTeamId, toTeamId);
+    public static TeamRequestFindCommand of(Long requestId) {
+        return new TeamRequestFindCommand(requestId);
     }
 }

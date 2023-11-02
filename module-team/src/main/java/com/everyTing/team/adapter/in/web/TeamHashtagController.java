@@ -35,7 +35,6 @@ public class TeamHashtagController implements TeamHashtagControllerDocs {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Response<Void> hashtagModify(@PathVariable Long teamId,
         @RequestBody TeamHashtagModifyRequest request,
         @LoginMember LoginMemberInfo loginMemberInfo) {

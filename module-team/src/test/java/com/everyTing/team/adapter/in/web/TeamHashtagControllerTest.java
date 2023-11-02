@@ -68,6 +68,6 @@ class TeamHashtagControllerTest extends BaseTest {
         mockMvc.perform(put("/api/v1/teams/1/hashtags")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsBytes(request)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isOk());
     }
 }

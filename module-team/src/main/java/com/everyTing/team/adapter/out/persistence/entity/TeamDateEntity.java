@@ -38,4 +38,12 @@ public class TeamDateEntity extends AuditingFields {
     public Long getId() {
         return id;
     }
+
+    public Long getWomenTeamId() {
+        return womenTeamId;
+    }
+
+    public Long getMenTeamId() {
+        return menTeamId;
+    }
 }

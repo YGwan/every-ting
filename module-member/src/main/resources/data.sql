@@ -107,3 +107,257 @@ values (9,
         "서울대학교", "컴퓨터공학과",
         "electrical12", "https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/283/f33f24fc1c6f69629e9c2ea9d3378d17_res.jpeg"
            ,now(), now());
+
+-- 남자 유저 더미데이터 10개
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (10,
+        "MALETEST0",
+        "MALE",
+        "1998",
+        "MALETEST0@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST0", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (11,
+        "MALETEST1",
+        "MALE",
+        "1998",
+        "MALETEST1@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST1", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (12,
+        "MALETEST2",
+        "MALE",
+        "1998",
+        "MALETEST2@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST2", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (13,
+        "MALETEST3",
+        "MALE",
+        "1998",
+        "MALETEST3@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST3", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (14,
+        "MALETEST4",
+        "MALE",
+        "1998",
+        "MALETEST4@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST4", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (15,
+        "MALETEST5",
+        "MALE",
+        "1998",
+        "MALETEST5@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST5", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (16,
+        "MALETEST6",
+        "MALE",
+        "1998",
+        "MALETEST6@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST6", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (17,
+        "MALETEST7",
+        "MALE",
+        "1998",
+        "MALETEST7@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST7", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (18,
+        "MALETEST8",
+        "MALE",
+        "1998",
+        "MALETEST8@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST8", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+values (19,
+        "MALETEST9",
+        "MALE",
+        "1998",
+        "MALETEST9@snu.ac.kr",
+        "qwer1234!",
+        "서울대학교", "컴퓨터공학과",
+        "MALETEST9", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (20,
+        "FEMALETEST0",
+        "FEMALE",
+        "1998",
+        "FEMALETEST0@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST0", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (21,
+        "FEMALETEST1",
+        "FEMALE",
+        "1998",
+        "FEMALETEST1@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST1", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (22,
+        "FEMALETEST2",
+        "FEMALE",
+        "1998",
+        "FEMALETEST2@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST2", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (23,
+        "FEMALETEST3",
+        "FEMALE",
+        "1998",
+        "FEMALETEST3@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST3", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (24,
+        "FEMALETEST4",
+        "FEMALE",
+        "1998",
+        "FEMALETEST4@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST4", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (25,
+        "FEMALETEST5",
+        "FEMALE",
+        "1998",
+        "FEMALETEST5@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST5", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (26,
+        "FEMALETEST6",
+        "FEMALE",
+        "1998",
+        "FEMALETEST6@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST6", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (27,
+        "FEMALETEST7",
+        "FEMALE",
+        "1998",
+        "FEMALETEST7@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST7", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (28,
+        "FEMALETEST8",
+        "FEMALE",
+        "1998",
+        "FEMALETEST8@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST8", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());
+
+insert into member (id, username, gender, birth, university_email, password, university, major, kakao_id, profile_photo,
+                    created_at, updated_at)
+
+values (29,
+        "FEMALETEST9",
+        "FEMALE",
+        "1998",
+        "FEMALETEST9@dankook.ac.kr",
+        "qwer1234!",
+        "단국대학교", "컴퓨터공학과",
+        "FEMALETEST9", "https://i.stack.imgur.com/l60Hf.png"
+           ,now(), now());

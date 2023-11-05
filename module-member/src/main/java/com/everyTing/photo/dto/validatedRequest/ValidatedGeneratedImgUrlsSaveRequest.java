@@ -7,18 +7,18 @@ import lombok.Getter;
 @Getter
 public class ValidatedGeneratedImgUrlsSaveRequest {
 
-    private final Long userId;
+    private final Long memberId;
 
     private final GeneratedImgUrls generatedImgUrls;
 
-    public ValidatedGeneratedImgUrlsSaveRequest(Long userId, GeneratedImgUrls generatedImgUrls) {
-        this.userId = userId;
+    public ValidatedGeneratedImgUrlsSaveRequest(Long memberId, GeneratedImgUrls generatedImgUrls) {
+        this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }
 
     public static ValidatedGeneratedImgUrlsSaveRequest from(GeneratedImgUrlsSaveRequest request) {
         return new ValidatedGeneratedImgUrlsSaveRequest(
-                request.getUserId(),
+                request.getMemberId(),
                 GeneratedImgUrls.from(request.getGeneratedImgUrls())
         );
     }

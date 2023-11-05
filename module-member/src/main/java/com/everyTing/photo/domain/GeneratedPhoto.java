@@ -17,21 +17,21 @@ public class GeneratedPhoto {
     @Id
     private Long id;
 
-    private Long userId;
+    private Long memberId;
 
     private GeneratedImgUrls generatedImgUrls;
 
     public GeneratedPhoto() {
     }
 
-    public GeneratedPhoto(Long userId, GeneratedImgUrls generatedImgUrls) {
-        this.userId = userId;
+    public GeneratedPhoto(Long memberId, GeneratedImgUrls generatedImgUrls) {
+        this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }
 
     public static GeneratedPhoto from(ValidatedGeneratedImgUrlsSaveRequest request) {
         return new GeneratedPhoto(
-                request.getUserId(),
+                request.getMemberId(),
                 request.getGeneratedImgUrls()
         );
     }

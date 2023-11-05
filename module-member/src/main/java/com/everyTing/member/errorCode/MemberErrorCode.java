@@ -22,7 +22,6 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_016("비밀번호가 일치하지 않습니다.", HttpStatus.NOT_FOUND),
     MEMBER_017("출생년도 값이 올바르지 않습니다."),
     MEMBER_018("프로필 사진 값이 올바르지 않습니다."),
-    MEMBER_019("생성된 프로필 사진 갯수가 올바르지 않습니다.")
     ;
 
     private final String message;

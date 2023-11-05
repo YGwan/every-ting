@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.everyTing.member.domain.data.constraints.MemberConstraints.GENERATED_IMG_URLS_COUNT;
-import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_019;
+import static com.everyTing.photo.domain.data.constraints.PhotoConstraints.GENERATED_IMG_URLS_COUNT;
+import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_001;
 
 @Embeddable
 public class GeneratedImgUrls {
@@ -38,7 +38,7 @@ public class GeneratedImgUrls {
 
     public static void validate(List<String> values) {
         if (values.size() != GENERATED_IMG_URLS_COUNT) {
-            throw new TingApplicationException(MEMBER_019);
+            throw new TingApplicationException(PHOTO_001);
         }
     }
 

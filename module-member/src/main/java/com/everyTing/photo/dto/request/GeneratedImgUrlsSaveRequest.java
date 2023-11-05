@@ -7,15 +7,15 @@ import java.util.List;
 @Getter
 public class GeneratedImgUrlsSaveRequest {
 
-    private Long userId;
+    private Long memberId;
 
     private List<String> generatedImgUrls;
 
     public GeneratedImgUrlsSaveRequest() {
     }
 
-    public GeneratedImgUrlsSaveRequest(Long userId, List<String> generatedImgUrls) {
-        this.userId = userId;
+    public GeneratedImgUrlsSaveRequest(Long memberId, List<String> generatedImgUrls) {
+        this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }
 }

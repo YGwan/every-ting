@@ -12,7 +12,6 @@ public class MemberConstraints {
     public static String EMAIL_PATTERN;
     public static int YEAR_MIN_LIMIT;
     public static int YEAR_MAX_LIMIT;
-    public static int GENERATED_IMG_URLS_COUNT;
 
     public MemberConstraints(
             @Value("${username.length.min}")
@@ -26,9 +25,7 @@ public class MemberConstraints {
             @Value("${year.limit.min}")
             int yearLimitMin,
             @Value("${year.limit.max}")
-            int yearLimitMax,
-            @Value("${generated.img.urls.count}")
-            int generatedImgUrlsCount
+            int yearLimitMax
     ) {
         USERNAME_MIN_LENGTH = usernameMinLength;
         USERNAME_MAX_LENGTH = usernameMaxLength;
@@ -36,6 +33,5 @@ public class MemberConstraints {
         EMAIL_PATTERN = emailPattern;
         YEAR_MIN_LIMIT = yearLimitMin;
         YEAR_MAX_LIMIT = yearLimitMax;
-        GENERATED_IMG_URLS_COUNT = generatedImgUrlsCount;
     }
 }

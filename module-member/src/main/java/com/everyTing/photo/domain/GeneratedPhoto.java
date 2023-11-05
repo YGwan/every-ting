@@ -24,7 +24,7 @@ public class GeneratedPhoto {
 
     private GeneratedImgUrls generatedImgUrls;
 
-    public GeneratedPhoto(Long memberId, GeneratedImgUrls generatedImgUrls) {
+    private GeneratedPhoto(Long memberId, GeneratedImgUrls generatedImgUrls) {
         this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }

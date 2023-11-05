@@ -24,7 +24,7 @@ public class MemberFixture {
     public static final LocalDateTime updatedAt = now();
 
     public static Member get(Long memberId) {
-        Member member = new Member(username, gender, birth, universityEmail, password,
+        Member member = Member.of(username, gender, birth, universityEmail, password,
                 university, major, kakaoId, profilePhoto);
         ReflectionTestUtils.setField(member, "id", memberId);
         ReflectionTestUtils.setField(member, "createdAt", createdAt);

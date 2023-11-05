@@ -40,7 +40,7 @@ public class Member extends AuditingFields {
 
     private ProfilePhoto profilePhoto;
 
-    public Member(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
+    private Member(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
                   Password password, University university, Major major, KakaoId kakaoId, ProfilePhoto profilePhoto) {
         this.username = username;
         this.gender = gender;
@@ -51,6 +51,21 @@ public class Member extends AuditingFields {
         this.major = major;
         this.kakaoId = kakaoId;
         this.profilePhoto = profilePhoto;
+    }
+
+    public static Member of(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
+                   Password password, University university, Major major, KakaoId kakaoId, ProfilePhoto profilePhoto) {
+        return new Member(
+                username,
+                gender,
+                birth,
+                universityEmail,
+                password,
+                university,
+                major,
+                kakaoId,
+                profilePhoto
+        );
     }
 
     public static Member from(ValidatedSignUpRequest request) {

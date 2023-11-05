@@ -4,12 +4,15 @@ import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member extends AuditingFields {
 
@@ -36,9 +39,6 @@ public class Member extends AuditingFields {
     private KakaoId kakaoId;
 
     private ProfilePhoto profilePhoto;
-
-    public Member() {
-    }
 
     public Member(Username username, Gender gender, BirthYear birth, UniversityEmail universityEmail,
                   Password password, University university, Major major, KakaoId kakaoId, ProfilePhoto profilePhoto) {

@@ -15,7 +15,7 @@ import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_001;
 public class GeneratedImgUrls {
 
     @NotNull
-    @Column(name = "generated_img_urls", length = 1024)
+    @Column(name = "generated_img_urls", columnDefinition = "TEXT")
     private String value;
 
     protected GeneratedImgUrls() {

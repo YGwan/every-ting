@@ -63,7 +63,7 @@ public class MemberTest extends BaseTest {
     void signUpTest() throws Exception {
         SignUpRequest request = new SignUpRequest(
                 "ygwan", Gender.MALE, 1998, "everyting@dankook.ac.kr", "qwer1234!",
-                "everyting", "단국대", "컴퓨터공학과"
+                "everyting", "단국대", "컴퓨터공학과", "profile_url"
         );
 
         given(memberService.signUp(any())).willReturn(1L);

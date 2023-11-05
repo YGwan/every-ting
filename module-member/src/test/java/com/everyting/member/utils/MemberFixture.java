@@ -19,12 +19,13 @@ public class MemberFixture {
     public static final University university = University.from("단국대학교");
     public static final Major major = Major.from("컴퓨터공학과");
     public static final KakaoId kakaoId = KakaoId.from("everyting");
+    public static final ProfilePhoto profilePhoto = ProfilePhoto.from("profile.url");
     public static final LocalDateTime createdAt = now();
     public static final LocalDateTime updatedAt = now();
 
     public static Member get(Long memberId) {
         Member member = new Member(username, gender, birth, universityEmail, password,
-                university, major, kakaoId);
+                university, major, kakaoId, profilePhoto);
         ReflectionTestUtils.setField(member, "id", memberId);
         ReflectionTestUtils.setField(member, "createdAt", createdAt);
         ReflectionTestUtils.setField(member, "updatedAt", updatedAt);

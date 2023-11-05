@@ -1,7 +1,7 @@
-package com.everyTing.member.dto.validatedDto;
+package com.everyTing.photo.dto.validatedRequest;
 
-import com.everyTing.member.domain.data.GeneratedImgUrls;
-import com.everyTing.member.dto.request.GeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.domain.data.GeneratedImgUrls;
+import com.everyTing.photo.dto.request.GeneratedImgUrlsSaveRequest;
 import lombok.Getter;
 
 @Getter

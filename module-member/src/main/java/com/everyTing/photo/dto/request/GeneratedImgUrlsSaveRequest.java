@@ -1,4 +1,4 @@
-package com.everyTing.member.dto.request;
+package com.everyTing.photo.dto.request;
 
 import lombok.Getter;
 

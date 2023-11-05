@@ -1,4 +1,4 @@
-package com.everyTing.member.service;
+package com.everyTing.photo.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;

@@ -1,4 +1,4 @@
-package com.everyTing.member.domain.data;
+package com.everyTing.photo.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
 
@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.GENERATED_IMG_URLS_COUNT;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_019;
@@ -26,7 +27,12 @@ public class GeneratedImgUrls {
 
     public static GeneratedImgUrls from(List<String> values) {
         validate(values);
-        final String generateImgUrls = String.join(",", values);
+
+        final List<String> trimValues = values.stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        final String generateImgUrls = String.join(",", trimValues);
         return new GeneratedImgUrls(generateImgUrls);
     }
 

@@ -1,10 +1,10 @@
-package com.everyTing.member.controller;
+package com.everyTing.photo.controller;
 
 import com.everyTing.core.dto.Response;
-import com.everyTing.member.dto.request.GeneratedImgUrlsSaveRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedGeneratedImgUrlsSaveRequest;
-import com.everyTing.member.service.PhotoService;
-import com.everyTing.member.service.S3Service;
+import com.everyTing.photo.dto.request.GeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.service.PhotoService;
+import com.everyTing.photo.service.S3Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

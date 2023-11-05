@@ -1,6 +1,6 @@
-package com.everyTing.member.repository;
+package com.everyTing.photo.repository;
 
-import com.everyTing.member.domain.GeneratedPhoto;
+import com.everyTing.photo.domain.GeneratedPhoto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

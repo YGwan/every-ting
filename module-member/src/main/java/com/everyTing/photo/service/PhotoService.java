@@ -1,8 +1,8 @@
-package com.everyTing.member.service;
+package com.everyTing.photo.service;
 
-import com.everyTing.member.domain.GeneratedPhoto;
-import com.everyTing.member.dto.validatedDto.ValidatedGeneratedImgUrlsSaveRequest;
-import com.everyTing.member.repository.GeneratedPhotoRepository;
+import com.everyTing.photo.domain.GeneratedPhoto;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
 
 @Service

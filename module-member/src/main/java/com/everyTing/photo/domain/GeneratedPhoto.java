@@ -1,7 +1,7 @@
-package com.everyTing.member.domain;
+package com.everyTing.photo.domain;
 
-import com.everyTing.member.domain.data.GeneratedImgUrls;
-import com.everyTing.member.dto.validatedDto.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.domain.data.GeneratedImgUrls;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
 import lombok.Getter;
 
 import javax.persistence.Entity;

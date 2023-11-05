@@ -2,9 +2,12 @@ package com.everyTing.photo.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.everyTing.core.exception.TingServerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import static com.everyTing.photo.errorCode.PhotoServerErrorCode.PSER_001;
 
 @Service
 public class S3Service {
@@ -28,7 +31,7 @@ public class S3Service {
             String image = amazonS3Client.getUrl(bucket, originalFilename).toString();
             System.out.println(image);
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new TingServerException(PSER_001);
         }
     }
 }

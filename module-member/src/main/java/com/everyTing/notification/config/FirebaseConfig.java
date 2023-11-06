@@ -21,13 +21,19 @@ public class FirebaseConfig {
     @Value("${firebase.private.key.path}")
     private String firebasePrivateKeyPath;
 
+    @Value("${firebase.private.key.scope}")
+    private String firebasePrivateKeyScope;
+
     @PostConstruct
     public void init() {
         try {
             InputStream serviceAccount = new ClassPathResource(firebasePrivateKeyPath).getInputStream();
             FirebaseOptions options = FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .build();
+                    .setCredentials(
+                            GoogleCredentials.
+                                    fromStream(serviceAccount)
+                                    .createScoped(firebasePrivateKeyScope)
+                    ).build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized");

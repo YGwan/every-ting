@@ -26,9 +26,16 @@ public class TeamRequestPersistenceAdapter implements TeamRequestPort {
     }
 
     @Override
-    public TeamRequests findTeamRequest(Long fromTeamId, Long toTeamId) {
+    public TeamRequests findTeamRequests(Long fromTeamId, Long toTeamId) {
         final List<TeamRequestEntity> teamRequestEntities =
             teamRequestEntityQueryRepository.findAllByFromTeamIdAndToTeamId(fromTeamId, toTeamId);
+        return TeamRequests.from(teamRequestEntities);
+    }
+
+    @Override
+    public TeamRequests findTeamRequestsByFromTeamIdIn(List<Long> fromTeamId) {
+        final List<TeamRequestEntity> teamRequestEntities =
+            teamRequestEntityRepository.findAllByFromTeamIdInOrderByCreatedAtDesc(fromTeamId);
         return TeamRequests.from(teamRequestEntities);
     }
 

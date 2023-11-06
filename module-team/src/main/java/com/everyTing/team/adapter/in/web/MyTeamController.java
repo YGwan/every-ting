@@ -8,7 +8,9 @@ import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.MyTeamUseCase;
 import com.everyTing.team.application.port.in.command.MyTeamDateFindCommand;
 import com.everyTing.team.application.port.in.command.MyTeamFindCommand;
+import com.everyTing.team.application.port.in.command.MyTeamRequestFindCommand;
 import com.everyTing.team.domain.TeamDates;
+import com.everyTing.team.domain.TeamRequests;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,5 +38,12 @@ public class MyTeamController implements MyTeamControllerDocs {
     public Response<TeamDates> myTeamDateList(@LoginMember LoginMemberInfo loginMemberInfo) {
         final MyTeamDateFindCommand command = MyTeamDateFindCommand.of(loginMemberInfo.getId());
         return Response.success(myTeamUseCase.findMyTeamDates(command));
+    }
+
+    @GetMapping("/requests")
+    public Response<TeamRequests> myTeamRequestList(@LoginMember LoginMemberInfo loginMemberInfo) {
+        final MyTeamRequestFindCommand command = MyTeamRequestFindCommand.of(
+            loginMemberInfo.getId());
+        return Response.success(myTeamUseCase.findMyTeamRequests(command));
     }
 }

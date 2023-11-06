@@ -10,10 +10,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
+import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.MyTeamUseCase;
 import com.everyTing.team.domain.TeamDates;
+import com.everyTing.team.domain.TeamRequests;
 import com.everyTing.team.utils.BaseTest;
+import com.everyTing.team.utils.TeamRequestEntityFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -64,5 +67,21 @@ class MyTeamControllerTest extends BaseTest {
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data.size()").value(1))
                .andExpect(jsonPath("$.data.teamDates[0].size()").value(4));
+    }
+
+    @DisplayName("내가 속한 팀이 보낸 요청 조회 api 테스트")
+    @Test
+    void myTeamRequestList() throws Exception {
+        TeamRequestEntity request = TeamRequestEntityFixture.get();
+
+        given(myTeamUseCase.findMyTeamRequests(any())).willReturn(
+            TeamRequests.from(List.of(request)));
+
+        mockMvc.perform(get("/api/v1/my/teams/requests"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data.size()").value(1))
+               .andExpect(jsonPath("$.data.teamRequests[0].size()").value(4));
+
     }
 }

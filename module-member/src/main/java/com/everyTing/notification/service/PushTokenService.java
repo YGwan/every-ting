@@ -35,6 +35,11 @@ public class PushTokenService {
         return pushToken.getFirebaseToken();
     }
 
+    public void removePushTokenById(Long memberId) {
+        final var pushToken = getPushTokenByMemberId(memberId);
+        pushTokenRepository.delete(pushToken);
+    }
+
     private PushToken getPushTokenByMemberId(Long memberId) {
         return pushTokenRepository.findPushTokenByMemberId(memberId).orElseThrow(
                 () -> new TingApplicationException(NOTIFICATION_002)

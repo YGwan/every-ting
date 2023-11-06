@@ -35,4 +35,10 @@ public class PushTokenController {
         pushTokenService.modifyPushToken(memberInfo.getId(), firebaseToken);
         return Response.success();
     }
+
+    @DeleteMapping
+    public Response<Void> pushTokenRemove(@LoginMember LoginMemberInfo memberInfo) {
+        pushTokenService.removePushTokenById(memberInfo.getId());
+        return Response.success();
+    }
 }

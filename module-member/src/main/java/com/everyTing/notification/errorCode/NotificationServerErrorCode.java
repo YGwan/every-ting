@@ -1,0 +1,24 @@
+package com.everyTing.notification.errorCode;
+
+import com.everyTing.core.exception.errorCode.ServerErrorCode;
+
+public enum NotificationServerErrorCode implements ServerErrorCode {
+    NSER_001("파이어베이스 서버와 연결이 되지 않습니다.")
+    ;
+
+    private String message;
+
+    NotificationServerErrorCode(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String getErrorCode() {
+        return this.name();
+    }
+
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+}

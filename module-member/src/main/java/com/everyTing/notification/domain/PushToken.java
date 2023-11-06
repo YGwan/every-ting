@@ -1,7 +1,7 @@
 package com.everyTing.notification.domain;
 
+import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.notification.domain.data.FirebaseToken;
-import com.everyTing.notification.dto.validatedRequest.ValidatedPushTokenAddRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class PushToken {
+public class PushToken extends AuditingFields {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,10 +29,7 @@ public class PushToken {
         this.firebaseToken = firebaseToken;
     }
 
-    public static PushToken from(ValidatedPushTokenAddRequest request) {
-        return new PushToken(
-                request.getMemberId(),
-                request.getFirebaseToken()
-        );
+    public static PushToken of(Long memberId, FirebaseToken firebaseToken) {
+        return new PushToken(memberId, firebaseToken);
     }
 }

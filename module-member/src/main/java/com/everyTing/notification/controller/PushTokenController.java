@@ -27,4 +27,12 @@ public class PushTokenController {
         pushTokenService.addPushToken(memberInfo.getId(), firebaseToken);
         return Response.success();
     }
+
+    @PutMapping
+    public Response<Void> pushTokenModify(@LoginMember LoginMemberInfo memberInfo,
+                                       @RequestBody pushTokenRequest request) {
+        final var firebaseToken = FirebaseToken.from(request.getFirebaseToken());
+        pushTokenService.modifyPushToken(memberInfo.getId(), firebaseToken);
+        return Response.success();
+    }
 }

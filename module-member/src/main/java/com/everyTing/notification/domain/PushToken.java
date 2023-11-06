@@ -32,4 +32,8 @@ public class PushToken extends AuditingFields {
     public static PushToken of(Long memberId, FirebaseToken firebaseToken) {
         return new PushToken(memberId, firebaseToken);
     }
+
+    public void modifyFirebaseToken(FirebaseToken firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
 }

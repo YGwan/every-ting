@@ -13,3 +13,8 @@ year:
   limit:
     min: 1990
     max: 2010
+
+generated:
+  img:
+    urls:
+      count: 4

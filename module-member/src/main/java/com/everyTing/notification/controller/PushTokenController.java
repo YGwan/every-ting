@@ -3,7 +3,7 @@ package com.everyTing.notification.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.notification.domain.data.FirebaseToken;
+import com.everyTing.notification.domain.data.DeviceToken;
 import com.everyTing.notification.dto.request.pushTokenRequest;
 import com.everyTing.notification.service.PushTokenService;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class PushTokenController {
     @PostMapping
     public Response<Void> pushTokenAdd(@LoginMember LoginMemberInfo memberInfo,
                                        @RequestBody pushTokenRequest request) {
-        final var firebaseToken = FirebaseToken.from(request.getFirebaseToken());
+        final var firebaseToken = DeviceToken.from(request.getDeviceToken());
         pushTokenService.addPushToken(memberInfo.getId(), firebaseToken);
         return Response.success();
     }
@@ -31,8 +31,8 @@ public class PushTokenController {
     @PutMapping
     public Response<Void> pushTokenModify(@LoginMember LoginMemberInfo memberInfo,
                                        @RequestBody pushTokenRequest request) {
-        final var firebaseToken = FirebaseToken.from(request.getFirebaseToken());
-        pushTokenService.modifyPushToken(memberInfo.getId(), firebaseToken);
+        final var firebaseToken = DeviceToken.from(request.getDeviceToken());
+        pushTokenService.modifyDeviceToken(memberInfo.getId(), firebaseToken);
         return Response.success();
     }
 

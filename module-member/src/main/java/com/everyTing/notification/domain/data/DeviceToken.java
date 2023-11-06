@@ -10,23 +10,23 @@ import javax.validation.constraints.NotNull;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_001;
 
 @Embeddable
-public class FirebaseToken {
+public class DeviceToken {
 
     @NotNull
-    @Column(name = "firebase_token", unique = true)
+    @Column(name = "device_token", unique = true)
     private String value;
 
-    protected FirebaseToken() {
+    protected DeviceToken() {
     }
 
-    private FirebaseToken(String value) {
+    private DeviceToken(String value) {
         this.value = value;
     }
 
-    public static FirebaseToken from(String value) {
+    public static DeviceToken from(String value) {
         final String trimValue = value.trim();
         validate(trimValue);
-        return new FirebaseToken(trimValue);
+        return new DeviceToken(trimValue);
     }
 
     public static void validate(String value) {

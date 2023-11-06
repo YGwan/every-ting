@@ -2,7 +2,7 @@ package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.PushToken;
-import com.everyTing.notification.domain.data.FirebaseToken;
+import com.everyTing.notification.domain.data.DeviceToken;
 import com.everyTing.notification.repository.PushTokenRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,22 +19,23 @@ public class PushTokenService {
     }
 
     @Transactional
-    public void addPushToken(Long memberId, FirebaseToken firebaseToken) {
-        final var pushToken = PushToken.of(memberId, firebaseToken);
+    public void addPushToken(Long memberId, DeviceToken deviceToken) {
+        final var pushToken = PushToken.of(memberId, deviceToken);
         pushTokenRepository.save(pushToken);
     }
 
     @Transactional
-    public void modifyPushToken(Long memberId, FirebaseToken firebaseToken) {
+    public void modifyDeviceToken(Long memberId, DeviceToken deviceToken) {
         final var pushToken = getPushTokenByMemberId(memberId);
-        pushToken.modifyFirebaseToken(firebaseToken);
+        pushToken.modifyDeviceToken(deviceToken);
     }
 
-    public FirebaseToken findFireBaseTokenByMemberId(Long memberId) {
+    public DeviceToken findDeviceTokenByMemberId(Long memberId) {
         final var pushToken = getPushTokenByMemberId(memberId);
-        return pushToken.getFirebaseToken();
+        return pushToken.getDeviceToken();
     }
 
+    @Transactional
     public void removePushTokenById(Long memberId) {
         final var pushToken = getPushTokenByMemberId(memberId);
         pushTokenRepository.delete(pushToken);

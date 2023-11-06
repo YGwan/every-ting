@@ -4,8 +4,8 @@ import com.everyTing.core.exception.errorCode.ApplicationErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum NotificationErrorCode implements ApplicationErrorCode {
-    NOTIFICATION_001("파이어베이스 푸시 토큰 값이 올바르지 않습니다."),
-    NOTIFICATION_002("파이어베이스 푸시 토큰 값이 존재하지 않습니다.")
+    NOTIFICATION_001("디바이스 푸시 토큰 값이 올바르지 않습니다."),
+    NOTIFICATION_002("디바이스 푸시 토큰 값이 존재하지 않습니다.")
     ;
 
     private final String message;

@@ -1,7 +1,7 @@
 package com.everyTing.notification.domain;
 
 import com.everyTing.core.domain.AuditingFields;
-import com.everyTing.notification.domain.data.FirebaseToken;
+import com.everyTing.notification.domain.data.DeviceToken;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,18 +22,18 @@ public class PushToken extends AuditingFields {
 
     private Long memberId;
 
-    private FirebaseToken firebaseToken;
+    private DeviceToken deviceToken;
 
-    private PushToken(Long memberId, FirebaseToken firebaseToken) {
+    private PushToken(Long memberId, DeviceToken deviceToken) {
         this.memberId = memberId;
-        this.firebaseToken = firebaseToken;
+        this.deviceToken = deviceToken;
     }
 
-    public static PushToken of(Long memberId, FirebaseToken firebaseToken) {
-        return new PushToken(memberId, firebaseToken);
+    public static PushToken of(Long memberId, DeviceToken deviceToken) {
+        return new PushToken(memberId, deviceToken);
     }
 
-    public void modifyFirebaseToken(FirebaseToken firebaseToken) {
-        this.firebaseToken = firebaseToken;
+    public void modifyDeviceToken(DeviceToken deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

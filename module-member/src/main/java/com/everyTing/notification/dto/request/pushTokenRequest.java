@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public class pushTokenRequest {
 
-    private String firebaseToken;
+    private String deviceToken;
 
     public pushTokenRequest() {
     }
 
-    public pushTokenRequest(String firebaseToken) {
-        this.firebaseToken = firebaseToken;
+    public pushTokenRequest(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 }

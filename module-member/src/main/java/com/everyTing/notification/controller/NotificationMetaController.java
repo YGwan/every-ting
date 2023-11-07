@@ -20,10 +20,10 @@ public class NotificationMetaController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Response<Long> notificationMetaAdd(@LoginMember LoginMemberInfo memberInfo,
+    public Response<Void> notificationMetaAdd(@LoginMember LoginMemberInfo memberInfo,
                                               @RequestBody NotificationMetaRequest request) {
-        Long notificationMetaId = notificationMetaService.addNotificationMeta(memberInfo.getId(), request);
-        return Response.success(notificationMetaId);
+        notificationMetaService.addNotificationMeta(memberInfo.getId(), request);
+        return Response.success();
     }
 
     @PutMapping

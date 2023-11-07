@@ -10,23 +10,23 @@ import javax.validation.constraints.NotNull;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_001;
 
 @Embeddable
-public class DeviceToken {
+public class PushToken {
 
     @NotNull
-    @Column(name = "device_token", unique = true)
+    @Column(name = "push_token", unique = true)
     private String value;
 
-    protected DeviceToken() {
+    protected PushToken() {
     }
 
-    private DeviceToken(String value) {
+    private PushToken(String value) {
         this.value = value;
     }
 
-    public static DeviceToken from(String value) {
+    public static PushToken from(String value) {
         final String trimValue = value.trim();
         validate(trimValue);
-        return new DeviceToken(trimValue);
+        return new PushToken(trimValue);
     }
 
     public static void validate(String value) {

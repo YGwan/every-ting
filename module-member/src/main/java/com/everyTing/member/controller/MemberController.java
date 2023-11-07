@@ -4,17 +4,18 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
+import com.everyTing.member.dto.response.MemberTokensResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
+import com.everyTing.notification.service.NotificationMetaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +29,12 @@ public class MemberController {
 
     private final MemberService memberService;
     private final TokenService tokenService;
+    private final NotificationMetaService notificationMetaService;
 
-    public MemberController(MemberService memberService, TokenService tokenService) {
+    public MemberController(MemberService memberService, TokenService tokenService, NotificationMetaService notificationMetaService) {
         this.memberService = memberService;
         this.tokenService = tokenService;
+        this.notificationMetaService = notificationMetaService;
     }
 
     @GetMapping("/my/info")
@@ -55,26 +58,30 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
-    public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        final var validRequest = ValidatedSignUpRequest.from(request);
-        final var memberId = memberService.signUp(validRequest);
+    public Response<MemberTokensResponse> signUp(@RequestBody SignUpRequest request) {
+        final var validRequestFromSignUp = ValidatedSignUpRequest.from(request);
+        final var memberId = memberService.signUp(validRequestFromSignUp);
+        final var notificationInfo = request.getNotificationInfo();
+        notificationMetaService.addNotificationMeta(memberId, notificationInfo.getPushToken(), notificationInfo.getNotificationEnabled());
         return getMemberTokensResponse(memberId);
     }
 
     @PostMapping("/signIn")
-    public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
+    public Response<MemberTokensResponse> signIn(@RequestBody SignInRequest request) {
         try {
-            final var validRequest = ValidatedSignInRequest.from(request);
-            final var memberId = memberService.signIn(validRequest);
+            final var validRequestFromSignIn = ValidatedSignInRequest.from(request);
+            final var memberId = memberService.signIn(validRequestFromSignIn);
+            notificationMetaService.modifyPushToken(memberId, request.getPushToken());
             return getMemberTokensResponse(memberId);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);
         }
     }
 
-    private Response<MemberTokens> getMemberTokensResponse(Long memberId) {
+    private Response<MemberTokensResponse> getMemberTokensResponse(Long memberId) {
         final var memberTokens = tokenService.issue(memberId);
-        return Response.success(memberTokens);
+        final var memberTokensResponse = new MemberTokensResponse(memberId, memberTokens);
+        return Response.success(memberTokensResponse);
     }
 
     @GetMapping("/username/check")

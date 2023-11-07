@@ -3,6 +3,7 @@ package com.everyTing.notification.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.NotificationMeta;
 import com.everyTing.notification.domain.data.PushToken;
+import com.everyTing.notification.dto.request.NotificationMetaRequest;
 import com.everyTing.notification.repository.NotificationMetaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +20,24 @@ public class NotificationMetaService {
     }
 
     @Transactional
-    public Long addNotificationMeta(Long memberId, String pushTokenData) {
-        final var pushToken = PushToken.from(pushTokenData);
-        final var notificationMetaData = NotificationMeta.of(memberId, pushToken);
+    public Long addNotificationMeta(Long memberId, NotificationMetaRequest request) {
+        final var pushToken = PushToken.from(request.getPushToken());
+        final var notificationMetaData = NotificationMeta.of(memberId, pushToken, request.getNotification_enabled());
         NotificationMeta notificationMeta = notificationMetaRepository.save(notificationMetaData);
         return notificationMeta.getId();
     }
 
     @Transactional
-    public void modifyPushToken(Long memberId, PushToken pushToken) {
+    public Long addNotificationMeta(Long memberId, String pushTokenData, Boolean notification_enabled) {
+        final var pushToken = PushToken.from(pushTokenData);
+        final var notificationMetaData = NotificationMeta.of(memberId, pushToken, notification_enabled);
+        NotificationMeta notificationMeta = notificationMetaRepository.save(notificationMetaData);
+        return notificationMeta.getId();
+    }
+
+    @Transactional
+    public void modifyPushToken(Long memberId, String pushTokenData) {
+        final var pushToken = PushToken.from(pushTokenData);
         final var notificationMeta = getNotificationMetaByMemberId(memberId);
         notificationMeta.modifyPushToken(pushToken);
     }

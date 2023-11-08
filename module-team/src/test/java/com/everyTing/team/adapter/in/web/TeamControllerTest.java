@@ -12,14 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
+import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.TeamUseCase;
-import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.domain.Team;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.TeamEntityFixture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +42,9 @@ class TeamControllerTest extends BaseTest {
     @MockBean
     private TeamUseCase teamUseCase;
 
+    @MockBean
+    private TeamRequestUseCase teamRequestUseCase;
+
     @DisplayName("id 로 팀 조회 api 테스트")
     @Test
     void teamDetailsById() throws Exception {
@@ -61,13 +63,27 @@ class TeamControllerTest extends BaseTest {
     void teamDetailsByCode() throws Exception {
         Long teamId = 1L;
         String code = "mockTeamCode";
-        given(teamUseCase.findTeamByCode(any())).willReturn(Team.from(TeamEntityFixture.get(teamId)));
+        given(teamUseCase.findTeamByCode(any())).willReturn(
+            Team.from(TeamEntityFixture.get(teamId)));
 
         mockMvc.perform(get("/api/v1/teams/by-teamcode").param("teamCode", code))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data.size()").value(10))
                .andExpect(jsonPath("$.data.id").value(teamId));
+    }
+
+    @DisplayName("남은 요청 횟수 조회 api 테스트")
+    @Test
+    void teamRequestCount() throws Exception {
+        long expected = 1;
+
+        given(teamRequestUseCase.countRemainingTeamRequest(any())).willReturn(expected);
+
+        mockMvc.perform(get("/api/v1/teams/1/requests/status"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data").value(expected));
     }
 
     @DisplayName("팀 생성 api 테스트")
@@ -88,7 +104,8 @@ class TeamControllerTest extends BaseTest {
     @DisplayName("팀 삭제 api 테스트")
     @Test
     void teamRemove() throws Exception {
-        willDoNothing().given(teamUseCase).removeTeam(any());
+        willDoNothing().given(teamUseCase)
+                       .removeTeam(any());
 
         mockMvc.perform(delete("/api/v1/teams/1"))
                .andExpect(status().isOk());

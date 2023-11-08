@@ -1,5 +1,6 @@
 package com.everyTing.team.application.service;
 
+import static com.everyTing.team.common.constraints.TeamConstraints.DAILY_REQUEST_LIMIT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,6 +10,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
+import com.everyTing.team.application.port.in.command.TeamRequestCountCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
@@ -44,6 +46,22 @@ class TeamRequestServiceTest extends BaseTest {
     private RedissonClient redissonClient;
 
     private TeamRequestEntity teamRequestEntity = TeamRequestEntityFixture.get();
+
+    @DisplayName("남은 요청 횟수 조회")
+    @Test
+    void countRemainingTeamRequest() {
+        Long before = 1L;
+        TeamRequestCountCommand command = TeamRequestCountCommand.of(1L);
+
+        // given
+        given(teamRequestPort.countByFromTeamIdAndCreatedAtAfter(any(), any())).willReturn(before);
+
+        // when
+        Long result = sut.countRemainingTeamRequest(command);
+
+        // then
+        assertThat(result).isEqualTo(DAILY_REQUEST_LIMIT - before);
+    }
 
     @DisplayName("팀 요청 저장")
     @Test

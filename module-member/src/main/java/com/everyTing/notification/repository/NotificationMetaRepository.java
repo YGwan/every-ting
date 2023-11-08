@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface NotificationMetaRepository extends JpaRepository<NotificationMeta, Long> {
 
-    Optional<NotificationMeta> findPushTokenByMemberId(Long memberId);
+    Optional<NotificationMeta> findByMemberId(Long memberId);
 }

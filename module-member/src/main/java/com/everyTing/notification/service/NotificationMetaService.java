@@ -52,7 +52,7 @@ public class NotificationMetaService {
     }
 
     private NotificationMeta getNotificationMetaByMemberId(Long memberId) {
-        return notificationMetaRepository.findPushTokenByMemberId(memberId).orElseThrow(
+        return notificationMetaRepository.findByMemberId(memberId).orElseThrow(
                 () -> new TingApplicationException(NOTIFICATION_002));
     }
 }

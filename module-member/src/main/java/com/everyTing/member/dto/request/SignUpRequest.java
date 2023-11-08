@@ -24,13 +24,11 @@ public class SignUpRequest {
 
     private String profilePhoto;
 
-    private NotificationInfo notificationInfo;
-
     public SignUpRequest() {
     }
 
     public SignUpRequest(String username, Gender gender, Integer birth, String universityEmail, String password,
-                         String kakaoId, String university, String major, String profilePhoto, NotificationInfo notificationInfo) {
+                         String kakaoId, String university, String major, String profilePhoto) {
         this.username = username;
         this.gender = gender;
         this.birth = birth;
@@ -40,6 +38,5 @@ public class SignUpRequest {
         this.university = university;
         this.major = major;
         this.profilePhoto = profilePhoto;
-        this.notificationInfo = notificationInfo;
     }
 }

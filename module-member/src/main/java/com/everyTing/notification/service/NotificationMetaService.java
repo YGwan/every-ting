@@ -20,16 +20,9 @@ public class NotificationMetaService {
     }
 
     @Transactional
-    public void addNotificationMeta(Long memberId, NotificationMetaRequest request) {
+    public void saveNotificationMeta(Long memberId, NotificationMetaRequest request) {
         final var pushToken = PushToken.from(request.getPushToken());
         final var notificationMetaData = NotificationMeta.of(memberId, pushToken, request.getNotification_enabled());
-        notificationMetaRepository.save(notificationMetaData);
-    }
-
-    @Transactional
-    public void addNotificationMeta(Long memberId, String pushTokenData, Boolean notification_enabled) {
-        final var pushToken = PushToken.from(pushTokenData);
-        final var notificationMetaData = NotificationMeta.of(memberId, pushToken, notification_enabled);
         notificationMetaRepository.save(notificationMetaData);
     }
 

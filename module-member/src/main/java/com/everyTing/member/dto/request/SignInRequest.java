@@ -9,14 +9,11 @@ public class SignInRequest {
 
     private String password;
 
-    private String pushToken;
-
     public SignInRequest() {
     }
 
-    public SignInRequest(String universityEmail, String password, String pushToken) {
+    public SignInRequest(String universityEmail, String password) {
         this.universityEmail = universityEmail;
         this.password = password;
-        this.pushToken = pushToken;
     }
 }

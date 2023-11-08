@@ -15,7 +15,6 @@ import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
-import com.everyTing.notification.service.NotificationMetaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +28,10 @@ public class MemberController {
 
     private final MemberService memberService;
     private final TokenService tokenService;
-    private final NotificationMetaService notificationMetaService;
 
-    public MemberController(MemberService memberService, TokenService tokenService, NotificationMetaService notificationMetaService) {
+    public MemberController(MemberService memberService, TokenService tokenService) {
         this.memberService = memberService;
         this.tokenService = tokenService;
-        this.notificationMetaService = notificationMetaService;
     }
 
     @GetMapping("/my/info")
@@ -59,19 +56,16 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokensResponse> signUp(@RequestBody SignUpRequest request) {
-        final var validRequestFromSignUp = ValidatedSignUpRequest.from(request);
-        final var memberId = memberService.signUp(validRequestFromSignUp);
-        final var notificationInfo = request.getNotificationInfo();
-        notificationMetaService.addNotificationMeta(memberId, notificationInfo.getPushToken(), notificationInfo.getNotificationEnabled());
+        final var validatedRequest = ValidatedSignUpRequest.from(request);
+        final var memberId = memberService.signUp(validatedRequest);
         return getMemberTokensResponse(memberId);
     }
 
     @PostMapping("/signIn")
     public Response<MemberTokensResponse> signIn(@RequestBody SignInRequest request) {
         try {
-            final var validRequestFromSignIn = ValidatedSignInRequest.from(request);
-            final var memberId = memberService.signIn(validRequestFromSignIn);
-            notificationMetaService.modifyPushToken(memberId, request.getPushToken());
+            final var validatedRequest = ValidatedSignInRequest.from(request);
+            final var memberId = memberService.signIn(validatedRequest);
             return getMemberTokensResponse(memberId);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);

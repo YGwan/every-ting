@@ -1,9 +1,12 @@
 package com.everyTing.team.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
@@ -11,11 +14,13 @@ import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.command.MyTeamDateFindCommand;
 import com.everyTing.team.application.port.in.command.MyTeamFindCommand;
+import com.everyTing.team.application.port.in.command.MyTeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRequestFindCommand;
 import com.everyTing.team.application.port.out.TeamDatePort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
 import com.everyTing.team.domain.TeamDates;
+import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.domain.TeamMembers;
 import com.everyTing.team.domain.TeamRequests;
 import com.everyTing.team.utils.BaseTest;
@@ -117,5 +122,25 @@ class MyTeamServiceTest extends BaseTest {
                          .get(0)
                          .getFromTeamId())
             .isIn(List.of(teamMemberRecord1.getTeamId(), teamMemberRecord1.getTeamId()));
+    }
+
+    @DisplayName("내가 속한 팀 나가기")
+    @Test
+    void removeMyTeam() {
+        MyTeamRemoveCommand command = MyTeamRemoveCommand.of(1L, 1L);
+        TeamMemberEntity teamMember = TeamMemberEntityFixture.get(1L);
+        ReflectionTestUtils.setField(teamMember, "role", Role.MEMBER);
+
+        // given
+        given(teamMemberPort.findTeamMemberByTeamIdAndMemberId(any(), any())).willReturn(
+            TeamMember.from(teamMember));
+        willDoNothing().given(teamMemberPort).removeTeamMember(any(), any());
+
+        // when
+        Throwable t = catchThrowable(() -> sut.removeMyTeam(command));
+
+        // then
+        assertThat(t).doesNotThrowAnyException();
+        then(teamMemberPort).should().removeTeamMember(1L, teamMember.getMemberId());
     }
 }

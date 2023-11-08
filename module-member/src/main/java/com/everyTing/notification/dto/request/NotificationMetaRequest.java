@@ -1,5 +1,6 @@
 package com.everyTing.notification.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
@@ -7,11 +8,11 @@ import javax.validation.constraints.NotNull;
 
 public class NotificationMetaRequest {
 
-    @NotNull
     private String pushToken;
 
     @NotNull
-    private Boolean notificationEnabled;
+    @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private Boolean notificationEnabled = true;
 
     public NotificationMetaRequest() {
     }

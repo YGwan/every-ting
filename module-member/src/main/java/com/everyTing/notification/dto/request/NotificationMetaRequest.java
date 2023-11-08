@@ -2,18 +2,22 @@ package com.everyTing.notification.dto.request;
 
 import lombok.Getter;
 
+import javax.validation.constraints.NotNull;
 @Getter
+
 public class NotificationMetaRequest {
 
+    @NotNull
     private String pushToken;
 
-    private Boolean notification_enabled;
+    @NotNull
+    private Boolean notificationEnabled;
 
     public NotificationMetaRequest() {
     }
 
-    public NotificationMetaRequest(String pushToken, Boolean notification_enabled) {
+    public NotificationMetaRequest(String pushToken, Boolean notificationEnabled) {
         this.pushToken = pushToken;
-        this.notification_enabled = notification_enabled;
+        this.notificationEnabled = notificationEnabled;
     }
 }

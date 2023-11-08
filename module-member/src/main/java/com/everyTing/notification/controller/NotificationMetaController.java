@@ -20,16 +20,9 @@ public class NotificationMetaController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Response<Void> notificationMetaAdd(@LoginMember LoginMemberInfo memberInfo,
+    public Response<Void> notificationMetaSave(@LoginMember LoginMemberInfo memberInfo,
                                               @RequestBody NotificationMetaRequest request) {
-        notificationMetaService.addNotificationMeta(memberInfo.getId(), request);
-        return Response.success();
-    }
-
-    @PutMapping
-    public Response<Void> pushTokenModify(@LoginMember LoginMemberInfo memberInfo,
-                                          @RequestBody NotificationMetaRequest request) {
-        notificationMetaService.modifyPushToken(memberInfo.getId(), request.getPushToken());
+        notificationMetaService.saveNotificationMeta(memberInfo.getId(), request);
         return Response.success();
     }
 

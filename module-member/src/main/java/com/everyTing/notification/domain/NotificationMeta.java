@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,11 +19,13 @@ public class NotificationMeta extends AuditingFields {
     @Id
     private Long id;
 
+    @NotNull
     @Column(unique = true)
     private Long memberId;
 
     private PushToken pushToken;
 
+    @NotNull
     private Boolean notificationEnabled;
 
     private NotificationMeta(Long memberId, PushToken pushToken, Boolean notificationEnabled) {

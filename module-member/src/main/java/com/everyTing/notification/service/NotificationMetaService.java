@@ -8,6 +8,8 @@ import com.everyTing.notification.repository.NotificationMetaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_002;
 
 @Service
@@ -22,15 +24,15 @@ public class NotificationMetaService {
     @Transactional
     public void saveNotificationMeta(Long memberId, NotificationMetaRequest request) {
         final var pushToken = PushToken.from(request.getPushToken());
-        final var notificationMetaData = NotificationMeta.of(memberId, pushToken, request.getNotification_enabled());
-        notificationMetaRepository.save(notificationMetaData);
-    }
+        final Optional<NotificationMeta> notificationMetaOptional = notificationMetaRepository.findByMemberId(memberId);
 
-    @Transactional
-    public void modifyPushToken(Long memberId, String pushTokenData) {
-        final var pushToken = PushToken.from(pushTokenData);
-        final var notificationMeta = getNotificationMetaByMemberId(memberId);
-        notificationMeta.modifyPushToken(pushToken);
+        if (notificationMetaOptional.isPresent()) {
+            final var notificationMeta = notificationMetaOptional.get();
+            notificationMeta.modifyPushToken(pushToken);
+        } else {
+            final var notificationMeta = NotificationMeta.of(memberId, pushToken, request.getNotificationEnabled());
+            notificationMetaRepository.save(notificationMeta);
+        }
     }
 
     public PushToken findPushTokenByMemberId(Long memberId) {

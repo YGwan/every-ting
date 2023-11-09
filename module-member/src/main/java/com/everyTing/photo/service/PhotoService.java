@@ -1,7 +1,7 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingServerException;
-import com.everyTing.photo.domain.GeneratedPhoto;
+import com.everyTing.photo.domain.GeneratedPhotos;
 import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
 import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class PhotoService {
             throw new TingServerException(PSER_002);
         }
 
-        final var generatedPhoto = GeneratedPhoto.from(validatedRequest);
+        final var generatedPhoto = GeneratedPhotos.from(validatedRequest);
         generatedPhotoRepository.save(generatedPhoto);
     }
 }

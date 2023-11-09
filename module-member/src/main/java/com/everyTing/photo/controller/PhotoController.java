@@ -1,6 +1,9 @@
 package com.everyTing.photo.controller;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
+import com.everyTing.member.service.MemberService;
 import com.everyTing.photo.dto.request.GeneratedImgUrlsSaveRequest;
 import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
 import com.everyTing.photo.service.PhotoService;
@@ -13,17 +16,22 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class PhotoController {
 
+    private final MemberService memberService;
     private final S3Service s3Service;
     private final PhotoService photoService;
 
-    public PhotoController(S3Service s3Service, PhotoService photoService) {
+    public PhotoController(MemberService memberService, S3Service s3Service, PhotoService photoService) {
+        this.memberService = memberService;
         this.s3Service = s3Service;
         this.photoService = photoService;
     }
 
-    @PostMapping("/upload/image")
-    public Response<Void> test(@RequestPart("file") MultipartFile multipartFile) {
-        s3Service.uploadPhoto(multipartFile);
+    @PostMapping
+    public Response<Void> profilePhotoAdd(@LoginMember LoginMemberInfo memberInfo,
+                                          @RequestPart("profile_photo") MultipartFile multipartFile) {
+        final var memberId = memberInfo.getId();
+        final var profilePhotoUrl = s3Service.uploadPhoto(memberId, multipartFile);
+        memberService.modifyProfilePhoto(memberId, profilePhotoUrl);
         return Response.success();
     }
 

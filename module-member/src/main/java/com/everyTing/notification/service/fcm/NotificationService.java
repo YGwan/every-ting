@@ -1,7 +1,6 @@
 package com.everyTing.notification.service.fcm;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.core.exception.TingServerException;
 import com.everyTing.notification.domain.Notification;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
@@ -17,8 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.everyTing.notification.errorCode.NotificationErrorCode.*;
-import static com.everyTing.notification.errorCode.NotificationServerErrorCode.NSER_002;
+import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_003;
+import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_004;
 
 @Slf4j
 @Transactional
@@ -51,9 +50,7 @@ public class NotificationService {
 
     @Transactional(readOnly = true)
     public List<NotificationResponse> findAllNotifications(Long memberId) {
-        final List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
-                () -> new TingApplicationException(NOTIFICATION_003)
-        );
+        List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
 
         return notifications.stream()
                 .map(NotificationResponse::from)
@@ -62,11 +59,11 @@ public class NotificationService {
 
     public void removeNotification(Long memberId, Long notificationId) {
         final var notification = notificationRepository.findById(notificationId).orElseThrow(
-                () -> new TingApplicationException(NOTIFICATION_004)
+                () -> new TingApplicationException(NOTIFICATION_003)
         );
 
         if (!Objects.equals(notification.getMemberId(), memberId)) {
-            throw new TingApplicationException(NOTIFICATION_005);
+            throw new TingApplicationException(NOTIFICATION_004);
         }
 
         notificationRepository.delete(notification);

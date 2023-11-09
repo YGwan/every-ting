@@ -6,10 +6,7 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.member.service.MemberService;
 import com.everyTing.photo.service.PhotoService;
 import com.everyTing.photo.service.S3Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequestMapping("/api/v1/profile-photos")

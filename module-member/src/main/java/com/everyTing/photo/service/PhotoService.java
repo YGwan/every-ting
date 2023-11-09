@@ -1,9 +1,12 @@
 package com.everyTing.photo.service;
 
+import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.repository.PhotoRequestRepository;
 import org.springframework.stereotype.Service;
+
+import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_005;
 
 @Service
 public class PhotoService {
@@ -15,6 +18,9 @@ public class PhotoService {
     }
 
     public void addPhotoRequest(Long memberId) {
+        if (photoRequestRepository.existsByMemberId(memberId)) {
+            throw new TingApplicationException(PHOTO_005);
+        }
 
         final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTING);
         photoRequestRepository.save(photoRequest);

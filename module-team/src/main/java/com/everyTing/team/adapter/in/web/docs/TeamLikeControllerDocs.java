@@ -2,7 +2,10 @@ package com.everyTing.team.adapter.in.web.docs;
 
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMemberInfo;
+import com.everyTing.core.swagger.ApiErrorCode;
 import com.everyTing.team.application.port.in.command.TeamLikeFindCommand;
+import com.everyTing.team.common.exception.errorCode.details.NotTeamMemberErrorCode;
+import com.everyTing.team.common.exception.errorCode.details.TeamLikeSaveErrorCode;
 import com.everyTing.team.domain.TeamLikes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,20 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface TeamLikeControllerDocs {
 
     @Operation(summary = "좋아요 조회", description = "좋아요 한 fromTeam 멤버(teamMember)의 id들을 반환합니다.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", content = @Content)})
     Response<TeamLikes> teamLikeList(Long fromTeamId, Long toTeamId);
 
     @Operation(summary = "좋아요")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "좋아요 성공", content = @Content),
-        @ApiResponse(responseCode = "403", description = "TEAM_010, TEAM_100", content = @Content),
-        @ApiResponse(responseCode = "400", description = "EAM_011, TEAM_012", content = @Content)})
+    @ApiErrorCode(values = TeamLikeSaveErrorCode.class)
     Response<Void> teamLikeSave(Long fromTeamId, Long toTeamId, LoginMemberInfo loginMemberInfo);
 
     @Operation(summary = "좋아요 취소")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "좋아요 취소 성공", content = @Content),
-        @ApiResponse(responseCode = "403", description = "TEAM_010", content = @Content)})
+    @ApiErrorCode(values = NotTeamMemberErrorCode.class)
     Response<Void> teamLikeRemove(Long fromTeamId, Long toTeamId, LoginMemberInfo loginMemberInfo);
 }

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SpringDocUtils;
 import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,12 @@ public class SwaggerConfig {
     private String errorDocs;
     @Value("${error.docs.url}")
     private String errorDocsUrl;
+
+    private final OperationCustomizer operationCustomizer;
+
+    public SwaggerConfig(OperationCustomizer operationCustomizer) {
+        this.operationCustomizer = operationCustomizer;
+    }
 
     @Bean
     public OpenAPI buildOpenApi() {
@@ -56,6 +63,7 @@ public class SwaggerConfig {
             .builder()
             .group("Security Open Api")
             .addOpenApiCustomiser(buildSecurityOpenApi())
+            .addOperationCustomizer(operationCustomizer)
             .build();
     }
 

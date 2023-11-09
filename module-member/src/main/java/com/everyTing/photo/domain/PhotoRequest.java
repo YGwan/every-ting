@@ -35,4 +35,8 @@ public class PhotoRequest extends AuditingFields {
     public static PhotoRequest of(Long memberId, PhotoRequestStatus requestStatus) {
         return new PhotoRequest(memberId, requestStatus);
     }
+
+    public void modifyPhotoRequestStatus(PhotoRequestStatus requestStatus) {
+        this.requestStatus = requestStatus;
+    }
 }

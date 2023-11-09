@@ -8,6 +8,7 @@ import com.everyTing.photo.repository.PhotoRequestRepository;
 import org.springframework.stereotype.Service;
 
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_005;
+import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 
 @Service
 public class PhotoService {
@@ -31,5 +32,13 @@ public class PhotoService {
         return photoRequestRepository.findByMemberId(memberId)
                 .map(PhotoRequestResponse::of)
                 .orElseGet(() -> new PhotoRequestResponse(PhotoRequestStatus.NOT_FOUND));
+    }
+
+    public void modifyPhotoRequest(Long memberId, PhotoRequestStatus status) {
+        final var photoRequest = photoRequestRepository.findByMemberId(memberId).orElseThrow(
+                () -> new TingApplicationException(PHOTO_006)
+        );
+
+        photoRequest.modifyPhotoRequestStatus(status);
     }
 }

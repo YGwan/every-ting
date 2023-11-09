@@ -4,6 +4,7 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.member.service.MemberService;
+import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.service.PhotoService;
 import com.everyTing.photo.service.S3Service;
@@ -33,6 +34,12 @@ public class PhotoController {
     @PostMapping("/requests")
     public Response<Void> photoRequestAdd(@LoginMember LoginMemberInfo memberInfo) {
         photoService.addPhotoRequest(memberInfo.getId());
+        return Response.success();
+    }
+
+    @PutMapping("/requests/failed/{memberId}")
+    public Response<Void> photoRequestModify(@PathVariable Long memberId) {
+        photoService.modifyPhotoRequest(memberId, PhotoRequestStatus.FAILED);
         return Response.success();
     }
 

@@ -15,12 +15,10 @@ public class PhotoController {
 
     private final MemberService memberService;
     private final S3Service s3Service;
-    private final GeneratedPhotoService generatedPhotoService;
 
-    public PhotoController(MemberService memberService, S3Service s3Service, GeneratedPhotoService generatedPhotoService) {
+    public PhotoController(MemberService memberService, S3Service s3Service) {
         this.memberService = memberService;
         this.s3Service = s3Service;
-        this.generatedPhotoService = generatedPhotoService;
     }
 
     @PostMapping

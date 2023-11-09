@@ -1,7 +1,7 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.photo.domain.GeneratedPhoto;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsAddRequest;
 import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class PhotoService {
         this.generatedPhotoRepository = generatedPhotoRepository;
     }
 
-    public void addGeneratedPhoto(ValidatedGeneratedImgUrlsSaveRequest validatedRequest) {
+    public void addGeneratedPhoto(ValidatedGeneratedImgUrlsAddRequest validatedRequest) {
         final var generatedPhoto = GeneratedPhoto.from(validatedRequest);
         generatedPhotoRepository.save(generatedPhoto);
     }

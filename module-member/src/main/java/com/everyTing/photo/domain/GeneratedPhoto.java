@@ -1,7 +1,8 @@
 package com.everyTing.photo.domain;
 
+import com.everyTing.core.domain.CreatedDateFields;
 import com.everyTing.photo.domain.data.GeneratedImgUrls;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsAddRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class GeneratedPhoto {
+public class GeneratedPhoto extends CreatedDateFields {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,7 +30,7 @@ public class GeneratedPhoto {
         this.generatedImgUrls = generatedImgUrls;
     }
 
-    public static GeneratedPhoto from(ValidatedGeneratedImgUrlsSaveRequest request) {
+    public static GeneratedPhoto from(ValidatedGeneratedImgUrlsAddRequest request) {
         return new GeneratedPhoto(
                 request.getMemberId(),
                 request.getGeneratedImgUrls()

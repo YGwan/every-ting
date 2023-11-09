@@ -4,9 +4,8 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.notification.domain.Notification;
 import com.everyTing.notification.dto.response.NotificationResponse;
-import com.everyTing.notification.dto.validatedDto.ValidatedSendErrorNotificationRequest;
 import com.everyTing.notification.repository.NotificationRepository;
-import com.everyTing.notification.service.fcm.form.ErrorForm;
+import com.everyTing.notification.service.fcm.form.PhotoGeneratedErrorForm;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -34,11 +33,11 @@ public class NotificationService {
     }
 
     @Transactional
-    public void sendErrorNotification(ValidatedSendErrorNotificationRequest request) {
-        final var errorForm = new ErrorForm(request.getBody());
-        final var message = fcmFormCreator.makeMessage(request.getMemberId(), errorForm);
+    public void sendErrorGeneratedPhotoNotification(Long memberId) {
+        final var errorForm = new PhotoGeneratedErrorForm();
+        final var message = fcmFormCreator.makeMessage(memberId, errorForm);
         sendNotification(message);
-        notificationRepository.save(Notification.of(request.getMemberId(), errorForm));
+        notificationRepository.save(Notification.of(memberId, errorForm));
     }
 
     private void sendNotification(Message message) {
@@ -51,8 +50,8 @@ public class NotificationService {
     }
 
     public List<NotificationResponse> findAllNotifications(Long memberId) {
-        final List<Notification> notifications = notificationRepository.findAllByMemberId(memberId).orElseThrow(
-                () -> new TingApplicationException(NOTIFICATION_005)
+        final List<Notification> notifications = notificationRepository.findAllByMemberIdOOrderByCreatedAt(memberId).orElseThrow(
+                () -> new TingApplicationException(NOTIFICATION_003)
         );
 
         return notifications.stream()
@@ -63,11 +62,11 @@ public class NotificationService {
     @Transactional
     public void removeNotification(Long memberId, Long notificationId) {
         final var notification = notificationRepository.findById(notificationId).orElseThrow(
-                () -> new TingApplicationException(NOTIFICATION_006)
+                () -> new TingApplicationException(NOTIFICATION_004)
         );
 
         if (!Objects.equals(notification.getMemberId(), memberId)) {
-            throw new TingApplicationException(NOTIFICATION_007);
+            throw new TingApplicationException(NOTIFICATION_005);
         }
 
         notificationRepository.delete(notification);

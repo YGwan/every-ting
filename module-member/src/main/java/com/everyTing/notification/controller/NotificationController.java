@@ -3,9 +3,7 @@ package com.everyTing.notification.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.notification.dto.request.SendErrorNotificationRequest;
 import com.everyTing.notification.dto.response.NotificationResponse;
-import com.everyTing.notification.dto.validatedDto.ValidatedSendErrorNotificationRequest;
 import com.everyTing.notification.service.fcm.NotificationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +25,9 @@ public class NotificationController {
         return Response.success(responses);
     }
 
-    @PostMapping("/error/send")
-    public Response<Void> sendErrorNotification(@RequestBody SendErrorNotificationRequest request) {
-        final var validatedRequest = ValidatedSendErrorNotificationRequest.from(request);
-        notificationService.sendErrorNotification(validatedRequest);
+    @PostMapping("/error/send/{memberId}")
+    public Response<Void> errorGeneratedPhotoNotificationSend(@PathVariable Long memberId) {
+        notificationService.sendErrorGeneratedPhotoNotification(memberId);
         return Response.success();
     }
 

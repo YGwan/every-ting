@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +19,8 @@ public class GeneratedPhoto {
     @Id
     private Long id;
 
+    @NotNull
+    @Column(unique = true)
     private Long memberId;
 
     private GeneratedImgUrls generatedImgUrls;

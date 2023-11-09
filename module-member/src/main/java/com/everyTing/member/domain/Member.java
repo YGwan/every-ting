@@ -93,4 +93,8 @@ public class Member extends AuditingFields {
     public void modifyKakaoId(KakaoId newKakaoId) {
         this.kakaoId = newKakaoId;
     }
+
+    public void modifyProfilePhoto(ProfilePhoto profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }

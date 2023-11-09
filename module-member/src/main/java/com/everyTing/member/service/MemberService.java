@@ -2,10 +2,7 @@ package com.everyTing.member.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
-import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
-import com.everyTing.member.domain.data.UniversityEmail;
-import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.domain.data.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
@@ -77,6 +74,12 @@ public class MemberService extends MemberServiceValidator {
     public void modifyPassword(Long memberId, Password newPassword) {
         final Member member = getMemberById(memberId);
         member.modifyPassword(newPassword);
+    }
+
+    public void modifyProfilePhoto(Long memberId, String url) {
+        final var profilePhoto = ProfilePhoto.from(url);
+        final Member member = getMemberById(memberId);
+        member.modifyProfilePhoto(profilePhoto);
     }
 
     public void resetPassword(ValidatedPasswordResetRequest validatedRequest) {

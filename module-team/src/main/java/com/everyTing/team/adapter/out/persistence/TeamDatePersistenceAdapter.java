@@ -3,7 +3,9 @@ package com.everyTing.team.adapter.out.persistence;
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
 import com.everyTing.team.adapter.out.persistence.repository.TeamDateEntityRepository;
 import com.everyTing.team.application.port.out.TeamDatePort;
+import com.everyTing.team.domain.TeamDates;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,5 +34,12 @@ public class TeamDatePersistenceAdapter implements TeamDatePort {
     @Override
     public Boolean existsTeamDate(Long womenTeamId, Long menTeamId) {
         return teamDateEntityRepository.existsByWomenTeamIdAndMenTeamId(womenTeamId, menTeamId);
+    }
+
+    @Override
+    public TeamDates findTeamDatesByTeamIdIn(List<Long> teamIds) {
+        final List<TeamDateEntity> teamDateEntities =
+            teamDateEntityRepository.findAllByWomenTeamIdInOrMenTeamIdInOrderByCreatedAtDesc(teamIds, teamIds);
+        return TeamDates.from(teamDateEntities, teamIds);
     }
 }

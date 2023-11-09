@@ -13,10 +13,11 @@ import static com.everyTing.team.common.exception.errorCode.TeamServerErrorCode.
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
+import com.everyTing.team.application.port.in.command.TeamRequestCountCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestRemoveCommand;
-import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
+import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
@@ -53,13 +54,20 @@ public class TeamRequestService implements TeamRequestUseCase {
     }
 
     @Override
+    public Long countRemainingTeamRequest(TeamRequestCountCommand command) {
+        final Long count = teamRequestPort.countByFromTeamIdAndCreatedAtAfter(command.getTeamId(),
+            getStartOfToday());
+        return DAILY_REQUEST_LIMIT - count;
+    }
+
+    @Override
     public TeamRequest findTeamRequest(TeamRequestFindCommand command) {
         return teamRequestPort.findTeamRequest(command.getRequestId());
     }
 
     @Override
     public TeamRequests findTeamRequests(TeamRequestsFindCommand command) {
-        return teamRequestPort.findTeamRequest(command.getFromTeamId(),
+        return teamRequestPort.findTeamRequests(command.getFromTeamId(),
             command.getToTeamId());
     }
 
@@ -112,7 +120,7 @@ public class TeamRequestService implements TeamRequestUseCase {
         }
     }
 
-    private void validateTeamRequestIsNotDuplicate(Long myTeamId, Long toTeamId){
+    private void validateTeamRequestIsNotDuplicate(Long myTeamId, Long toTeamId) {
         if (teamRequestPort.existsTeamRequest(myTeamId, toTeamId)) {
             throw new TingApplicationException(TEAM_020);
         }
@@ -164,6 +172,7 @@ public class TeamRequestService implements TeamRequestUseCase {
     }
 
     private LocalDateTime getStartOfToday() {
-        return LocalDate.now().atStartOfDay();
+        return LocalDate.now()
+                        .atStartOfDay();
     }
 }

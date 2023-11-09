@@ -7,4 +7,4 @@ spring:
       - mail
       - firebase
       - core
-
+      - s3

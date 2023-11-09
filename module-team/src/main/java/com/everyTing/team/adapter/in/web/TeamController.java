@@ -5,9 +5,11 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamControllerDocs;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
+import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
+import com.everyTing.team.application.port.in.command.TeamRequestCountCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.domain.Team;
@@ -27,9 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TeamController implements TeamControllerDocs {
 
     private final TeamUseCase teamUseCase;
+    private final TeamRequestUseCase teamRequestUseCase;
 
-    public TeamController(TeamUseCase teamUseCase) {
+    public TeamController(TeamUseCase teamUseCase, TeamRequestUseCase teamRequestUseCase) {
         this.teamUseCase = teamUseCase;
+        this.teamRequestUseCase = teamRequestUseCase;
     }
 
     @GetMapping("/{teamId}")
@@ -40,6 +44,13 @@ public class TeamController implements TeamControllerDocs {
     @GetMapping("/by-teamcode")
     public Response<Team> teamDetails(@RequestParam String teamCode) {
         return Response.success(teamUseCase.findTeamByCode(TeamFindByCodeCommand.of(teamCode)));
+    }
+
+    @GetMapping("/{teamId}/requests/status")
+    public Response<Long> teamRequestCount(@PathVariable Long teamId) {
+        final TeamRequestCountCommand command = TeamRequestCountCommand.of(
+            teamId);
+        return Response.success(teamRequestUseCase.countRemainingTeamRequest(command));
     }
 
     @PostMapping

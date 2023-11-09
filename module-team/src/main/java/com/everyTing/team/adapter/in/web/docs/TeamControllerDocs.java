@@ -25,6 +25,9 @@ public interface TeamControllerDocs {
         @ApiResponse(responseCode = "404", description = "TEAM_006", content = @Content)})
     Response<Team> teamDetails(String teamCode);
 
+    @Operation(summary = "남은 요청 횟수 조회")
+    Response<Long> teamRequestCount(Long teamId);
+
     @Operation(summary = "팀 생성")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "생성 완료, 생성된 팀의 id 반환"),

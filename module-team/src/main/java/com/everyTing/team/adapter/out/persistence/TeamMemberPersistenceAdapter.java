@@ -3,6 +3,7 @@ package com.everyTing.team.adapter.out.persistence;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_006;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_008;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_009;
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_010;
 import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_013;
 
 import com.everyTing.core.exception.TingApplicationException;
@@ -54,11 +55,28 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
+    public TeamMembers findTeamMembersByMemberId(Long memberId) {
+        final List<TeamMemberEntity> teamMemberEntities =
+            teamMemberEntityRepository.findAllByMemberId(memberId);
+
+        return TeamMembers.from(teamMemberEntities);
+    }
+
+    @Override
     public TeamMembers findTeamMembersByMemberIdAndRole(Long memberId, Role role) {
         final List<TeamMemberEntity> teamMemberEntities =
             teamMemberEntityRepository.findAllByMemberIdAndRoleOrderByCreatedAt(memberId, role);
 
         return TeamMembers.from(teamMemberEntities);
+    }
+
+    @Override
+    public TeamMember findTeamMemberByTeamIdAndMemberId(Long teamId, Long memberId) {
+        final TeamMemberEntity teamMember =
+            teamMemberEntityRepository.findByTeamIdAndMemberId(teamId, memberId)
+                                      .orElseThrow(
+                                          () -> new TingApplicationException(TEAM_010));
+        return TeamMember.from(teamMember);
     }
 
     @Override

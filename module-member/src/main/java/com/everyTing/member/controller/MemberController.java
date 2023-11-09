@@ -4,13 +4,13 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.core.token.data.MemberTokens;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
+import com.everyTing.member.dto.response.MemberTokensResponse;
 import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
@@ -55,26 +55,27 @@ public class MemberController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
-    public Response<MemberTokens> signUp(@RequestBody SignUpRequest request) {
-        final var validRequest = ValidatedSignUpRequest.from(request);
-        final var memberId = memberService.signUp(validRequest);
+    public Response<MemberTokensResponse> signUp(@RequestBody SignUpRequest request) {
+        final var validatedRequest = ValidatedSignUpRequest.from(request);
+        final var memberId = memberService.signUp(validatedRequest);
         return getMemberTokensResponse(memberId);
     }
 
     @PostMapping("/signIn")
-    public Response<MemberTokens> signIn(@RequestBody SignInRequest request) {
+    public Response<MemberTokensResponse> signIn(@RequestBody SignInRequest request) {
         try {
-            final var validRequest = ValidatedSignInRequest.from(request);
-            final var memberId = memberService.signIn(validRequest);
+            final var validatedRequest = ValidatedSignInRequest.from(request);
+            final var memberId = memberService.signIn(validatedRequest);
             return getMemberTokensResponse(memberId);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);
         }
     }
 
-    private Response<MemberTokens> getMemberTokensResponse(Long memberId) {
+    private Response<MemberTokensResponse> getMemberTokensResponse(Long memberId) {
         final var memberTokens = tokenService.issue(memberId);
-        return Response.success(memberTokens);
+        final var memberTokensResponse = new MemberTokensResponse(memberId, memberTokens);
+        return Response.success(memberTokensResponse);
     }
 
     @GetMapping("/username/check")

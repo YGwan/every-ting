@@ -1,0 +1,5 @@
+firebase:
+  private:
+    key:
+      path: ${FIREBASE_PRIVATE_KEY_PATH}
+      scope: https://www.googleapis.com/auth/cloud-platform

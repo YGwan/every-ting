@@ -4,7 +4,7 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.core.exception.TingServerException;
 import com.everyTing.photo.domain.GeneratedPhoto;
 import com.everyTing.photo.dto.response.GeneratedPhotoResponse;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedPhotoAddRequest;
 import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class GeneratedPhotoService {
         this.generatedPhotoRepository = generatedPhotoRepository;
     }
 
-    public void addGeneratedPhoto(ValidatedGeneratedImgUrlsSaveRequest validatedRequest) {
+    public void addGeneratedPhoto(ValidatedGeneratedPhotoAddRequest validatedRequest) {
         final var memberId = validatedRequest.getMemberId();
 
         if (generatedPhotoRepository.existsByMemberId(memberId)) {

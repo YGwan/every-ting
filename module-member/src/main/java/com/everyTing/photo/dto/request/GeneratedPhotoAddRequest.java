@@ -5,16 +5,16 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class GeneratedImgUrlsSaveRequest {
+public class GeneratedPhotoAddRequest {
 
     private Long memberId;
 
     private List<String> generatedImgUrls;
 
-    public GeneratedImgUrlsSaveRequest() {
+    public GeneratedPhotoAddRequest() {
     }
 
-    public GeneratedImgUrlsSaveRequest(Long memberId, List<String> generatedImgUrls) {
+    public GeneratedPhotoAddRequest(Long memberId, List<String> generatedImgUrls) {
         this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }

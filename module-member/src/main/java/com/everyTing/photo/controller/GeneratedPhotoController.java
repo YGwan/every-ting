@@ -3,9 +3,9 @@ package com.everyTing.photo.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.photo.dto.request.GeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.request.GeneratedPhotoAddRequest;
 import com.everyTing.photo.dto.response.GeneratedPhotoResponse;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedImgUrlsSaveRequest;
+import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedPhotoAddRequest;
 import com.everyTing.photo.service.GeneratedPhotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ public class GeneratedPhotoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Response<Void> generatedImgUrlsAdd(@RequestBody GeneratedImgUrlsSaveRequest request) {
-        final var validatedRequest = ValidatedGeneratedImgUrlsSaveRequest.from(request);
+    public Response<Void> generatedPhotoAdd(@RequestBody GeneratedPhotoAddRequest request) {
+        final var validatedRequest = ValidatedGeneratedPhotoAddRequest.from(request);
         generatedPhotoService.addGeneratedPhoto(validatedRequest);
         return Response.success();
     }

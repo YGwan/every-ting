@@ -21,6 +21,7 @@ import static com.everyTing.notification.errorCode.NotificationErrorCode.*;
 import static com.everyTing.notification.errorCode.NotificationServerErrorCode.NSER_002;
 
 @Slf4j
+@Transactional
 @Service
 public class NotificationService {
 
@@ -32,7 +33,6 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    @Transactional
     public void sendErrorGeneratedPhotoNotification(Long memberId) {
         final var errorForm = new PhotoGeneratedErrorForm();
         final var message = fcmFormCreator.makeMessage(memberId, errorForm);
@@ -49,6 +49,7 @@ public class NotificationService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<NotificationResponse> findAllNotifications(Long memberId) {
         final List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
                 () -> new TingApplicationException(NOTIFICATION_003)
@@ -59,7 +60,6 @@ public class NotificationService {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @Transactional
     public void removeNotification(Long memberId, Long notificationId) {
         final var notification = notificationRepository.findById(notificationId).orElseThrow(
                 () -> new TingApplicationException(NOTIFICATION_004)
@@ -70,5 +70,9 @@ public class NotificationService {
         }
 
         notificationRepository.delete(notification);
+    }
+
+    public void removeAllNotification(Long memberId) {
+        notificationRepository.deleteAllByMemberId(memberId);
     }
 }

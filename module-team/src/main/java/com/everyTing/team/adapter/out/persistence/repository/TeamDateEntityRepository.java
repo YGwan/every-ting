@@ -1,12 +1,13 @@
 package com.everyTing.team.adapter.out.persistence.repository;
 
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamDateEntityRepository extends JpaRepository<TeamDateEntity, Long> {
 
-    Long countByWomenTeamIdOrMenTeamId(Long teamId1, Long teamId2);
+    Long countByWomenTeamIdOrMenTeamIdAndCreatedAtAfter(Long teamId1, Long teamId2, LocalDateTime time);
 
     List<TeamDateEntity> findAllByWomenTeamIdInOrMenTeamIdInOrderByCreatedAtDesc(
         List<Long> team1Ids, List<Long> team2Ids);

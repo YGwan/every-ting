@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
+import com.everyTing.team.application.port.in.TeamDateUseCase;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.TeamUseCase;
 import com.everyTing.team.domain.Team;
@@ -44,6 +45,9 @@ class TeamControllerTest extends BaseTest {
 
     @MockBean
     private TeamRequestUseCase teamRequestUseCase;
+
+    @MockBean
+    private TeamDateUseCase teamDateUseCase;
 
     @DisplayName("id 로 팀 조회 api 테스트")
     @Test
@@ -81,6 +85,19 @@ class TeamControllerTest extends BaseTest {
         given(teamRequestUseCase.countRemainingTeamRequest(any())).willReturn(expected);
 
         mockMvc.perform(get("/api/v1/teams/1/requests/status"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data").value(expected));
+    }
+
+    @DisplayName("남은 매칭 횟수 조회 api 테스트")
+    @Test
+    void teamDateCount() throws Exception {
+        long expected = 1;
+
+        given(teamDateUseCase.countRemainingTeamDate(any())).willReturn(expected);
+
+        mockMvc.perform(get("/api/v1/teams/1/dates/status"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data").value(expected));

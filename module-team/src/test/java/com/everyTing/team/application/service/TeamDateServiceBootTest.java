@@ -23,6 +23,7 @@ import com.everyTing.team.adapter.out.persistence.repository.TeamMemberEntityRep
 import com.everyTing.team.application.port.in.command.TeamDateSaveCommand;
 import com.everyTing.team.application.port.out.TeamRequestPort;
 import com.everyTing.team.domain.TeamRequest;
+import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -102,9 +103,10 @@ public class TeamDateServiceBootTest {
 
         latch.await();
 
-        Long womenTeamDateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamId(womenTeam.getId(),
-            womenTeam.getId());
-        Long menTeamDateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamId(menTeam.getId(), menTeam.getId());
+        Long womenTeamDateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamIdAndCreatedAtAfter(womenTeam.getId(),
+            womenTeam.getId(), LocalDateTime.now().minusDays(7));
+        Long menTeamDateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamIdAndCreatedAtAfter(
+            menTeam.getId(), menTeam.getId(), LocalDateTime.now().minusDays(7));
 
         assertThat(womenTeamDateCount).isEqualTo(WEEKLY_DATE_LIMIT);
         assertThat(menTeamDateCount).isEqualTo(WEEKLY_DATE_LIMIT);

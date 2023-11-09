@@ -5,13 +5,15 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.team.adapter.in.web.docs.TeamControllerDocs;
 import com.everyTing.team.adapter.in.web.request.TeamSaveRequest;
+import com.everyTing.team.application.port.in.TeamDateUseCase;
 import com.everyTing.team.application.port.in.TeamRequestUseCase;
 import com.everyTing.team.application.port.in.TeamUseCase;
+import com.everyTing.team.application.port.in.command.TeamDateCountCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
+import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestCountCommand;
 import com.everyTing.team.application.port.in.command.TeamSaveCommand;
-import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
 import com.everyTing.team.domain.Team;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,10 +32,13 @@ public class TeamController implements TeamControllerDocs {
 
     private final TeamUseCase teamUseCase;
     private final TeamRequestUseCase teamRequestUseCase;
+    private final TeamDateUseCase teamDateUseCase;
 
-    public TeamController(TeamUseCase teamUseCase, TeamRequestUseCase teamRequestUseCase) {
+    public TeamController(TeamUseCase teamUseCase, TeamRequestUseCase teamRequestUseCase,
+        TeamDateUseCase teamDateUseCase) {
         this.teamUseCase = teamUseCase;
         this.teamRequestUseCase = teamRequestUseCase;
+        this.teamDateUseCase = teamDateUseCase;
     }
 
     @GetMapping("/{teamId}")
@@ -48,9 +53,14 @@ public class TeamController implements TeamControllerDocs {
 
     @GetMapping("/{teamId}/requests/status")
     public Response<Long> teamRequestCount(@PathVariable Long teamId) {
-        final TeamRequestCountCommand command = TeamRequestCountCommand.of(
-            teamId);
+        final TeamRequestCountCommand command = TeamRequestCountCommand.of(teamId);
         return Response.success(teamRequestUseCase.countRemainingTeamRequest(command));
+    }
+
+    @GetMapping("/{teamId}/dates/status")
+    public Response<Long> teamDateCount(@PathVariable Long teamId) {
+        final TeamDateCountCommand command = TeamDateCountCommand.of(teamId);
+        return Response.success(teamDateUseCase.countRemainingTeamDate(command));
     }
 
     @PostMapping

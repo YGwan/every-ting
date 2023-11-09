@@ -19,7 +19,8 @@ public class TeamDatePersistenceAdapter implements TeamDatePort {
 
     @Override
     public Long countByTeamIdAndCreatedAtAfter(Long teamId, LocalDateTime time) {
-        final Long dateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamId(teamId, teamId);
+        final Long dateCount = teamDateEntityRepository.countByWomenTeamIdOrMenTeamIdAndCreatedAtAfter(
+            teamId, teamId, time);
         return dateCount;
     }
 

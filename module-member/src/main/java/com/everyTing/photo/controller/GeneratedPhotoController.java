@@ -33,4 +33,10 @@ public class GeneratedPhotoController {
         generatedPhotoService.addGeneratedPhoto(validatedRequest);
         return Response.success();
     }
+
+    @DeleteMapping
+    public Response<Void> generatedPhotoRemove(@LoginMember LoginMemberInfo memberInfo) {
+        generatedPhotoService.removeGeneratedPhoto(memberInfo.getId());
+        return Response.success();
+    }
 }

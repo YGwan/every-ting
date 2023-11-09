@@ -32,10 +32,19 @@ public class GeneratedPhotoService {
     }
 
     public GeneratedPhotoResponse findGeneratedPhoto(Long memberId) {
-        final var generatedPhoto = generatedPhotoRepository.findByMemberId(memberId).orElseThrow(
-                () -> new TingApplicationException(PHOTO_004)
-        );
+        final var generatedPhoto = getGeneratedPhotoByMemberId(memberId);
 
         return GeneratedPhotoResponse.from(generatedPhoto);
+    }
+
+    public void removeGeneratedPhoto(Long memberId) {
+        final var generatedPhoto = getGeneratedPhotoByMemberId(memberId);
+        generatedPhotoRepository.delete(generatedPhoto);
+    }
+
+    private GeneratedPhoto getGeneratedPhotoByMemberId(Long memberId) {
+        return generatedPhotoRepository.findByMemberId(memberId).orElseThrow(
+                () -> new TingApplicationException(PHOTO_004)
+        );
     }
 }

@@ -12,7 +12,7 @@ public class ErrorForm implements NotificationForm {
 
     @Override
     public String title() {
-        return "오류 발생";
+        return "에러 발생";
     }
 
     @Override

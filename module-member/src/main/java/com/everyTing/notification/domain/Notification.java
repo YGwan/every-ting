@@ -1,5 +1,6 @@
 package com.everyTing.notification.domain;
 
+import com.everyTing.core.domain.CreatedDateFields;
 import com.everyTing.notification.domain.data.Body;
 import com.everyTing.notification.domain.data.Title;
 import com.everyTing.notification.service.fcm.form.NotificationForm;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "index_memberId", columnList = "memberId"))
 @Entity
-public class Notification {
+public class Notification extends CreatedDateFields  {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

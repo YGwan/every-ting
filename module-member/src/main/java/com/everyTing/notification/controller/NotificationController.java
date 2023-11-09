@@ -1,13 +1,15 @@
 package com.everyTing.notification.controller;
 
 import com.everyTing.core.dto.Response;
+import com.everyTing.core.resolver.LoginMember;
+import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.notification.dto.request.SendErrorNotificationRequest;
+import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.dto.validatedDto.ValidatedSendErrorNotificationRequest;
 import com.everyTing.notification.service.fcm.NotificationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/v1/notification")
 @RestController
@@ -19,10 +21,23 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
+    @GetMapping
+    public Response<List<NotificationResponse>> notificationList(@LoginMember LoginMemberInfo memberInfo) {
+        final List<NotificationResponse> responses = notificationService.findAllNotifications(memberInfo.getId());
+        return Response.success(responses);
+    }
+
     @PostMapping("/error/send")
     public Response<Void> sendErrorNotification(@RequestBody SendErrorNotificationRequest request) {
         final var validatedRequest = ValidatedSendErrorNotificationRequest.from(request);
         notificationService.sendErrorNotification(validatedRequest);
+        return Response.success();
+    }
+
+    @DeleteMapping
+    public Response<Void> notificationRemove(@LoginMember LoginMemberInfo memberInfo,
+                                             @RequestParam Long notificationId) {
+        notificationService.removeNotification(memberInfo.getId(), notificationId);
         return Response.success();
     }
 }

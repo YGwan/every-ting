@@ -38,7 +38,7 @@ public class NotificationController {
         return Response.success();
     }
 
-    @DeleteMapping()
+    @DeleteMapping
     public Response<Void> notificationRemoveAll(@LoginMember LoginMemberInfo memberInfo) {
         notificationService.removeAllNotification(memberInfo.getId());
         return Response.success();

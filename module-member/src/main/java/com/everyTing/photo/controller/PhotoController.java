@@ -4,6 +4,7 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.member.service.MemberService;
+import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.service.PhotoService;
 import com.everyTing.photo.service.S3Service;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,12 @@ public class PhotoController {
         this.s3Service = s3Service;
         this.memberService = memberService;
         this.photoService = photoService;
+    }
+
+    @GetMapping("/requests")
+    public Response<PhotoRequestResponse> photoRequestList(@LoginMember LoginMemberInfo memberInfo) {
+        PhotoRequestResponse response = photoService.findPhotoRequest(memberInfo.getId());
+        return Response.success(response);
     }
 
     @PostMapping("/requests")

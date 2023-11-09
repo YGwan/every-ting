@@ -3,6 +3,7 @@ package com.everyTing.photo.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
+import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.repository.PhotoRequestRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,11 @@ public class PhotoService {
 
         final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTING);
         photoRequestRepository.save(photoRequest);
+    }
+
+    public PhotoRequestResponse findPhotoRequest(Long memberId) {
+        return photoRequestRepository.findByMemberId(memberId)
+                .map(PhotoRequestResponse::of)
+                .orElseGet(() -> new PhotoRequestResponse(PhotoRequestStatus.NOT_FOUND));
     }
 }

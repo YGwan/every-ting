@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 
 public enum PhotoErrorCode implements ApplicationErrorCode {
     PHOTO_001("생성된 프로필 사진 갯수가 올바르지 않습니다."),
-    PHOTO_002("아직 완료되지 않은 프로필 생성 작업이 존재합니다.")
+    PHOTO_002("아직 완료되지 않은 프로필 생성 작업이 존재합니다."),
+    PHOTO_003("생성된 프로필 사진 링크가 올바르지 않습니다."),
     ;
 
 

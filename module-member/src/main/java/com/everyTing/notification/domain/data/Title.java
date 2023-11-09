@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_003;
+import static com.everyTing.notification.errorCode.NotificationServerErrorCode.NSER_003;
 
 @Embeddable
 public class Title {
@@ -31,7 +31,7 @@ public class Title {
 
     public static void validate(String value) {
         if (!StringUtils.hasText(value)) {
-            throw new TingApplicationException(NOTIFICATION_003);
+            throw new TingApplicationException(NSER_003);
         }
     }
 

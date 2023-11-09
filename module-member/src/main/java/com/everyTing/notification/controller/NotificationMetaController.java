@@ -10,7 +10,7 @@ import com.everyTing.notification.service.NotificationMetaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/notification/metas")
+@RequestMapping("/api/v1/notification-metas")
 @RestController
 public class NotificationMetaController {
 

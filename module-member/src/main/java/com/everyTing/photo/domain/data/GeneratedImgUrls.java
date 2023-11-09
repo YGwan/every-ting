@@ -29,7 +29,8 @@ public class GeneratedImgUrls {
         validate(values);
 
         final List<String> trimValues = values.stream()
-                .map(String::trim)
+                .map(GeneratedImgUrl::from)
+                .map(GeneratedImgUrl::getValue)
                 .collect(Collectors.toList());
 
         final String generateImgUrls = String.join(",", trimValues);

@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public enum NotificationErrorCode implements ApplicationErrorCode {
     NOTIFICATION_001("푸시 토큰 값이 올바르지 않습니다."),
-    NOTIFICATION_002("푸시 토큰 값이 존재하지 않습니다.", HttpStatus.NOT_FOUND)
+    NOTIFICATION_002("푸시 토큰 값이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    NOTIFICATION_003("알림 메세지 제목이 올바르지 않습니다."),
+    NOTIFICATION_004("알림 메세지 본문이 올바르지 않습니다."),
     ;
 
     private final String message;

@@ -4,6 +4,7 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.member.service.MemberService;
+import com.everyTing.photo.service.PhotoService;
 import com.everyTing.photo.service.S3Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,12 +16,20 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class PhotoController {
 
-    private final MemberService memberService;
     private final S3Service s3Service;
+    private final MemberService memberService;
+    private final PhotoService photoService;
 
-    public PhotoController(MemberService memberService, S3Service s3Service) {
-        this.memberService = memberService;
+    public PhotoController(S3Service s3Service, MemberService memberService, PhotoService photoService) {
         this.s3Service = s3Service;
+        this.memberService = memberService;
+        this.photoService = photoService;
+    }
+
+    @PostMapping("/requests")
+    public Response<Void> photoRequestAdd(@LoginMember LoginMemberInfo memberInfo) {
+        photoService.addPhotoRequest(memberInfo.getId());
+        return Response.success();
     }
 
     @PostMapping

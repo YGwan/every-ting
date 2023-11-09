@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "index_memberId", columnList = "memberId"))
 @Entity
-public class GeneratedPhotos {
+public class GeneratedPhoto {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -25,13 +25,13 @@ public class GeneratedPhotos {
 
     private GeneratedImgUrls generatedImgUrls;
 
-    private GeneratedPhotos(Long memberId, GeneratedImgUrls generatedImgUrls) {
+    private GeneratedPhoto(Long memberId, GeneratedImgUrls generatedImgUrls) {
         this.memberId = memberId;
         this.generatedImgUrls = generatedImgUrls;
     }
 
-    public static GeneratedPhotos from(ValidatedGeneratedImgUrlsSaveRequest request) {
-        return new GeneratedPhotos(
+    public static GeneratedPhoto from(ValidatedGeneratedImgUrlsSaveRequest request) {
+        return new GeneratedPhoto(
                 request.getMemberId(),
                 request.getGeneratedImgUrls()
         );

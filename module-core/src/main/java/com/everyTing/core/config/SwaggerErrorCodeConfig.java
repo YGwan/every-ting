@@ -29,8 +29,7 @@ public class SwaggerErrorCodeConfig {
     @Bean
     public OperationCustomizer customize() {
         return (Operation operation, HandlerMethod handlerMethod) -> {
-            ApiErrorCode apiErrorCode =
-                handlerMethod.getMethodAnnotation(ApiErrorCode.class);
+            ApiErrorCode apiErrorCode = handlerMethod.getMethodAnnotation(ApiErrorCode.class);
             if (apiErrorCode != null) {
                 generateErrorCodeResponse(operation, apiErrorCode.values());
             }
@@ -41,19 +40,18 @@ public class SwaggerErrorCodeConfig {
     private void generateErrorCodeResponse(
         Operation operation, Class<? extends SwaggerErrorCode>[] types) {
 
-        List<ApplicationErrorCode> allErrorCodes = Arrays.stream(types)
-                                                         .flatMap(type -> Arrays.stream(
-                                                             type.getEnumConstants()))
-                                                         .map(SwaggerErrorCode::getErrorCode)
-                                                         .collect(Collectors.toUnmodifiableList());
+        List<ApplicationErrorCode> errorCodes =
+            Arrays.stream(types)
+                  .flatMap(type -> Arrays.stream(type.getEnumConstants()))
+                  .map(SwaggerErrorCode::getErrorCode)
+                  .collect(Collectors.toUnmodifiableList());
 
         Map<Integer, List<ExampleHolder>> statusWithExampleHolders =
-            allErrorCodes.stream()
+            errorCodes.stream()
                          .map(errorCode ->
                              ExampleHolder.builder()
                                           .holder(getSwaggerExample(errorCode))
-                                          .code(errorCode.getStatus()
-                                                         .value())
+                                          .code(errorCode.getStatus().value())
                                           .name(errorCode.getErrorCode())
                                           .build())
                          .collect(groupingBy(ExampleHolder::getCode));
@@ -71,11 +69,11 @@ public class SwaggerErrorCodeConfig {
     private void addExamplesToResponses(
         ApiResponses responses, Map<Integer, List<ExampleHolder>> statusWithExampleHolders) {
         statusWithExampleHolders.forEach(
-            (status, v) -> {
+            (status, exampleHolders) -> {
                 Content content = new Content();
                 MediaType mediaType = new MediaType();
                 ApiResponse apiResponse = new ApiResponse();
-                v.forEach(
+                exampleHolders.forEach(
                     exampleHolder -> mediaType.addExamples(
                         exampleHolder.getName(), exampleHolder.getHolder()));
                 content.addMediaType("application/json", mediaType);

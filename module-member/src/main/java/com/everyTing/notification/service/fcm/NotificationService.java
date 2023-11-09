@@ -45,12 +45,12 @@ public class NotificationService {
             FirebaseMessaging.getInstance().send(message);
         } catch (FirebaseMessagingException e) {
             log.error(e.getMessage());
-            throw new TingServerException(NSER_002);
+//            throw new TingServerException(NSER_002);
         }
     }
 
     public List<NotificationResponse> findAllNotifications(Long memberId) {
-        final List<Notification> notifications = notificationRepository.findAllByMemberIdOOrderByCreatedAt(memberId).orElseThrow(
+        final List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId).orElseThrow(
                 () -> new TingApplicationException(NOTIFICATION_003)
         );
 

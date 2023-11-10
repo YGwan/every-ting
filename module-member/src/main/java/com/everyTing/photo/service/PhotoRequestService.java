@@ -6,10 +6,12 @@ import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.repository.PhotoRequestRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_005;
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 
+@Transactional
 @Service
 public class PhotoRequestService {
 
@@ -28,6 +30,7 @@ public class PhotoRequestService {
         photoRequestRepository.save(photoRequest);
     }
 
+    @Transactional(readOnly = true)
     public PhotoRequestResponse findPhotoRequest(Long memberId) {
         return photoRequestRepository.findByMemberId(memberId)
                 .map(PhotoRequestResponse::from)

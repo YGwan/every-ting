@@ -36,12 +36,10 @@ public class GeneratedImgUrls {
     public static GeneratedImgUrls from(List<String> values) {
         validate(values);
 
-        final List<String> trimValues = values.stream()
-                .map(String::trim)
+        final String generateImgUrls = values.stream()
                 .map(GeneratedImgUrls::from)
-                .collect(Collectors.toList());
+                .collect(Collectors.joining(","));
 
-        final String generateImgUrls = String.join(",", trimValues);
         return new GeneratedImgUrls(generateImgUrls);
     }
 

@@ -9,7 +9,7 @@ import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
 
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_004;
-import static com.everyTing.photo.errorCode.PhotoServerErrorCode.PSER_002;
+import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_007;
 
 @Service
 public class GeneratedPhotoService {
@@ -24,7 +24,7 @@ public class GeneratedPhotoService {
         final var memberId = validatedRequest.getMemberId();
 
         if (generatedPhotoRepository.existsByMemberId(memberId)) {
-            throw new TingServerException(PSER_002);
+            throw new TingServerException(PHOTO_007);
         }
 
         final var generatedPhoto = GeneratedPhoto.from(validatedRequest);

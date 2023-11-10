@@ -38,8 +38,14 @@ public class PhotoController {
     }
 
     @PutMapping("/requests/failed/{memberId}")
-    public Response<Void> photoRequestModify(@PathVariable Long memberId) {
+    public Response<Void> photoRequestModifyFailed(@PathVariable Long memberId) {
         photoService.modifyPhotoRequest(memberId, PhotoRequestStatus.FAILED);
+        return Response.success();
+    }
+
+    @PutMapping("/requests/completed/{memberId}")
+    public Response<Void> photoRequestModifyCompleted(@PathVariable Long memberId) {
+        photoService.modifyPhotoRequest(memberId, PhotoRequestStatus.COMPLETED);
         return Response.success();
     }
 

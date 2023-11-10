@@ -7,17 +7,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UniqueStringGenerator {
 
     public static String generateUniqueString(int length, String characters) {
-        StringBuilder builder = new StringBuilder(10);
-
-        Set<Character> usedCharacters = new HashSet<>();
+        StringBuilder builder = new StringBuilder(length);
+        Set<Integer> usedIndexes = new HashSet<>();
 
         while (builder.length() < length) {
-            int index = ThreadLocalRandom.current().nextInt(characters.length());
-            char c = characters.charAt(index);
+            int randomIndex = ThreadLocalRandom.current().nextInt(characters.length());
 
-            if (!usedCharacters.contains(c)) {
-                usedCharacters.add(c);
-                builder.append(c);
+            if (usedIndexes.add(randomIndex)) {
+                builder.append(characters.charAt(randomIndex));
             }
         }
 

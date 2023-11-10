@@ -4,7 +4,7 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.notification.dto.response.NotificationResponse;
-import com.everyTing.notification.service.FcmService;
+import com.everyTing.notification.service.fcm.FcmService;
 import com.everyTing.notification.service.NotificationService;
 import org.springframework.web.bind.annotation.*;
 

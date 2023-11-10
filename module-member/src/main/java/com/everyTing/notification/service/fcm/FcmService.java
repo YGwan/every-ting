@@ -1,8 +1,7 @@
-package com.everyTing.notification.service;
+package com.everyTing.notification.service.fcm;
 
-import com.everyTing.notification.service.fcm.FcmFormCreator;
-import com.everyTing.notification.service.fcm.form.NotificationForm;
-import com.everyTing.notification.service.fcm.form.PhotoGeneratedErrorForm;
+import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.notification.dto.form.PhotoGeneratedErrorForm;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;

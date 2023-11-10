@@ -1,4 +1,4 @@
-package com.everyTing.notification.service.fcm.form;
+package com.everyTing.notification.dto.form;
 
 public class PhotoGeneratedErrorForm implements NotificationForm {
 

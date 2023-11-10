@@ -1,7 +1,7 @@
 package com.everyTing.notification.domain;
 
 import com.everyTing.core.domain.CreatedDateFields;
-import com.everyTing.notification.service.fcm.form.NotificationForm;
+import com.everyTing.notification.dto.form.NotificationForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

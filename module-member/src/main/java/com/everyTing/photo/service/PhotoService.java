@@ -35,10 +35,18 @@ public class PhotoService {
     }
 
     public void modifyPhotoRequest(Long memberId, PhotoRequestStatus status) {
-        final var photoRequest = photoRequestRepository.findByMemberId(memberId).orElseThrow(
+        final var photoRequest = getPhotoRequestByMemberId(memberId);
+        photoRequest.modifyPhotoRequestStatus(status);
+    }
+
+    public void removePhotoRequest(Long memberId) {
+        final var photoRequest = getPhotoRequestByMemberId(memberId);
+        photoRequestRepository.delete(photoRequest);
+    }
+
+    private PhotoRequest getPhotoRequestByMemberId(Long memberId) {
+        return photoRequestRepository.findByMemberId(memberId).orElseThrow(
                 () -> new TingApplicationException(PHOTO_006)
         );
-
-        photoRequest.modifyPhotoRequestStatus(status);
     }
 }

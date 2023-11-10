@@ -49,6 +49,12 @@ public class PhotoController {
         return Response.success();
     }
 
+    @DeleteMapping("/requests")
+    public Response<Void> photoRequestRemove(@LoginMember LoginMemberInfo memberInfo) {
+        photoService.removePhotoRequest(memberInfo.getId());
+        return Response.success();
+    }
+
     @PostMapping
     public Response<Void> profilePhotoUploadAndUpdate(@LoginMember LoginMemberInfo memberInfo,
                                                       @RequestPart("profile_photo") MultipartFile multipartFile) {

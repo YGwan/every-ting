@@ -8,6 +8,7 @@ import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.service.PhotoService;
 import com.everyTing.photo.service.S3Service;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ public class PhotoController {
         return Response.success(response);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/requests")
     public Response<Void> photoRequestAdd(@LoginMember LoginMemberInfo memberInfo) {
         photoService.addPhotoRequest(memberInfo.getId());

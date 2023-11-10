@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface TeamPort {
 
+    Boolean existsTeamByCode(Code code);
+
     Team findTeamById(Long teamId);
 
     Team findTeamByCode(Code code);

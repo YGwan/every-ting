@@ -4,5 +4,6 @@ spring:
       - server
       - db
       - constraint
+      - teamcode
       - redis
       - core

@@ -76,6 +76,11 @@ team:
   request:
     lock:
       key.prefix: REQUEST_KEY
+  code:
+    separator: =
+    random:
+      characters: abcdefghijklmnopqrstuvwxyz
+      string.length: 20
 
 # JWT token
 jwt:

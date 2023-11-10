@@ -14,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import com.everyTing.core.feign.dto.Member;
 import com.everyTing.team.adapter.out.persistence.entity.TeamEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
+import com.everyTing.team.adapter.out.persistence.entity.data.Code;
+import com.everyTing.team.adapter.out.persistence.entity.data.Name;
 import com.everyTing.team.application.port.in.command.TeamFindByCodeCommand;
 import com.everyTing.team.application.port.in.command.TeamFindByIdCommand;
 import com.everyTing.team.application.port.in.command.TeamRemoveCommand;
@@ -21,12 +23,15 @@ import com.everyTing.team.application.port.in.command.TeamSaveCommand;
 import com.everyTing.team.application.port.out.MemberPort;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
+import com.everyTing.team.common.util.TeamCodeGenerator;
 import com.everyTing.team.domain.Team;
 import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.utils.BaseTest;
 import com.everyTing.team.utils.MemberFixture;
 import com.everyTing.team.utils.TeamEntityFixture;
 import com.everyTing.team.utils.TeamMemberEntityFixture;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -51,6 +56,8 @@ class TeamServiceTest extends BaseTest {
     private MemberPort memberPort;
     @Mock
     private TeamMemberPort teamMemberPort;
+    @Mock
+    private TeamCodeGenerator teamCodeGenerator;
 
     @DisplayName("id로 팀 조회")
     @Test
@@ -92,6 +99,7 @@ class TeamServiceTest extends BaseTest {
 
         // given
         given(memberPort.getMemberById(any())).willReturn(member);
+        given(teamPort.existsTeamByCode(any())).willReturn(false);
         given(teamPort.saveTeam(any(), any(), any(), any(), any(), any(), any(), any(),
             any())).willReturn(teamEntity.getId());
         given(teamMemberPort.existsTeamLeaderByMemberId(any())).willReturn(false);

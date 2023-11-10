@@ -28,7 +28,7 @@ public class PhotoRequestResponse {
     }
 
 
-    public static PhotoRequestResponse of(PhotoRequest photoRequest) {
+    public static PhotoRequestResponse from(PhotoRequest photoRequest) {
         return new PhotoRequestResponse(
                 photoRequest.getRequestStatus(),
                 photoRequest.getCreatedAt()

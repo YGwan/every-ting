@@ -30,7 +30,7 @@ public class PhotoRequestService {
 
     public PhotoRequestResponse findPhotoRequest(Long memberId) {
         return photoRequestRepository.findByMemberId(memberId)
-                .map(PhotoRequestResponse::of)
+                .map(PhotoRequestResponse::from)
                 .orElseGet(() -> new PhotoRequestResponse(PhotoRequestStatus.NOT_FOUND));
     }
 

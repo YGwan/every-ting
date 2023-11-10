@@ -11,11 +11,11 @@ import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_005;
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 
 @Service
-public class PhotoService {
+public class PhotoRequestService {
 
     private final PhotoRequestRepository photoRequestRepository;
 
-    public PhotoService(PhotoRequestRepository photoRequestRepository) {
+    public PhotoRequestService(PhotoRequestRepository photoRequestRepository) {
         this.photoRequestRepository = photoRequestRepository;
     }
 

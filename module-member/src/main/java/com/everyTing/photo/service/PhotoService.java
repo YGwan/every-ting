@@ -24,7 +24,7 @@ public class PhotoService {
             throw new TingApplicationException(PHOTO_005);
         }
 
-        final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTING);
+        final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTED);
         photoRequestRepository.save(photoRequest);
     }
 

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum PhotoRequestStatus {
     FAILED("실패"),
-    REQUESTING("요청중"),
+    REQUESTED("요청중"),
     COMPLETED("성공"),
     NOT_FOUND("없음");
 

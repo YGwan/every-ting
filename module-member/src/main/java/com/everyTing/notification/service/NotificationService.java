@@ -1,14 +1,10 @@
-package com.everyTing.notification.service.fcm;
+package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.Notification;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
-import com.everyTing.notification.service.fcm.form.PhotoGeneratedErrorForm;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import lombok.extern.slf4j.Slf4j;
+import com.everyTing.notification.service.fcm.form.NotificationForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,33 +15,18 @@ import java.util.stream.Collectors;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_003;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_004;
 
-@Slf4j
 @Transactional
 @Service
 public class NotificationService {
 
-    private final FcmFormCreator fcmFormCreator;
     private final NotificationRepository notificationRepository;
 
-    public NotificationService(FcmFormCreator fcmFormCreator, NotificationRepository notificationRepository) {
-        this.fcmFormCreator = fcmFormCreator;
+    public NotificationService(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
     }
 
-    public void sendErrorGeneratedPhotoNotification(Long memberId) {
-        final var errorForm = new PhotoGeneratedErrorForm();
-        final var message = fcmFormCreator.makeMessage(memberId, errorForm);
-        sendNotification(message);
-        notificationRepository.save(Notification.of(memberId, errorForm));
-    }
-
-    private void sendNotification(Message message) {
-        try {
-            FirebaseMessaging.getInstance().send(message);
-        } catch (FirebaseMessagingException e) {
-            log.error(e.getMessage());
-//            throw new TingServerException(NSER_002);
-        }
+    public void addNotification(Long memberId, NotificationForm notificationForm) {
+        notificationRepository.save(Notification.of(memberId, notificationForm));
     }
 
     @Transactional(readOnly = true)

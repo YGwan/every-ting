@@ -4,7 +4,8 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.notification.dto.response.NotificationResponse;
-import com.everyTing.notification.service.fcm.NotificationService;
+import com.everyTing.notification.service.FcmService;
+import com.everyTing.notification.service.NotificationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 @RestController
 public class NotificationController {
 
+    private final FcmService fcmService;
     private final NotificationService notificationService;
 
-    public NotificationController(NotificationService notificationService) {
+    public NotificationController(FcmService fcmService, NotificationService notificationService) {
+        this.fcmService = fcmService;
         this.notificationService = notificationService;
     }
 
@@ -27,7 +30,8 @@ public class NotificationController {
 
     @PostMapping("/error/send/{memberId}")
     public Response<Void> errorGeneratedPhotoNotificationSend(@PathVariable Long memberId) {
-        notificationService.sendErrorGeneratedPhotoNotification(memberId);
+        final var notificationForm = fcmService.sendErrorGeneratedPhotoNotification(memberId);
+        notificationService.addNotification(memberId, notificationForm);
         return Response.success();
     }
 

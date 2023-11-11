@@ -3,6 +3,7 @@ package com.everyTing.photo.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
+import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.repository.PhotoRequestRepository;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,23 @@ public class PhotoRequestService {
                 .orElseGet(() -> new PhotoRequestResponse(PhotoRequestStatus.NOT_FOUND));
     }
 
-    public void modifyPhotoRequest(Long memberId, PhotoRequestStatus status) {
+    public void modifyPhotoRequest(PhotoRequestModifyRequest request) {
+        final var memberId = request.getMemberId();
+        final var status = request.getStatus();
         final var photoRequest = getPhotoRequestByMemberId(memberId);
+
         photoRequest.modifyPhotoRequestStatus(status);
+
+        if (status == PhotoRequestStatus.COMPLETED) {
+            // 성공 - 성공 알림 로직 처리
+            System.out.println("성공");
+            return;
+        }
+        if (status == PhotoRequestStatus.FAILED) {
+            // 실패 - 실패 알림 로직 처리
+            System.out.println("실패");
+            return;
+        }
     }
 
     public void removePhotoRequest(Long memberId) {

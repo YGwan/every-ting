@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface NotificationMetaRepository extends JpaRepository<NotificationMeta, Long> {
 
     Optional<NotificationMeta> findByMemberId(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

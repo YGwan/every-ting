@@ -41,8 +41,7 @@ public class GeneratedPhotoService {
     }
 
     public void removeGeneratedPhoto(Long memberId) {
-        final var generatedPhoto = getGeneratedPhotoByMemberId(memberId);
-        generatedPhotoRepository.delete(generatedPhoto);
+        generatedPhotoRepository.deleteByMemberId(memberId);
     }
 
     private GeneratedPhoto getGeneratedPhotoByMemberId(Long memberId) {

@@ -59,8 +59,7 @@ public class PhotoRequestService {
     }
 
     public void removePhotoRequest(Long memberId) {
-        final var photoRequest = getPhotoRequestByMemberId(memberId);
-        photoRequestRepository.delete(photoRequest);
+        photoRequestRepository.deleteByMemberId(memberId);
     }
 
     private PhotoRequest getPhotoRequestByMemberId(Long memberId) {

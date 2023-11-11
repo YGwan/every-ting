@@ -10,4 +10,6 @@ public interface PhotoRequestRepository extends JpaRepository<PhotoRequest, Long
     Boolean existsByMemberId(Long memberId);
 
     Optional<PhotoRequest> findByMemberId(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

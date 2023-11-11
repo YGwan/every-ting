@@ -10,3 +10,8 @@ cloud:
       auto: false
     stack:
       auto: false
+
+s3:
+  file:
+    name:
+      separator: _

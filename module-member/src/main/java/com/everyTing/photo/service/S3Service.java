@@ -15,23 +15,32 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    @Value("${s3.file.name.separator}")
+    private String separator;
+
     private final AmazonS3Client amazonS3Client;
 
     public S3Service(AmazonS3Client amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
     }
 
-    public void uploadPhoto(MultipartFile multipartFile) {
+    public String uploadPhoto(Long memberId, MultipartFile multipartFile) {
         final String originalFilename = multipartFile.getOriginalFilename();
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(multipartFile.getSize());
-        metadata.setContentType(multipartFile.getContentType());
+        final String s3Filename = memberId + separator + originalFilename;
+        final var metadata = getObjectMetadata(multipartFile);
+
         try {
-            amazonS3Client.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
-            String image = amazonS3Client.getUrl(bucket, originalFilename).toString();
-            System.out.println(image);
+            amazonS3Client.putObject(bucket, s3Filename, multipartFile.getInputStream(), metadata);
+            return amazonS3Client.getUrl(bucket, s3Filename).toString();
         } catch (Exception e) {
             throw new TingServerException(PSER_001);
         }
+    }
+
+    private ObjectMetadata getObjectMetadata(MultipartFile multipartFile) {
+        final ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(multipartFile.getSize());
+        metadata.setContentType(multipartFile.getContentType());
+        return metadata;
     }
 }

@@ -1,6 +1,7 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.notification.service.NotificationApiService;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
@@ -16,9 +17,11 @@ import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 @Service
 public class PhotoRequestService {
 
+    private final NotificationApiService notificationApiService;
     private final PhotoRequestRepository photoRequestRepository;
 
-    public PhotoRequestService(PhotoRequestRepository photoRequestRepository) {
+    public PhotoRequestService(NotificationApiService notificationApiService, PhotoRequestRepository photoRequestRepository) {
+        this.notificationApiService = notificationApiService;
         this.photoRequestRepository = photoRequestRepository;
     }
 
@@ -46,14 +49,12 @@ public class PhotoRequestService {
         photoRequest.modifyPhotoRequestStatus(status);
 
         if (status == PhotoRequestStatus.COMPLETED) {
-            // 성공 - 성공 알림 로직 처리
-            System.out.println("성공");
+            notificationApiService.completedGeneratedPhotoNotificationSend(memberId);
             return;
         }
+
         if (status == PhotoRequestStatus.FAILED) {
-            // 실패 - 실패 알림 로직 처리
-            System.out.println("실패");
-            return;
+            notificationApiService.errorGeneratedPhotoNotificationSend(memberId);
         }
     }
 

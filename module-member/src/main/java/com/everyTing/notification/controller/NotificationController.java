@@ -32,7 +32,7 @@ public class NotificationController {
     @PostMapping("/error/send/{memberId}")
     public Response<Void> errorGeneratedPhotoNotificationSend(@PathVariable Long memberId) {
         final PhotoGeneratedErrorForm form = new PhotoGeneratedErrorForm();
-        fcmService.sendErrorGeneratedPhotoNotification(memberId, form);
+        fcmService.sendNotification(memberId, form);
         notificationService.addNotification(memberId, form);
         return Response.success();
     }

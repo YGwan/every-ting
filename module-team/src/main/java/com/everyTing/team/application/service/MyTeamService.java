@@ -6,6 +6,7 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.MyTeamUseCase;
 import com.everyTing.team.application.port.in.command.MyTeamDateFindCommand;
+import com.everyTing.team.application.port.in.command.MyTeamExistsCommand;
 import com.everyTing.team.application.port.in.command.MyTeamFindCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRequestFindCommand;
@@ -37,6 +38,12 @@ public class MyTeamService implements MyTeamUseCase {
     }
 
     @Override
+    public Boolean existsMyTeam(MyTeamExistsCommand command) {
+        final Boolean exists = teamMemberPort.existsTeamMemberByMemberId(command.getMemberId());
+        return exists;
+    }
+
+    @Override
     public List<Long> findMyTeams(MyTeamFindCommand command) {
         final TeamMembers myTeamMemberRecords = teamMemberPort.findTeamMembersByMemberIdAndRole(
             command.getMemberId(), command.getMyRole());
@@ -48,14 +55,14 @@ public class MyTeamService implements MyTeamUseCase {
 
     @Override
     public TeamDates findMyTeamDates(MyTeamDateFindCommand command) {
-        List<Long> myTeamIds = getMyTeamIds(command.getMemberId());
+        final List<Long> myTeamIds = getMyTeamIds(command.getMemberId());
 
         return teamDatePort.findTeamDatesByTeamIdIn(myTeamIds);
     }
 
     @Override
     public TeamRequests findMyTeamRequests(MyTeamRequestFindCommand command) {
-        List<Long> myTeamIds = getMyTeamIds(command.getMemberId());
+        final List<Long> myTeamIds = getMyTeamIds(command.getMemberId());
 
         return teamRequestPort.findTeamRequestsByFromTeamIdIn(myTeamIds);
     }

@@ -7,6 +7,7 @@ import com.everyTing.team.adapter.in.web.docs.MyTeamControllerDocs;
 import com.everyTing.team.adapter.out.persistence.entity.data.Role;
 import com.everyTing.team.application.port.in.MyTeamUseCase;
 import com.everyTing.team.application.port.in.command.MyTeamDateFindCommand;
+import com.everyTing.team.application.port.in.command.MyTeamExistsCommand;
 import com.everyTing.team.application.port.in.command.MyTeamFindCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRemoveCommand;
 import com.everyTing.team.application.port.in.command.MyTeamRequestFindCommand;
@@ -48,6 +49,12 @@ public class MyTeamController implements MyTeamControllerDocs {
         final MyTeamRequestFindCommand command = MyTeamRequestFindCommand.of(
             loginMemberInfo.getId());
         return Response.success(myTeamUseCase.findMyTeamRequests(command));
+    }
+
+    @GetMapping("/exists")
+    public Response<Boolean> myTeamExists(@LoginMember LoginMemberInfo loginMemberInfo) {
+        final MyTeamExistsCommand command = MyTeamExistsCommand.of(loginMemberInfo.getId());
+        return Response.success(myTeamUseCase.existsMyTeam(command));
     }
 
     @DeleteMapping("/{teamId}")

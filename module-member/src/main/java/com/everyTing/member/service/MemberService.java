@@ -21,10 +21,12 @@ import static com.everyTing.member.errorCode.MemberErrorCode.*;
 public class MemberService extends MemberServiceValidator {
 
     private final MemberRepository memberRepository;
+    private final MemberDeleteApi memberDeleteApi;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, MemberDeleteApi memberDeleteApi) {
         super(memberRepository);
         this.memberRepository = memberRepository;
+        this.memberDeleteApi = memberDeleteApi;
     }
 
     public Long signUp(ValidatedSignUpRequest request) {
@@ -41,6 +43,7 @@ public class MemberService extends MemberServiceValidator {
     }
 
     public void removeMember(Long memberId) {
+        memberDeleteApi.deleteMemberApi(memberId);
         final Member member = getMemberById(memberId);
         memberRepository.delete(member);
     }

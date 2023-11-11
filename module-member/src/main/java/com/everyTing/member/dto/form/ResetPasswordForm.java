@@ -1,4 +1,4 @@
-package com.everyTing.member.service.mail.form;
+package com.everyTing.member.dto.form;
 
 public class ResetPasswordForm implements MailForm {
 

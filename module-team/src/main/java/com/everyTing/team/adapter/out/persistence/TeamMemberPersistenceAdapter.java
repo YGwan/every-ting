@@ -32,6 +32,11 @@ public class TeamMemberPersistenceAdapter implements TeamMemberPort {
     }
 
     @Override
+    public Boolean existsTeamMemberByMemberId(Long memberId) {
+        return teamMemberEntityRepository.existsByMemberId(memberId);
+    }
+
+    @Override
     public Boolean existsTeamMemberByTeamIdAndTeamMemberId(Long teamId, Long teamMemberId) {
         return teamMemberEntityRepository.existsByIdAndTeamId(teamMemberId, teamId);
     }

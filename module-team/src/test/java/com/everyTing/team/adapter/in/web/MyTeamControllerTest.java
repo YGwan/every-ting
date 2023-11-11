@@ -85,7 +85,18 @@ class MyTeamControllerTest extends BaseTest {
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data.size()").value(1))
                .andExpect(jsonPath("$.data.teamRequests[0].size()").value(4));
+    }
 
+    @DisplayName("내 팀 존재 여부 확인 api 테스트")
+    @Test
+    void myTeamExists() throws Exception {
+        Boolean expected = true;
+        given(myTeamUseCase.existsMyTeam(any())).willReturn(expected);
+
+        mockMvc.perform(get("/api/v1/my/teams/exists"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.data").value(expected));
     }
 
     @DisplayName("팀 나가기(팀원용) api 테스트")

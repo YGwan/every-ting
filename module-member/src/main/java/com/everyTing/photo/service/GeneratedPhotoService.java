@@ -7,10 +7,12 @@ import com.everyTing.photo.dto.response.GeneratedPhotoResponse;
 import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedPhotoAddRequest;
 import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_004;
 import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_007;
 
+@Transactional
 @Service
 public class GeneratedPhotoService {
 
@@ -31,6 +33,7 @@ public class GeneratedPhotoService {
         generatedPhotoRepository.save(generatedPhoto);
     }
 
+    @Transactional(readOnly = true)
     public GeneratedPhotoResponse findGeneratedPhoto(Long memberId) {
         final var generatedPhoto = getGeneratedPhotoByMemberId(memberId);
 

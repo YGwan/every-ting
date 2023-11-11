@@ -25,10 +25,6 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public void addNotification(Long memberId, NotificationForm notificationForm) {
-        notificationRepository.save(Notification.of(memberId, notificationForm));
-    }
-
     @Transactional(readOnly = true)
     public List<NotificationResponse> findAllNotifications(Long memberId) {
         List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
@@ -36,6 +32,10 @@ public class NotificationService {
         return notifications.stream()
                 .map(NotificationResponse::from)
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    public void addNotification(Long memberId, NotificationForm notificationForm) {
+        notificationRepository.save(Notification.of(memberId, notificationForm));
     }
 
     public void removeNotification(Long memberId, Long notificationId) {

@@ -20,11 +20,9 @@ public class FcmService {
         this.fcmFormCreator = fcmFormCreator;
     }
 
-    public NotificationForm sendErrorGeneratedPhotoNotification(Long memberId) {
-        final var errorForm = new PhotoGeneratedErrorForm();
-        final var message = fcmFormCreator.makeMessage(memberId, errorForm);
+    public void sendErrorGeneratedPhotoNotification(Long memberId, NotificationForm form) {
+        final var message = fcmFormCreator.makeMessage(memberId, form);
         sendNotification(message);
-        return errorForm;
     }
 
     private void sendNotification(Message message) {

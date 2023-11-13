@@ -2,9 +2,9 @@ package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.Notification;
+import com.everyTing.notification.dto.form.NotificationForm;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
-import com.everyTing.notification.dto.form.NotificationForm;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

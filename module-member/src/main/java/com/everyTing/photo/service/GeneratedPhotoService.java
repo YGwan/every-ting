@@ -1,10 +1,9 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.core.exception.TingServerException;
 import com.everyTing.photo.domain.GeneratedPhoto;
+import com.everyTing.photo.dto.request.GeneratedPhotoAddRequest;
 import com.everyTing.photo.dto.response.GeneratedPhotoResponse;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedPhotoAddRequest;
 import com.everyTing.photo.repository.GeneratedPhotoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +21,11 @@ public class GeneratedPhotoService {
         this.generatedPhotoRepository = generatedPhotoRepository;
     }
 
-    public void addGeneratedPhoto(ValidatedGeneratedPhotoAddRequest validatedRequest) {
+    public void addGeneratedPhoto(GeneratedPhotoAddRequest validatedRequest) {
         final var memberId = validatedRequest.getMemberId();
 
         if (generatedPhotoRepository.existsByMemberId(memberId)) {
-            throw new TingServerException(PHOTO_007);
+            throw new TingApplicationException(PHOTO_007);
         }
 
         final var generatedPhoto = GeneratedPhoto.from(validatedRequest);

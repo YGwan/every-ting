@@ -1,7 +1,7 @@
 package com.everyTing.photo.domain;
 
 import com.everyTing.photo.domain.data.GeneratedImgUrls;
-import com.everyTing.photo.dto.validatedRequest.ValidatedGeneratedPhotoAddRequest;
+import com.everyTing.photo.dto.request.GeneratedPhotoAddRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,10 +30,10 @@ public class GeneratedPhoto {
         this.generatedImgUrls = generatedImgUrls;
     }
 
-    public static GeneratedPhoto from(ValidatedGeneratedPhotoAddRequest request) {
+    public static GeneratedPhoto from(GeneratedPhotoAddRequest request) {
         return new GeneratedPhoto(
                 request.getMemberId(),
-                request.getGeneratedImgUrls()
+                new GeneratedImgUrls(request.getGeneratedImgUrls())
         );
     }
 }

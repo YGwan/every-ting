@@ -19,7 +19,7 @@ public class GeneratedPhotoResponse {
 
     public static GeneratedPhotoResponse from(GeneratedPhoto generatedPhoto) {
         return new GeneratedPhotoResponse(
-                generatedPhoto.getGeneratedImgUrls().getGeneratedImgUrlList()
+                generatedPhoto.getGeneratedImgUrls().getValue()
         );
     }
 }

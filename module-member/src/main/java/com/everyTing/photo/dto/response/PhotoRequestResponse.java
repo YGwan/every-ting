@@ -13,14 +13,14 @@ public class PhotoRequestResponse {
 
     public PhotoRequestStatus requestStatus;
 
-    public LocalDateTime createdAt;
+    public LocalDateTime updatedAt;
 
     public PhotoRequestResponse() {
     }
 
-    public PhotoRequestResponse(PhotoRequestStatus requestStatus, LocalDateTime createdAt) {
+    public PhotoRequestResponse(PhotoRequestStatus requestStatus, LocalDateTime updatedAt) {
         this.requestStatus = requestStatus;
-        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public PhotoRequestResponse(PhotoRequestStatus requestStatus) {
@@ -31,7 +31,7 @@ public class PhotoRequestResponse {
     public static PhotoRequestResponse from(PhotoRequest photoRequest) {
         return new PhotoRequestResponse(
                 photoRequest.getRequestStatus(),
-                photoRequest.getCreatedAt()
+                photoRequest.getUpdatedAt()
         );
     }
 }

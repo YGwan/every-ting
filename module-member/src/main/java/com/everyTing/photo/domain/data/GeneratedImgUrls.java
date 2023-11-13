@@ -20,6 +20,8 @@ public class GeneratedImgUrls {
     @Column(name = "generated_img_urls", columnDefinition = "TEXT")
     private String value;
 
+    private static final String DELIMITER = ",,,";
+
     protected GeneratedImgUrls() {
     }
 
@@ -38,7 +40,7 @@ public class GeneratedImgUrls {
 
         final String generateImgUrls = values.stream()
                 .map(GeneratedImgUrls::from)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(DELIMITER));
 
         return new GeneratedImgUrls(generateImgUrls);
     }
@@ -55,7 +57,7 @@ public class GeneratedImgUrls {
         }
     }
 
-    public String getValue() {
-        return value;
+    public List<String> getGeneratedImgUrlList() {
+        return List.of(value.split(DELIMITER));
     }
 }

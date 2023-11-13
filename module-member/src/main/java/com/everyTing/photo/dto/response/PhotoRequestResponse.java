@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 public class PhotoRequestResponse {
 
+    public Long memberId;
+
     public PhotoRequestStatus requestStatus;
 
     public LocalDateTime updatedAt;
@@ -18,7 +20,8 @@ public class PhotoRequestResponse {
     public PhotoRequestResponse() {
     }
 
-    public PhotoRequestResponse(PhotoRequestStatus requestStatus, LocalDateTime updatedAt) {
+    public PhotoRequestResponse(Long memberId, PhotoRequestStatus requestStatus, LocalDateTime updatedAt) {
+        this.memberId = memberId;
         this.requestStatus = requestStatus;
         this.updatedAt = updatedAt;
     }
@@ -30,6 +33,7 @@ public class PhotoRequestResponse {
 
     public static PhotoRequestResponse from(PhotoRequest photoRequest) {
         return new PhotoRequestResponse(
+                photoRequest.getMemberId(),
                 photoRequest.getRequestStatus(),
                 photoRequest.getUpdatedAt()
         );

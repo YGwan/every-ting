@@ -45,7 +45,7 @@ public class GeneratedImgUrls {
         return new GeneratedImgUrls(generateImgUrls);
     }
 
-    public static void validate(List<String> values) {
+    private static void validate(List<String> values) {
         if (values.size() != GENERATED_IMG_URLS_COUNT) {
             throw new TingApplicationException(PHOTO_001);
         }

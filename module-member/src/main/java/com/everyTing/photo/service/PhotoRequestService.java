@@ -25,12 +25,12 @@ public class PhotoRequestService {
         this.photoRequestRepository = photoRequestRepository;
     }
 
-    public void addPhotoRequest(Long memberId) {
+    public void addPhotoRequest(Long memberId, PhotoRequestStatus status) {
         if (photoRequestRepository.existsByMemberId(memberId)) {
             throw new TingApplicationException(PHOTO_005);
         }
 
-        final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTED);
+        final var photoRequest = PhotoRequest.of(memberId, status);
         photoRequestRepository.save(photoRequest);
     }
 

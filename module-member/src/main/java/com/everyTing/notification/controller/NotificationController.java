@@ -25,7 +25,7 @@ public class NotificationController {
         return Response.success(responses);
     }
 
-    @DeleteMapping("{notificationId}")
+    @DeleteMapping("/{notificationId}")
     public Response<Void> notificationRemove(@LoginMember LoginMemberInfo memberInfo,
                                              @PathVariable Long notificationId) {
         notificationService.removeNotification(memberInfo.getId(), notificationId);

@@ -7,7 +7,7 @@ import com.everyTing.photo.service.PhotoRequestService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberDeleteApi {
+public class MemberDataDeleteService {
 
     private final NotificationMetaService notificationMetaService;
 
@@ -17,8 +17,8 @@ public class MemberDeleteApi {
 
     private final PhotoRequestService photoRequestService;
 
-    public MemberDeleteApi(NotificationMetaService notificationMetaService, NotificationService notificationService,
-                           GeneratedPhotoService generatedPhotoService, PhotoRequestService photoRequestService) {
+    public MemberDataDeleteService(NotificationMetaService notificationMetaService, NotificationService notificationService,
+                                   GeneratedPhotoService generatedPhotoService, PhotoRequestService photoRequestService) {
         this.notificationMetaService = notificationMetaService;
         this.notificationService = notificationService;
         this.generatedPhotoService = generatedPhotoService;

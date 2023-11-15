@@ -1,6 +1,8 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.notification.dto.form.PhotoGeneratedCompletedForm;
+import com.everyTing.notification.dto.form.PhotoGeneratedErrorForm;
 import com.everyTing.notification.service.NotificationApiService;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
@@ -49,12 +51,12 @@ public class PhotoRequestService {
         photoRequest.modifyPhotoRequestStatus(status);
 
         if (status == PhotoRequestStatus.COMPLETED) {
-            notificationApiService.completedGeneratedPhotoNotificationSend(memberId);
+            notificationApiService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedCompletedForm());
             return;
         }
 
         if (status == PhotoRequestStatus.FAILED) {
-            notificationApiService.errorGeneratedPhotoNotificationSend(memberId);
+            notificationApiService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedErrorForm());
         }
     }
 

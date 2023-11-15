@@ -51,17 +51,17 @@ public class MyTeamController implements MyTeamControllerDocs {
         return Response.success(myTeamUseCase.findMyTeamRequests(command));
     }
 
-    @GetMapping("/exists")
-    public Response<Boolean> myTeamExists(@LoginMember LoginMemberInfo loginMemberInfo) {
-        final MyTeamExistsCommand command = MyTeamExistsCommand.of(loginMemberInfo.getId());
-        return Response.success(myTeamUseCase.existsMyTeam(command));
-    }
-
     @DeleteMapping("/{teamId}")
     public Response<Void> myTeamRemove(@PathVariable Long teamId,
         @LoginMember LoginMemberInfo loginMemberInfo) {
         final MyTeamRemoveCommand command = MyTeamRemoveCommand.of(teamId, loginMemberInfo.getId());
         myTeamUseCase.removeMyTeam(command);
         return Response.success();
+    }
+
+    @GetMapping("/exists")
+    public Response<Boolean> myTeamExists(@RequestParam Long memberId) {
+        final MyTeamExistsCommand command = MyTeamExistsCommand.of(memberId);
+        return Response.success(myTeamUseCase.existsMyTeam(command));
     }
 }

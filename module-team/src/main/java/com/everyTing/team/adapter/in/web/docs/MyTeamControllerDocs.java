@@ -24,10 +24,11 @@ public interface MyTeamControllerDocs {
     @Operation(summary = "내가 속한 팀 미팅 요청 현황 조회")
     Response<TeamRequests> myTeamRequestList(LoginMemberInfo loginMemberInfo);
 
-    @Hidden
-    Response<Boolean> myTeamExists(LoginMemberInfo loginMemberInfo);
-
     @Operation(summary = "속한 팀에서 나가기")
     @ApiErrorCode(values = MyTeamRemoveErrorCode.class)
     Response<Void> myTeamRemove(Long teamId, LoginMemberInfo loginMemberInfo);
+
+    // 멤버 탈퇴시에 이용하는 api
+    @Hidden
+    Response<Boolean> myTeamExists(Long memberId);
 }

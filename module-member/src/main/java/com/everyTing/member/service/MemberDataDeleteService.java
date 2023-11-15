@@ -25,7 +25,7 @@ public class MemberDataDeleteService {
         this.photoRequestService = photoRequestService;
     }
 
-    public void deleteMemberApi(Long memberId) {
+    public void deleteMemberData(Long memberId) {
         notificationMetaService.removeNotificationMetaByMemberId(memberId);
         notificationService.removeAllNotification(memberId);
         generatedPhotoService.removeGeneratedPhoto(memberId);

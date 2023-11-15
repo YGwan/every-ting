@@ -3,7 +3,7 @@ package com.everyTing.photo.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.dto.form.PhotoGeneratedCompletedForm;
 import com.everyTing.notification.dto.form.PhotoGeneratedErrorForm;
-import com.everyTing.notification.service.NotificationApiService;
+import com.everyTing.notification.service.NotificationDataService;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
@@ -19,11 +19,11 @@ import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 @Service
 public class PhotoRequestService {
 
-    private final NotificationApiService notificationApiService;
+    private final NotificationDataService notificationDataService;
     private final PhotoRequestRepository photoRequestRepository;
 
-    public PhotoRequestService(NotificationApiService notificationApiService, PhotoRequestRepository photoRequestRepository) {
-        this.notificationApiService = notificationApiService;
+    public PhotoRequestService(NotificationDataService notificationDataService, PhotoRequestRepository photoRequestRepository) {
+        this.notificationDataService = notificationDataService;
         this.photoRequestRepository = photoRequestRepository;
     }
 
@@ -51,12 +51,9 @@ public class PhotoRequestService {
         photoRequest.modifyPhotoRequestStatus(status);
 
         if (status == PhotoRequestStatus.COMPLETED) {
-            notificationApiService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedCompletedForm());
-            return;
-        }
-
-        if (status == PhotoRequestStatus.FAILED) {
-            notificationApiService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedErrorForm());
+            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedCompletedForm());
+        } else if (status == PhotoRequestStatus.FAILED) {
+            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedErrorForm());
         }
     }
 

@@ -43,7 +43,7 @@ public class MemberService extends MemberServiceValidator {
     }
 
     public void removeMember(Long memberId) {
-        memberDataDeleteService.deleteMemberApi(memberId);
+        memberDataDeleteService.deleteMemberData(memberId);
         memberRepository.deleteById(memberId);
     }
 

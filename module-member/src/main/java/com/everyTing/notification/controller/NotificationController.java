@@ -5,9 +5,9 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.service.NotificationService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/notifications")
 @RestController
@@ -20,8 +20,8 @@ public class NotificationController {
     }
 
     @GetMapping
-    public Response<List<NotificationResponse>> notificationList(@LoginMember LoginMemberInfo memberInfo) {
-        final List<NotificationResponse> responses = notificationService.findAllNotifications(memberInfo.getId());
+    public Response<Slice<NotificationResponse>> notificationList(@LoginMember LoginMemberInfo memberInfo, Pageable pageable) {
+        final Slice<NotificationResponse> responses = notificationService.findAllNotifications(memberInfo.getId(), pageable);
         return Response.success(responses);
     }
 

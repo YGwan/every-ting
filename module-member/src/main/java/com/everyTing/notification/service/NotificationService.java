@@ -5,12 +5,12 @@ import com.everyTing.notification.domain.Notification;
 import com.everyTing.notification.dto.form.NotificationForm;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_003;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_004;
@@ -26,12 +26,10 @@ public class NotificationService {
     }
 
     @Transactional(readOnly = true)
-    public List<NotificationResponse> findAllNotifications(Long memberId) {
-        List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
+    public Slice<NotificationResponse> findAllNotifications(Long memberId, Pageable pageable) {
+        Slice<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId, pageable);
 
-        return notifications.stream()
-                .map(NotificationResponse::from)
-                .collect(Collectors.toUnmodifiableList());
+        return notifications.map(NotificationResponse::from);
     }
 
     public void addNotification(Long memberId, NotificationForm notificationForm) {

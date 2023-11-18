@@ -1,6 +1,6 @@
-package com.everyTing.notification.dto.form;
+package com.everyTing.core.notification.form;
 
-import com.everyTing.notification.domain.NotificationType;
+import com.everyTing.core.notification.domain.NotificationType;
 
 public interface NotificationForm {
 

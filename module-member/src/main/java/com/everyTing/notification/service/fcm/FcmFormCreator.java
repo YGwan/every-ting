@@ -1,7 +1,7 @@
 package com.everyTing.notification.service.fcm;
 
 import com.everyTing.notification.service.NotificationMetaService;
-import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.everyTing.notification.domain;
+package com.everyTing.core.notification.domain;
 
 public enum NotificationType {
     PROFILE_PHOTO_GENERATION_FAILED,

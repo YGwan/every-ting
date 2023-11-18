@@ -1,6 +1,6 @@
 package com.everyTing.notification.service;
 
-import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.everyTing.notification.service.fcm.FcmService;
 import org.springframework.stereotype.Service;
 

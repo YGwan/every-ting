@@ -1,6 +1,6 @@
 package com.everyTing.notification.service.fcm;
 
-import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.extern.slf4j.Slf4j;

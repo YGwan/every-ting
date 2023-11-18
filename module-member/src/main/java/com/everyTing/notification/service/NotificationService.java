@@ -2,7 +2,7 @@ package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.Notification;
-import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
 import org.springframework.data.domain.Pageable;

@@ -1,5 +1,7 @@
 package com.everyTing.notification.dto.form;
 
+import com.everyTing.notification.domain.constant.NotificationType;
+
 public class PhotoGeneratedErrorForm implements NotificationForm {
 
     @Override
@@ -11,5 +13,10 @@ public class PhotoGeneratedErrorForm implements NotificationForm {
     public String body() {
         return "프로필 사진을 생성 과정에서 문제가 발생했습니다. " +
                 "재로그인 시에 다시 프로필을 설정하실 수 있습니다.";
+    }
+
+    @Override
+    public NotificationType notificationType() {
+        return NotificationType.PROFILE_PHOTO_GENERATION_FAILED;
     }
 }

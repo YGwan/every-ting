@@ -1,6 +1,6 @@
 package com.everyTing.notification.dto.form;
 
-import com.everyTing.notification.domain.constant.NotificationType;
+import com.everyTing.notification.domain.NotificationType;
 
 public class PhotoGeneratedCompletedForm implements NotificationForm {
 

@@ -33,7 +33,7 @@ public class NotificationService {
     }
 
     public void addNotification(Long memberId, NotificationForm notificationForm) {
-        notificationRepository.save(Notification.of(memberId, notificationForm));
+        notificationRepository.save(Notification.of(memberId, notificationForm.body(), notificationForm.notificationType()));
     }
 
     public void removeNotification(Long memberId, Long notificationId) {

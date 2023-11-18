@@ -1,6 +1,7 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.notification.domain.constant.NotificationType;
 import com.everyTing.notification.dto.form.PhotoGeneratedCompletedForm;
 import com.everyTing.notification.dto.form.PhotoGeneratedErrorForm;
 import com.everyTing.notification.service.NotificationDataService;

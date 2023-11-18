@@ -3,7 +3,6 @@ package com.everyTing.notification.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.notification.domain.data.PushToken;
 import com.everyTing.notification.dto.request.NotificationMetaRequest;
 import com.everyTing.notification.dto.validatedDto.ValidatedNotificationMetaRequest;
 import com.everyTing.notification.service.NotificationMetaService;

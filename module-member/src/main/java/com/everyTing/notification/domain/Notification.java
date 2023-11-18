@@ -1,7 +1,7 @@
 package com.everyTing.notification.domain;
 
 import com.everyTing.core.domain.CreatedDateFields;
-import com.everyTing.notification.dto.form.NotificationForm;
+import com.everyTing.notification.domain.constant.NotificationType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +25,17 @@ public class Notification extends CreatedDateFields  {
     @NotNull
     private String body;
 
-    private Notification(Long memberId, String body) {
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
+
+    private Notification(Long memberId, String body, NotificationType notificationType) {
         this.memberId = memberId;
         this.body = body;
+        this.notificationType = notificationType;
     }
 
-    public static Notification of(Long memberId, NotificationForm form) {
-        return new Notification(memberId, form.body());
+    public static Notification of(Long memberId, String body, NotificationType notificationType) {
+        return new Notification(memberId, body, notificationType);
     }
 }

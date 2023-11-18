@@ -6,5 +6,4 @@ public enum NotificationType {
     TEAM_DATE_MATCHED,
     TEAM_DATE_REQUEST_REJECTED,
     TEAM_DATE_REQUEST_SUCCESSED
-    ;
 }

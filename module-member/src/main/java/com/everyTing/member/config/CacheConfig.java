@@ -27,16 +27,16 @@ public class CacheConfig {
 
     @Bean
     public RedisCacheManager memberCacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.RedisCacheManagerBuilder
+        RedisCacheManager.RedisCacheManagerBuilder redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(connectionFactory);
-        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig()
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(
                                 new GenericJackson2JsonRedisSerializer(objectMapper())))
                 .entryTtl(Duration.ofDays(ttl));
-        builder.cacheDefaults(configuration);
-        return builder.build();
+        redisCacheManager.cacheDefaults(redisCacheConfiguration);
+        return redisCacheManager.build();
     }
 
     private ObjectMapper objectMapper() {

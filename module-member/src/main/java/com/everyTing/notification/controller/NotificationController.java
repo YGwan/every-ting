@@ -31,7 +31,8 @@ public class NotificationController {
 
     @PostMapping
     public Response<Void> notificationAdd(@RequestBody NotificationAddRequest request) {
-        notificationDataService.sendNotificationAndAddNotification(request.getMemberId(), request.getNotificationForm());
+        final var notificationForm = NotificationAddRequest.convertNotificationForm(request);
+        notificationDataService.sendNotificationAndAddNotification(request.getMemberId(), notificationForm);
         return Response.success();
     }
 

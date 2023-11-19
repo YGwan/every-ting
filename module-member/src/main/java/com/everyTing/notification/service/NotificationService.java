@@ -2,15 +2,15 @@ package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.Notification;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
-import com.everyTing.notification.dto.form.NotificationForm;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_003;
 import static com.everyTing.notification.errorCode.NotificationErrorCode.NOTIFICATION_004;
@@ -25,17 +25,15 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    public void addNotification(Long memberId, NotificationForm notificationForm) {
-        notificationRepository.save(Notification.of(memberId, notificationForm));
+    @Transactional(readOnly = true)
+    public Slice<NotificationResponse> findAllNotifications(Long memberId, Pageable pageable) {
+        Slice<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId, pageable);
+
+        return notifications.map(NotificationResponse::from);
     }
 
-    @Transactional(readOnly = true)
-    public List<NotificationResponse> findAllNotifications(Long memberId) {
-        List<Notification> notifications = notificationRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
-
-        return notifications.stream()
-                .map(NotificationResponse::from)
-                .collect(Collectors.toUnmodifiableList());
+    public void addNotification(Long memberId, NotificationForm notificationForm) {
+        notificationRepository.save(Notification.of(memberId, notificationForm.body(), notificationForm.notificationType()));
     }
 
     public void removeNotification(Long memberId, Long notificationId) {

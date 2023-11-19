@@ -4,6 +4,7 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.member.service.MemberService;
+import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.service.PhotoRequestService;
@@ -43,8 +44,9 @@ public class PhotoController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/requests")
-    public Response<Void> photoRequestAdd(@LoginMember LoginMemberInfo memberInfo) {
-        photoRequestService.addPhotoRequest(memberInfo.getId());
+    public Response<Void> photoRequestAdd(@LoginMember LoginMemberInfo memberInfo,
+                                          @RequestParam PhotoRequestStatus status) {
+        photoRequestService.addPhotoRequest(memberInfo.getId(), status);
         return Response.success();
     }
 

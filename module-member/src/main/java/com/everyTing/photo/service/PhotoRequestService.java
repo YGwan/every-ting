@@ -1,6 +1,9 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.photo.dto.notification.PhotoGeneratedCompletedForm;
+import com.everyTing.photo.dto.notification.PhotoGeneratedErrorForm;
+import com.everyTing.notification.service.NotificationDataService;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
@@ -16,18 +19,20 @@ import static com.everyTing.photo.errorCode.PhotoErrorCode.PHOTO_006;
 @Service
 public class PhotoRequestService {
 
+    private final NotificationDataService notificationDataService;
     private final PhotoRequestRepository photoRequestRepository;
 
-    public PhotoRequestService(PhotoRequestRepository photoRequestRepository) {
+    public PhotoRequestService(NotificationDataService notificationDataService, PhotoRequestRepository photoRequestRepository) {
+        this.notificationDataService = notificationDataService;
         this.photoRequestRepository = photoRequestRepository;
     }
 
-    public void addPhotoRequest(Long memberId) {
+    public void addPhotoRequest(Long memberId, PhotoRequestStatus status) {
         if (photoRequestRepository.existsByMemberId(memberId)) {
             throw new TingApplicationException(PHOTO_005);
         }
 
-        final var photoRequest = PhotoRequest.of(memberId, PhotoRequestStatus.REQUESTED);
+        final var photoRequest = PhotoRequest.of(memberId, status);
         photoRequestRepository.save(photoRequest);
     }
 
@@ -46,20 +51,14 @@ public class PhotoRequestService {
         photoRequest.modifyPhotoRequestStatus(status);
 
         if (status == PhotoRequestStatus.COMPLETED) {
-            // 성공 - 성공 알림 로직 처리
-            System.out.println("성공");
-            return;
-        }
-        if (status == PhotoRequestStatus.FAILED) {
-            // 실패 - 실패 알림 로직 처리
-            System.out.println("실패");
-            return;
+            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedCompletedForm());
+        } else if (status == PhotoRequestStatus.FAILED) {
+            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedErrorForm());
         }
     }
 
     public void removePhotoRequest(Long memberId) {
-        final var photoRequest = getPhotoRequestByMemberId(memberId);
-        photoRequestRepository.delete(photoRequest);
+        photoRequestRepository.deleteByMemberId(memberId);
     }
 
     private PhotoRequest getPhotoRequestByMemberId(Long memberId) {

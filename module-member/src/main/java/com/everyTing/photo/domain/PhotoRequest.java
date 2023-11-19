@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "index_memberId", columnList = "memberId"))
+@Table(indexes = @Index(name = "photo_request_index_memberId", columnList = "memberId"))
 @Entity
 public class PhotoRequest extends AuditingFields {
 

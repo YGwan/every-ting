@@ -11,16 +11,19 @@ import java.time.LocalDateTime;
 @Getter
 public class PhotoRequestResponse {
 
+    public Long memberId;
+
     public PhotoRequestStatus requestStatus;
 
-    public LocalDateTime createdAt;
+    public LocalDateTime updatedAt;
 
     public PhotoRequestResponse() {
     }
 
-    public PhotoRequestResponse(PhotoRequestStatus requestStatus, LocalDateTime createdAt) {
+    public PhotoRequestResponse(Long memberId, PhotoRequestStatus requestStatus, LocalDateTime updatedAt) {
+        this.memberId = memberId;
         this.requestStatus = requestStatus;
-        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public PhotoRequestResponse(PhotoRequestStatus requestStatus) {
@@ -30,8 +33,9 @@ public class PhotoRequestResponse {
 
     public static PhotoRequestResponse from(PhotoRequest photoRequest) {
         return new PhotoRequestResponse(
+                photoRequest.getMemberId(),
                 photoRequest.getRequestStatus(),
-                photoRequest.getCreatedAt()
+                photoRequest.getUpdatedAt()
         );
     }
 }

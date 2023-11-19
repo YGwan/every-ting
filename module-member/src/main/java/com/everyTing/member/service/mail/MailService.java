@@ -1,6 +1,6 @@
 package com.everyTing.member.service.mail;
 
-import com.everyTing.member.service.mail.form.MailForm;
+import com.everyTing.member.dto.form.MailForm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

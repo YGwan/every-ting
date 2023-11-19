@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(indexes = @Index(name = "index_memberId", columnList = "memberId"))
+@Table(indexes = @Index(name = "notification_meta_index_memberId", columnList = "memberId"))
 @Entity
 public class NotificationMeta extends AuditingFields {
 

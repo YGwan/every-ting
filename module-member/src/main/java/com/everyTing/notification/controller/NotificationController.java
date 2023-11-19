@@ -3,39 +3,40 @@ package com.everyTing.notification.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
+import com.everyTing.notification.dto.request.NotificationAddRequest;
 import com.everyTing.notification.dto.response.NotificationResponse;
-import com.everyTing.notification.service.fcm.FcmService;
+import com.everyTing.notification.service.NotificationDataService;
 import com.everyTing.notification.service.NotificationService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/notifications")
 @RestController
 public class NotificationController {
 
-    private final FcmService fcmService;
     private final NotificationService notificationService;
+    private final NotificationDataService notificationDataService;
 
-    public NotificationController(FcmService fcmService, NotificationService notificationService) {
-        this.fcmService = fcmService;
+    public NotificationController(NotificationService notificationService, NotificationDataService notificationDataService) {
         this.notificationService = notificationService;
+        this.notificationDataService = notificationDataService;
     }
 
     @GetMapping
-    public Response<List<NotificationResponse>> notificationList(@LoginMember LoginMemberInfo memberInfo) {
-        final List<NotificationResponse> responses = notificationService.findAllNotifications(memberInfo.getId());
+    public Response<Slice<NotificationResponse>> notificationList(@LoginMember LoginMemberInfo memberInfo, Pageable pageable) {
+        final Slice<NotificationResponse> responses = notificationService.findAllNotifications(memberInfo.getId(), pageable);
         return Response.success(responses);
     }
 
-    @PostMapping("/error/send/{memberId}")
-    public Response<Void> errorGeneratedPhotoNotificationSend(@PathVariable Long memberId) {
-        final var notificationForm = fcmService.sendErrorGeneratedPhotoNotification(memberId);
-        notificationService.addNotification(memberId, notificationForm);
+    @PostMapping
+    public Response<Void> notificationAdd(@RequestBody NotificationAddRequest request) {
+        final var notificationForm = NotificationAddRequest.convertNotificationForm(request);
+        notificationDataService.sendNotificationAndAddNotification(request.getMemberId(), notificationForm);
         return Response.success();
     }
 
-    @DeleteMapping("{notificationId}")
+    @DeleteMapping("/{notificationId}")
     public Response<Void> notificationRemove(@LoginMember LoginMemberInfo memberInfo,
                                              @PathVariable Long notificationId) {
         notificationService.removeNotification(memberInfo.getId(), notificationId);

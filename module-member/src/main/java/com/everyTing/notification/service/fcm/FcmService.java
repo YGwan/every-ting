@@ -1,11 +1,10 @@
 package com.everyTing.notification.service.fcm;
 
-import com.everyTing.notification.dto.form.NotificationForm;
-import com.everyTing.notification.dto.form.PhotoGeneratedErrorForm;
+import com.everyTing.core.notification.form.NotificationForm;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +19,10 @@ public class FcmService {
         this.fcmFormCreator = fcmFormCreator;
     }
 
-    public NotificationForm sendErrorGeneratedPhotoNotification(Long memberId) {
-        final var errorForm = new PhotoGeneratedErrorForm();
-        final var message = fcmFormCreator.makeMessage(memberId, errorForm);
-        sendNotification(message);
-        return errorForm;
-    }
+    @Async
+    public void sendNotification(Long memberId, NotificationForm form) {
+        final var message = fcmFormCreator.makeMessage(memberId, form);
 
-    private void sendNotification(Message message) {
         try {
             FirebaseMessaging.getInstance().send(message);
         } catch (FirebaseMessagingException e) {

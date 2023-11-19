@@ -12,4 +12,6 @@ public interface GeneratedPhotoRepository extends JpaRepository<GeneratedPhoto, 
     Boolean existsByMemberId(Long memberId);
 
     Optional<GeneratedPhoto> findByMemberId(Long memberId);
+
+    void deleteByMemberId(Long memberId);
 }

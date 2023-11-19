@@ -3,7 +3,6 @@ package com.everyTing.notification.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.notification.domain.NotificationMeta;
 import com.everyTing.notification.domain.data.PushToken;
-import com.everyTing.notification.dto.request.NotificationMetaRequest;
 import com.everyTing.notification.dto.validatedDto.ValidatedNotificationMetaRequest;
 import com.everyTing.notification.repository.NotificationMetaRepository;
 import org.springframework.stereotype.Service;
@@ -42,8 +41,7 @@ public class NotificationMetaService {
 
     @Transactional
     public void removeNotificationMetaByMemberId(Long memberId) {
-        final var notificationMeta = getNotificationMetaByMemberId(memberId);
-        notificationMetaRepository.delete(notificationMeta);
+        notificationMetaRepository.deleteByMemberId(memberId);
     }
 
     private NotificationMeta getNotificationMetaByMemberId(Long memberId) {

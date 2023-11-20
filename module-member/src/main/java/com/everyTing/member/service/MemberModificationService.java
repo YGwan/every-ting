@@ -5,7 +5,6 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.ProfilePhoto;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -47,9 +46,9 @@ public class MemberModificationService {
         return member;
     }
 
-    public Member resetPassword(ValidatedPasswordResetRequest validatedRequest) {
-        final Member member = memberQueryService.findMemberByEmail(validatedRequest.getUniversityEmail());
-        member.modifyPassword(validatedRequest.getPassword());
-        return member;
-    }
+//    public Member resetPassword(ValidatedPasswordResetRequest validatedRequest) {
+//        final Member member = memberQueryService.findMemberByEmail(validatedRequest.getUniversityEmail());
+//        member.modifyPassword(validatedRequest.getPassword());
+//        return member;
+//    }
 }

@@ -6,10 +6,9 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.SignInRequest;
+import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,16 +32,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Long signUp(ValidatedSignUpRequest request) {
-        throwIfAlreadyExistedUsername(request.getUsername());
-        throwIfAlreadyExistedEmail(request.getUniversityEmail());
-        throwIfAlreadyExistedKakaoId(request.getKakaoId());
+    public Long signUp(SignUpRequest request) {
+        throwIfAlreadyExistedUsername(request.usernameEntity());
+        throwIfAlreadyExistedEmail(request.universityEmailEntity());
+        throwIfAlreadyExistedKakaoId(request.kakaoIdEntity());
 
         return memberQueryService.signUp(request);
     }
 
     @Transactional(readOnly = true)
-    public Long signIn(ValidatedSignInRequest request) {
+    public Long signIn(SignInRequest request) {
         return memberQueryService.signIn(request);
     }
 
@@ -83,10 +82,10 @@ public class MemberService {
         return member.getId();
     }
 
-    public Long resetPassword(ValidatedPasswordResetRequest validatedRequest) {
-        final var member = memberModificationService.resetPassword(validatedRequest);
-        return member.getId();
-    }
+//    public Long resetPassword(ValidatedPasswordResetRequest validatedRequest) {
+//        final var member = memberModificationService.resetPassword(validatedRequest);
+//        return member.getId();
+//    }
 
     public void throwIfNotExisted(UniversityEmail email) {
         if (!memberRepository.existsByUniversityEmail(email)) {

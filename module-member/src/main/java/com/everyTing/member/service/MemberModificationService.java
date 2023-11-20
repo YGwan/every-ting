@@ -43,6 +43,7 @@ public class MemberModificationService {
         final var profilePhoto = ProfilePhoto.from(url);
         final Member member = memberQueryService.findMemberById(memberId);
         member.modifyProfilePhoto(profilePhoto);
+        memberRepository.save(member);
         return member;
     }
 

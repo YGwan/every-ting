@@ -47,7 +47,6 @@ public class SignUpRequest {
     }
 
     public UniversityEmail universityEmailEntity() {
-        System.out.println(universityEmail);
         return UniversityEmail.from(universityEmail);
     }
 
@@ -57,7 +56,6 @@ public class SignUpRequest {
 
     public Member toEntity() {
         final Password encryptedPassword = Password.encryptedPassword(password);
-
         return Member.of(
                 Username.from(username),
                 gender,

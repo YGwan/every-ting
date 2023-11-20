@@ -2,7 +2,6 @@ package com.everyTing.member.repository;
 
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +20,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByUniversityEmail(UniversityEmail email);
 
     Optional<Member> findByUniversityEmail(UniversityEmail universityEmail);
-
-    Optional<Member> findByUniversityEmailAndPassword(UniversityEmail universityEmail, Password password);
 }

@@ -19,7 +19,7 @@ public enum MemberErrorCode implements ApplicationErrorCode {
     MEMBER_013("이메일 값을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     MEMBER_014("멤버를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     MEMBER_015("등록된 이메일이 아닙니다.", HttpStatus.NOT_FOUND),
-    MEMBER_016("비밀번호가 일치하지 않습니다.", HttpStatus.NOT_FOUND),
+    MEMBER_016("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
     MEMBER_017("출생년도 값이 올바르지 않습니다."),
     MEMBER_018("프로필 사진 값이 올바르지 않습니다."),
     ;

@@ -35,20 +35,20 @@ public class MemberController {
     }
 
     @GetMapping("/my/info")
-    public Response<MemberInfoResponse> MyInfoDetails(@LoginMember LoginMemberInfo memberInfo) {
+    public Response<MemberInfoResponse> myInfoDetails(@LoginMember LoginMemberInfo memberInfo) {
         final Long memberId = memberInfo.getId();
         final var memberInfoResponse = memberService.findMemberInfo(memberId);
         return Response.success(memberInfoResponse);
     }
 
     @GetMapping("/{memberId}/info")
-    public Response<MemberInfoResponse> MemberInfoDetails(@PathVariable Long memberId) {
+    public Response<MemberInfoResponse> memberInfoDetails(@PathVariable Long memberId) {
         final var myInfoResponse = memberService.findMemberInfo(memberId);
         return Response.success(myInfoResponse);
     }
 
     @GetMapping("/info")
-    public Response<List<MemberInfoResponse>> MembersInfoDetails(@RequestParam List<Long> memberIds) {
+    public Response<List<MemberInfoResponse>> membersInfoDetails(@RequestParam List<Long> memberIds) {
         final var myInfoResponse = memberService.findMembersInfo(memberIds);
         return Response.success(myInfoResponse);
     }
@@ -80,13 +80,13 @@ public class MemberController {
 
     @GetMapping("/username/check")
     public Response<Void> usernameCheck(@RequestParam String username) {
-        memberService.throwIfAlreadyExisted(Username.from(username));
+        memberService.throwIfAlreadyExistedUsername(Username.from(username));
         return Response.success();
     }
 
     @GetMapping("/kakaoId/check")
     public Response<Void> kakaoIdCheck(@RequestParam String kakaoId) {
-        memberService.throwIfAlreadyExisted(KakaoId.from(kakaoId));
+        memberService.throwIfAlreadyExistedKakaoId(KakaoId.from(kakaoId));
         return Response.success();
     }
 
@@ -99,7 +99,7 @@ public class MemberController {
     }
 
     @PutMapping("/username/modify")
-    public Response<Void> usernameModify(@LoginMember LoginMemberInfo memberInfo,
+    public Response<Long> usernameModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestParam String username) {
         final var newValidatedUsername = Username.from(username);
         memberService.modifyUsername(memberInfo.getId(), newValidatedUsername);

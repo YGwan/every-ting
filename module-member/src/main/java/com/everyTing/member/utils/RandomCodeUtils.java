@@ -14,4 +14,19 @@ public class RandomCodeUtils {
         }
         return sb.toString();
     }
+
+    public static String getSalt(int n) {
+        final var bytes = new byte[n];
+        RANDOM.nextBytes(bytes);
+
+        final var sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
+    }
+
+    public static String getSalt() {
+        return getSalt(20);
+    }
 }

@@ -5,10 +5,7 @@ import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.PasswordCheckRequest;
-import com.everyTing.member.dto.request.PasswordModifyRequest;
-import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -83,10 +80,10 @@ public class MemberService {
         return member.getId();
     }
 
-//    public Long resetPassword(ValidatedPasswordResetRequest validatedRequest) {
-//        final var member = memberModificationService.resetPassword(validatedRequest);
-//        return member.getId();
-//    }
+    public Long resetPassword(PasswordResetRequest request) {
+        final var member = memberModificationService.resetPassword(request);
+        return member.getId();
+    }
 
     public void throwIfNotExisted(UniversityEmail email) {
         if (!memberRepository.existsByUniversityEmail(email)) {

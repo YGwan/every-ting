@@ -7,10 +7,7 @@ import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.PasswordCheckRequest;
-import com.everyTing.member.dto.request.PasswordModifyRequest;
-import com.everyTing.member.dto.request.SignInRequest;
-import com.everyTing.member.dto.request.SignUpRequest;
+import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.response.MemberTokensResponse;
 import com.everyTing.member.service.MemberService;
@@ -117,12 +114,11 @@ public class MemberController {
         return Response.success();
     }
 
-//    @PutMapping("/password/reset")
-//    public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
-//        final var validatedRequest = ValidatedPasswordResetRequest.from(request);
-//        memberService.resetPassword(validatedRequest);
-//        return Response.success();
-//    }
+    @PutMapping("/password/reset")
+    public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
+        memberService.resetPassword(request);
+        return Response.success();
+    }
 
     @DeleteMapping
     public Response<Void> memberRemove(@LoginMember LoginMemberInfo memberInfo) {

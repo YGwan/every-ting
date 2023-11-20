@@ -113,8 +113,7 @@ public class MemberController {
     @PutMapping("/password/modify")
     public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestBody PasswordModifyRequest request) {
-//        final Password newPassword = Password.from(request.getPassword());
-//        memberService.modifyPassword(memberInfo.getId(), newPassword);
+        memberService.modifyPassword(memberInfo.getId(), request);
         return Response.success();
     }
 

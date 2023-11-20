@@ -3,10 +3,10 @@ package com.everyTing.member.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.PasswordCheckRequest;
+import com.everyTing.member.dto.request.PasswordModifyRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
@@ -73,8 +73,8 @@ public class MemberService {
         return member.getId();
     }
 
-    public Long modifyPassword(Long memberId, Password newPassword) {
-        final var member = memberModificationService.modifyPassword(memberId, newPassword);
+    public Long modifyPassword(Long memberId, PasswordModifyRequest request) {
+        final var member = memberModificationService.modifyPassword(memberId, request);
         return member.getId();
     }
 

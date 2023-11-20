@@ -9,7 +9,6 @@ import com.everyTing.member.dto.request.PasswordModifyRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberModificationService {
@@ -38,7 +37,6 @@ public class MemberModificationService {
         return member;
     }
 
-    @Transactional
     public Member modifyPassword(Long memberId, PasswordModifyRequest request) {
         final Member member = memberQueryService.findMemberById(memberId);
 

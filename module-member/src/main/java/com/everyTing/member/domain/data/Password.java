@@ -1,11 +1,12 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.member.utils.PasswordEncoder;
+import com.everyTing.member.utils.RandomCodeUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,45 +16,40 @@ import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
 @Embeddable
 public class Password {
 
-    @NotNull
     @Column(name = "password")
-    private String value;
+    @NotNull
+    private String encryptedPassword;
+
+    @NotNull
+    private String salt;
 
     protected Password() {
     }
 
-    private Password(String value) {
-        this.value = value;
+    public Password(String encryptedPassword, String salt) {
+        this.encryptedPassword = encryptedPassword;
+        this.salt = salt;
     }
 
-    public static Password from(String value) {
-        final String trimValue = value.trim();
-        validate(trimValue);
-        return new Password(trimValue);
+    public static Password encryptedPassword(String originalPassword) {
+        final String passwordTrim = originalPassword.trim();
+        validate(passwordTrim);
+
+        final String salt = RandomCodeUtils.getSalt();
+        final String encryptedPassword = PasswordEncoder.passwordEncoder(originalPassword, salt);
+        return new Password(encryptedPassword, salt);
     }
 
-    public static void validate(String value) {
+    public static void validate(String originalPassword) {
         final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-        final Matcher matcher = pattern.matcher(value);
+        final Matcher matcher = pattern.matcher(originalPassword);
         if (!matcher.matches()) {
             throw new TingApplicationException(MEMBER_009);
         }
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Password password = (Password) o;
-        return Objects.equals(value, password.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
+    public boolean isSame(String enterPassword) {
+        final String EncryptedEnterPassword = PasswordEncoder.passwordEncoder(enterPassword, salt);
+        return encryptedPassword.equals(EncryptedEnterPassword);
     }
 }

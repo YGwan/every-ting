@@ -90,8 +90,7 @@ public class MemberController {
     @GetMapping("/password/check")
     public Response<Void> passwordCheck(@LoginMember LoginMemberInfo memberInfo,
                                         @RequestBody PasswordCheckRequest request) {
-//        final Password password = Password.from(request.getPassword());
-//        memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
+        memberService.throwIfNotValidatePassword(memberInfo.getId(), request);
         return Response.success();
     }
 

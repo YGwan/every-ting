@@ -6,6 +6,7 @@ import com.everyTing.member.domain.data.KakaoId;
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.PasswordCheckRequest;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
@@ -111,10 +112,14 @@ public class MemberService {
         }
     }
 
-    public void throwIfNotValidatePassword(Long memberId, Password password) {
-        final Member member = memberQueryService.findMemberById(memberId);
+    public void throwIfNotValidatePassword(Long memberId, PasswordCheckRequest request) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
 
-        if (!password.equals(member.getPassword())) {
+        final String enterPassword = request.getPassword();
+
+        if (!member.isSamePassword(enterPassword)) {
             throw new TingApplicationException(MEMBER_016);
         }
     }

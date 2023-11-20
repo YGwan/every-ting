@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.everyTing.member.errorCode.MemberErrorCode.*;
 
@@ -47,22 +46,19 @@ public class MemberService {
         return memberQueryService.signIn(request);
     }
 
-    public void removeMember(Long memberId) {
-        memberQueryService.removeMember(memberId);
-    }
-
     @Transactional(readOnly = true)
     public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {
-        return memberRepository.findByIdIn(memberIds)
-                .stream()
-                .map(MemberInfoResponse::from)
-                .collect(Collectors.toUnmodifiableList());
+        return memberQueryService.findMembersInfo(memberIds);
     }
 
     @Transactional(readOnly = true)
     public MemberInfoResponse findMemberInfo(Long memberId) {
         final Member member = memberQueryService.findMemberById(memberId);
         return MemberInfoResponse.from(member);
+    }
+
+    public void removeMember(Long memberId) {
+        memberQueryService.removeMember(memberId);
     }
 
     public Long modifyUsername(Long memberId, Username newUsername) {
@@ -118,6 +114,7 @@ public class MemberService {
 
     public void throwIfNotValidatePassword(Long memberId, Password password) {
         final Member member = memberQueryService.findMemberById(memberId);
+
         if (!password.equals(member.getPassword())) {
             throw new TingApplicationException(MEMBER_016);
         }

@@ -6,10 +6,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static com.everyTing.member.errorCode.MemberServerErrorCode.MSER_001;
+import static com.everyTing.member.utils.secureBundle.SecureBundle.PASSWORD_ENCRYPTION_ALGORITHM;
 
 public class PasswordEncoder {
 
-    private static final String ALGORITHM = "SHA-256";
+    private static final String ALGORITHM = PASSWORD_ENCRYPTION_ALGORITHM;
 
     public static String passwordEncoder(String originalPassword, String salt) {
         return encrypt(originalPassword + salt);

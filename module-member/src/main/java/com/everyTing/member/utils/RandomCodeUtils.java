@@ -3,8 +3,11 @@ package com.everyTing.member.utils;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import static com.everyTing.member.utils.secureBundle.SecureBundle.DEFAULT_SALT_LENGTH;
+
 public class RandomCodeUtils {
 
+    private static final int SALT_LENGTH = DEFAULT_SALT_LENGTH;
     private static final Random RANDOM = new SecureRandom();
 
     public static String generate() {
@@ -27,6 +30,6 @@ public class RandomCodeUtils {
     }
 
     public static String getSalt() {
-        return getSalt(20);
+        return getSalt(SALT_LENGTH);
     }
 }

@@ -1,0 +1,6 @@
+member:
+    encryption:
+      password:
+        algorithm: SHA-256
+        salt:
+          length : 20

@@ -8,3 +8,4 @@ spring:
       - firebase
       - core
       - s3
+      - secure

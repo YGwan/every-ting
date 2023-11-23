@@ -1,9 +1,11 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.member.domain.converter.MemberDataEncryptedConverter;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
@@ -14,6 +16,7 @@ public class ProfilePhoto {
 
     @NotNull
     @Column(name = "profile_photo")
+    @Convert(converter = MemberDataEncryptedConverter.class)
     private String value;
 
     protected ProfilePhoto() {

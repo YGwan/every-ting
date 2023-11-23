@@ -2,6 +2,7 @@ package com.everyTing.member.domain;
 
 import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
+import com.everyTing.member.domain.converter.MemberDataEncryptedConverter;
 import com.everyTing.member.domain.data.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Member extends AuditingFields {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Convert(converter = MemberDataEncryptedConverter.class)
     private Gender gender;
 
     private BirthYear birth;

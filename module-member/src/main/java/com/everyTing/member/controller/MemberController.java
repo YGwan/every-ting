@@ -6,14 +6,10 @@ import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.core.token.service.TokenService;
 import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.response.MemberTokensResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,16 +52,14 @@ public class MemberController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signUp")
     public Response<MemberTokensResponse> signUp(@RequestBody SignUpRequest request) {
-        final var validatedRequest = ValidatedSignUpRequest.from(request);
-        final var memberId = memberService.signUp(validatedRequest);
+        final var memberId = memberService.signUp(request);
         return getMemberTokensResponse(memberId);
     }
 
     @PostMapping("/signIn")
     public Response<MemberTokensResponse> signIn(@RequestBody SignInRequest request) {
         try {
-            final var validatedRequest = ValidatedSignInRequest.from(request);
-            final var memberId = memberService.signIn(validatedRequest);
+            final var memberId = memberService.signIn(request);
             return getMemberTokensResponse(memberId);
         } catch (TingApplicationException e) {
             throw new TingApplicationException(MEMBER_010);
@@ -93,8 +87,7 @@ public class MemberController {
     @GetMapping("/password/check")
     public Response<Void> passwordCheck(@LoginMember LoginMemberInfo memberInfo,
                                         @RequestBody PasswordCheckRequest request) {
-        final Password password = Password.from(request.getPassword());
-        memberService.throwIfNotValidatePassword(memberInfo.getId(), password);
+        memberService.throwIfNotValidatePassword(memberInfo.getId(), request);
         return Response.success();
     }
 
@@ -117,15 +110,13 @@ public class MemberController {
     @PutMapping("/password/modify")
     public Response<Void> passwordModify(@LoginMember LoginMemberInfo memberInfo,
                                          @RequestBody PasswordModifyRequest request) {
-        final Password newPassword = Password.from(request.getPassword());
-        memberService.modifyPassword(memberInfo.getId(), newPassword);
+        memberService.modifyPassword(memberInfo.getId(), request);
         return Response.success();
     }
 
     @PutMapping("/password/reset")
     public Response<Void> passwordReset(@RequestBody PasswordResetRequest request) {
-        final var validatedRequest = ValidatedPasswordResetRequest.from(request);
-        memberService.resetPassword(validatedRequest);
+        memberService.resetPassword(request);
         return Response.success();
     }
 

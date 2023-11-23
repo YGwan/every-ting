@@ -1,8 +1,10 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.member.domain.converter.MemberStringDataEncryptedConverter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.util.regex.Matcher;
@@ -17,6 +19,7 @@ public class UniversityEmail {
 
     @NotNull
     @Column(name = "university_email", unique = true)
+    @Convert(converter = MemberStringDataEncryptedConverter.class)
     private String value;
 
     protected UniversityEmail() {

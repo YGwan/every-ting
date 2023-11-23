@@ -3,9 +3,9 @@ package com.everyTing.member.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.UniversityEmail;
+import com.everyTing.member.dto.request.SignInRequest;
+import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,14 +28,22 @@ public class MemberQueryService {
         this.memberDataDeleteService = memberDataDeleteService;
     }
 
-    public Long signUp(ValidatedSignUpRequest request) {
-        final Member newMember = memberRepository.save(Member.from(request));
+    public Long signUp(SignUpRequest request) {
+        final var memberEntity = request.toEntity();
+        final var newMember = memberRepository.save(memberEntity);
         return newMember.getId();
     }
 
-    public Long signIn(ValidatedSignInRequest request) {
-        Member member = memberRepository.findByUniversityEmailAndPassword(request.getEmail(), request.getPassword())
+    public Long signIn(SignInRequest request) {
+        final var universityEntity = request.universityEmailEntity();
+        final Member member = memberRepository.findByUniversityEmail(universityEntity)
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
+
+        final String enterPassword = request.getPassword();
+        if (!member.isSamePassword(enterPassword)) {
+            throw new TingApplicationException(MEMBER_010);
+        }
+
         return member.getId();
     }
 

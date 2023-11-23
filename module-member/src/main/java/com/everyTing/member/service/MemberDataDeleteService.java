@@ -4,6 +4,7 @@ import com.everyTing.notification.service.NotificationMetaService;
 import com.everyTing.notification.service.NotificationService;
 import com.everyTing.photo.service.GeneratedPhotoService;
 import com.everyTing.photo.service.PhotoRequestService;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +26,7 @@ public class MemberDataDeleteService {
         this.photoRequestService = photoRequestService;
     }
 
+    @CacheEvict(value = "member", key = "#memberId")
     public void deleteMemberData(Long memberId) {
         notificationMetaService.removeNotificationMetaByMemberId(memberId);
         notificationService.removeAllNotification(memberId);

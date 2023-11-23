@@ -3,7 +3,6 @@ package com.everyTing.member.domain;
 import com.everyTing.core.domain.AuditingFields;
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.domain.data.*;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +29,7 @@ public class Member extends AuditingFields {
 
     private UniversityEmail universityEmail;
 
+    @Embedded
     private Password password;
 
     private University university;
@@ -68,20 +68,6 @@ public class Member extends AuditingFields {
         );
     }
 
-    public static Member from(ValidatedSignUpRequest request) {
-        return new Member(
-                request.getUsername(),
-                request.getGender(),
-                request.getBirth(),
-                request.getUniversityEmail(),
-                request.getPassword(),
-                request.getUniversity(),
-                request.getMajor(),
-                request.getKakaoId(),
-                request.getProfilePhoto()
-        );
-    }
-
     public void modifyUsername(Username newUsername) {
         this.username = newUsername;
     }
@@ -96,5 +82,9 @@ public class Member extends AuditingFields {
 
     public void modifyProfilePhoto(ProfilePhoto profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    public boolean isSamePassword(String enterPassword) {
+        return password.isSame(enterPassword);
     }
 }

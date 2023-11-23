@@ -1,0 +1,14 @@
+password:
+    encryption:
+      algorithm: ${PASSWORD_ENCRYPTION_ALGORITHM}
+
+default:
+  salt:
+    length: ${DEFAULT_SALT_LENGTH}
+
+member:
+  encryption:
+    algorithm: ${MEMBER_ENCRYPTION_ALGORITHM}
+    key:
+      algorithm: ${MEMBER_KEY_ALGORITHM}
+      value: ${MEMBER_ENCRYPTION_KEY}

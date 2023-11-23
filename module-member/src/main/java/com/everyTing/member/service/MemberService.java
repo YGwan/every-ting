@@ -3,13 +3,10 @@ package com.everyTing.member.service;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
+import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
-import com.everyTing.member.dto.validatedDto.ValidatedPasswordResetRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignInRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedSignUpRequest;
 import com.everyTing.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,16 +30,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Long signUp(ValidatedSignUpRequest request) {
-        throwIfAlreadyExistedUsername(request.getUsername());
-        throwIfAlreadyExistedEmail(request.getUniversityEmail());
-        throwIfAlreadyExistedKakaoId(request.getKakaoId());
+    public Long signUp(SignUpRequest request) {
+        throwIfAlreadyExistedUsername(request.usernameEntity());
+        throwIfAlreadyExistedEmail(request.universityEmailEntity());
+        throwIfAlreadyExistedKakaoId(request.kakaoIdEntity());
 
         return memberQueryService.signUp(request);
     }
 
     @Transactional(readOnly = true)
-    public Long signIn(ValidatedSignInRequest request) {
+    public Long signIn(SignInRequest request) {
         return memberQueryService.signIn(request);
     }
 
@@ -73,8 +70,8 @@ public class MemberService {
         return member.getId();
     }
 
-    public Long modifyPassword(Long memberId, Password newPassword) {
-        final var member = memberModificationService.modifyPassword(memberId, newPassword);
+    public Long modifyPassword(Long memberId, PasswordModifyRequest request) {
+        final var member = memberModificationService.modifyPassword(memberId, request);
         return member.getId();
     }
 
@@ -83,8 +80,8 @@ public class MemberService {
         return member.getId();
     }
 
-    public Long resetPassword(ValidatedPasswordResetRequest validatedRequest) {
-        final var member = memberModificationService.resetPassword(validatedRequest);
+    public Long resetPassword(PasswordResetRequest request) {
+        final var member = memberModificationService.resetPassword(request);
         return member.getId();
     }
 
@@ -112,10 +109,14 @@ public class MemberService {
         }
     }
 
-    public void throwIfNotValidatePassword(Long memberId, Password password) {
-        final Member member = memberQueryService.findMemberById(memberId);
+    public void throwIfNotValidatePassword(Long memberId, PasswordCheckRequest request) {
+        final Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new TingApplicationException(MEMBER_014)
+        );
 
-        if (!password.equals(member.getPassword())) {
+        final String enterPassword = request.getPassword();
+
+        if (!member.isSamePassword(enterPassword)) {
             throw new TingApplicationException(MEMBER_016);
         }
     }

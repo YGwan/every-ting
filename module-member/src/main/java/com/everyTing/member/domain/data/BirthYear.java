@@ -1,8 +1,10 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
+import com.everyTing.member.domain.converter.MemberIntegerDataEncryptedConverter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +17,7 @@ public class BirthYear {
 
     @NotNull
     @Column(name = "birth")
+    @Convert(converter = MemberIntegerDataEncryptedConverter.class)
     private Integer value;
 
     protected BirthYear() {

@@ -1,7 +1,7 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.member.domain.converter.MemberDataEncryptedConverter;
+import com.everyTing.member.domain.converter.MemberStringDataEncryptedConverter;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ public class University {
 
     @NotNull
     @Column(name = "university")
-    @Convert(converter = MemberDataEncryptedConverter.class)
+    @Convert(converter = MemberStringDataEncryptedConverter.class)
     private String value;
 
     protected University() {

@@ -1,7 +1,7 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.member.domain.converter.MemberDataEncryptedConverter;
+import com.everyTing.member.domain.converter.MemberStringDataEncryptedConverter;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ public class ProfilePhoto {
 
     @NotNull
     @Column(name = "profile_photo")
-    @Convert(converter = MemberDataEncryptedConverter.class)
+    @Convert(converter = MemberStringDataEncryptedConverter.class)
     private String value;
 
     protected ProfilePhoto() {

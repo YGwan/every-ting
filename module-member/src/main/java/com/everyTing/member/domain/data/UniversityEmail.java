@@ -1,7 +1,7 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.member.domain.converter.MemberDataEncryptedConverter;
+import com.everyTing.member.domain.converter.MemberStringDataEncryptedConverter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -19,7 +19,7 @@ public class UniversityEmail {
 
     @NotNull
     @Column(name = "university_email", unique = true)
-    @Convert(converter = MemberDataEncryptedConverter.class)
+    @Convert(converter = MemberStringDataEncryptedConverter.class)
     private String value;
 
     protected UniversityEmail() {

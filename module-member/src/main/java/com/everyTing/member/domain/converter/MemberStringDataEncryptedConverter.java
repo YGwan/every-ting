@@ -6,7 +6,7 @@ import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter
-public class MemberDataEncryptedConverter implements AttributeConverter<String, String> {
+public class MemberStringDataEncryptedConverter implements AttributeConverter<String, String> {
 
     @Override
     public String convertToDatabaseColumn(String plainText) {

@@ -6,7 +6,7 @@ import com.everyTing.member.dto.request.AuthCodeSendForResetPasswordRequest;
 import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.request.EmailAuthCodeValidateRequest;
 import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
-import com.everyTing.member.service.MemberServiceValidator;
+import com.everyTing.member.service.MemberService;
 import com.everyTing.member.service.mail.MailVerificationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
 
     private final MailVerificationService mailVerificationService;
-    private final MemberServiceValidator memberServiceValidator;
+    private final MemberService memberService;
 
-    public MailController(MailVerificationService mailVerificationService, MemberServiceValidator memberServiceValidator) {
+    public MailController(MailVerificationService mailVerificationService, MemberService memberService) {
         this.mailVerificationService = mailVerificationService;
-        this.memberServiceValidator = memberServiceValidator;
+        this.memberService = memberService;
     }
 
     @PostMapping("/signUp/send")
     public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
         final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
 
-        memberServiceValidator.throwIfAlreadyExisted(validatedRequest.getUniversityEmail());
+        memberService.throwIfAlreadyExistedEmail(validatedRequest.getUniversityEmail());
         mailVerificationService.sendAuthCodeForSignUp(validatedRequest);
         return Response.success();
     }
@@ -38,7 +38,7 @@ public class MailController {
     public Response<Void> authCodeSendForResetPassword(@RequestBody AuthCodeSendForResetPasswordRequest request) {
         final var validatedUniversityEmail = UniversityEmail.from(request.getUniversityEmail());
 
-        memberServiceValidator.throwIfNotExisted(validatedUniversityEmail);
+        memberService.throwIfNotExisted(validatedUniversityEmail);
         mailVerificationService.sendAuthCodeForResetPassword(validatedUniversityEmail);
         return Response.success();
     }

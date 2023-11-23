@@ -9,8 +9,6 @@ spring:
     port: ${REDIS_PORT}
   sql.init.mode: always
 
-
-
   jpa:
     hibernate.ddl-auto: create
     show-sql: true
@@ -18,3 +16,8 @@ spring:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
+
+member:
+  cache:
+    ttl:
+      days: 7

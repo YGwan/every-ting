@@ -1,8 +1,8 @@
 package com.everyTing.notification.service;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.notification.domain.Notification;
 import com.everyTing.core.notification.form.NotificationForm;
+import com.everyTing.notification.domain.Notification;
 import com.everyTing.notification.dto.response.NotificationResponse;
 import com.everyTing.notification.repository.NotificationRepository;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +32,8 @@ public class NotificationService {
         return notifications.map(NotificationResponse::from);
     }
 
-    public void addNotification(Long memberId, NotificationForm notificationForm) {
-        notificationRepository.save(Notification.of(memberId, notificationForm.body(), notificationForm.notificationType()));
+    public void addNotification(Long memberId, Long targetId, NotificationForm notificationForm) {
+        notificationRepository.save(Notification.of(memberId, targetId, notificationForm.body(), notificationForm.notificationType()));
     }
 
     public void removeNotification(Long memberId, Long notificationId) {

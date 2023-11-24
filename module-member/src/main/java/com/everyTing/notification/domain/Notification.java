@@ -23,19 +23,23 @@ public class Notification extends CreatedDateFields  {
     private Long memberId;
 
     @NotNull
+    private Long targetId;
+
+    @NotNull
     private String body;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
-    private Notification(Long memberId, String body, NotificationType notificationType) {
+    public Notification(Long memberId, Long targetId, String body, NotificationType notificationType) {
         this.memberId = memberId;
+        this.targetId = targetId;
         this.body = body;
         this.notificationType = notificationType;
     }
 
-    public static Notification of(Long memberId, String body, NotificationType notificationType) {
-        return new Notification(memberId, body, notificationType);
+    public static Notification of(Long memberId, Long targetId, String body, NotificationType notificationType) {
+        return new Notification(memberId, targetId, body, notificationType);
     }
 }

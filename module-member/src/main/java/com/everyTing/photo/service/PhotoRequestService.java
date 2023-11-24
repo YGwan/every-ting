@@ -1,11 +1,11 @@
 package com.everyTing.photo.service;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.photo.dto.notification.PhotoGeneratedCompletedForm;
-import com.everyTing.photo.dto.notification.PhotoGeneratedErrorForm;
 import com.everyTing.notification.service.NotificationDataService;
 import com.everyTing.photo.domain.PhotoRequest;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
+import com.everyTing.photo.dto.notification.PhotoGeneratedCompletedForm;
+import com.everyTing.photo.dto.notification.PhotoGeneratedErrorForm;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;
 import com.everyTing.photo.repository.PhotoRequestRepository;
@@ -50,10 +50,12 @@ public class PhotoRequestService {
 
         photoRequest.modifyPhotoRequestStatus(status);
 
+        final var targetId = memberId;
+
         if (status == PhotoRequestStatus.COMPLETED) {
-            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedCompletedForm());
+            notificationDataService.sendNotificationAndAddNotification(memberId, targetId, new PhotoGeneratedCompletedForm());
         } else if (status == PhotoRequestStatus.FAILED) {
-            notificationDataService.sendNotificationAndAddNotification(memberId, new PhotoGeneratedErrorForm());
+            notificationDataService.sendNotificationAndAddNotification(memberId, targetId, new PhotoGeneratedErrorForm());
         }
     }
 

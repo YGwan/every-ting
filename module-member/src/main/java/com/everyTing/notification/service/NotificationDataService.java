@@ -16,8 +16,8 @@ public class NotificationDataService {
         this.notificationService = notificationService;
     }
 
-    public void sendNotificationAndAddNotification(Long memberId, NotificationForm form) {
+    public void sendNotificationAndAddNotification(Long memberId, Long targetId, NotificationForm form) {
         fcmService.sendNotification(memberId, form);
-        notificationService.addNotification(memberId, form);
+        notificationService.addNotification(memberId, targetId, form);
     }
 }

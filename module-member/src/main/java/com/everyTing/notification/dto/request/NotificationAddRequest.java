@@ -9,6 +9,8 @@ public class NotificationAddRequest {
 
     private Long memberId;
 
+    private Long targetId;
+
     private String title;
 
     private String body;
@@ -18,8 +20,9 @@ public class NotificationAddRequest {
     public NotificationAddRequest() {
     }
 
-    public NotificationAddRequest(Long memberId, String title, String body, NotificationType notificationType) {
+    public NotificationAddRequest(Long memberId, Long targetId, String title, String body, NotificationType notificationType) {
         this.memberId = memberId;
+        this.targetId = targetId;
         this.title = title;
         this.body = body;
         this.notificationType = notificationType;

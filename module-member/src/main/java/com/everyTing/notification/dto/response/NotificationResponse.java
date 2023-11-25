@@ -10,6 +10,8 @@ public class NotificationResponse {
 
     private Long id;
 
+    private Long targetId;
+
     private String body;
 
     private LocalDateTime createdAt;
@@ -17,14 +19,15 @@ public class NotificationResponse {
     public NotificationResponse() {
     }
 
-    public NotificationResponse(Long id, String body, LocalDateTime createdAt) {
+    public NotificationResponse(Long id, Long targetId, String body, LocalDateTime createdAt) {
         this.id = id;
+        this.targetId = targetId;
         this.body = body;
         this.createdAt = createdAt;
     }
 
     public static NotificationResponse from(Notification notification) {
         return new NotificationResponse(
-                notification.getId(), notification.getBody(), notification.getCreatedAt());
+                notification.getId(), notification.getTargetId(), notification.getBody(), notification.getCreatedAt());
     }
 }

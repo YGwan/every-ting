@@ -6,8 +6,8 @@ import org.springframework.data.redis.core.RedisHash;
 import javax.persistence.Id;
 
 @Getter
-@RedisHash(value = "memberTokens", timeToLive = 259200)
-public class MemberTokens {
+@RedisHash(value = "memberTokensCache", timeToLive = 259200)
+public class MemberTokensCache {
 
     @Id
     private final Long memberId;
@@ -16,7 +16,7 @@ public class MemberTokens {
 
     private final String refreshToken;
 
-    public MemberTokens(Long memberId, String accessToken, String refreshToken) {
+    public MemberTokensCache(Long memberId, String accessToken, String refreshToken) {
         this.memberId = memberId;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;

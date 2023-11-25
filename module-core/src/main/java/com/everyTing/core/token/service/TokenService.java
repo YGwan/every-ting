@@ -60,20 +60,27 @@ public class TokenService {
         JwtUtils.throwIfNotExpired(key, accessToken);
 
         final String refreshToken = getRefreshTokenFromHeader(request);
-
         JwtUtils.validate(key, refreshToken);
 
         final Long memberId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
 
-        if (!memberTokensCacheRepository.existsById(memberId)) {
+        validateRefreshToken(memberId, refreshToken);
+
+        return issue(memberId);
+    }
+
+    private void validateRefreshToken(Long memberId, String refreshToken) {
+        MemberTokensCache memberTokensCache = memberTokensCacheRepository.findById(memberId).orElseThrow(
+                () -> new TokenException(TOKEN_006)
+        );
+
+        if (!memberTokensCache.getRefreshToken().equals(refreshToken)) {
             throw new TokenException(TOKEN_008);
         }
 
         if (!memberId.equals(JwtUtils.tokenValue(key, tokenKey, refreshToken))) {
             throw new TokenException(TOKEN_006);
         }
-
-        return issue(memberId);
     }
 
     public Long memberInfoByAccessToken(HttpServletRequest request) {

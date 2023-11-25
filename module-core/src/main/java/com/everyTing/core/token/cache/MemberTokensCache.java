@@ -1,9 +1,8 @@
 package com.everyTing.core.token.cache;
 
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-
-import javax.persistence.Id;
 
 @Getter
 @RedisHash(value = "memberTokensCache", timeToLive = 259200)

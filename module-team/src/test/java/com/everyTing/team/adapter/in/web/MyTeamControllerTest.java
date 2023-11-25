@@ -93,7 +93,7 @@ class MyTeamControllerTest extends BaseTest {
         Boolean expected = true;
         given(myTeamUseCase.existsMyTeam(any())).willReturn(expected);
 
-        mockMvc.perform(get("/api/v1/my/teams/exists"))
+        mockMvc.perform(get("/api/v1/my/teams/exists").param("memberId", "1"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.data").value(expected));

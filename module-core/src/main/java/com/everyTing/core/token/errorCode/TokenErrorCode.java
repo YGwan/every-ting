@@ -14,6 +14,7 @@ public enum TokenErrorCode implements ApplicationErrorCode {
     TOKEN_005("Header is null or invalid"),
     TOKEN_006("Reissue request is invalid"),
     TOKEN_007("is not expired token"),
+    TOKEN_008("not registered refresh token")
     ;
 
     private final String message;

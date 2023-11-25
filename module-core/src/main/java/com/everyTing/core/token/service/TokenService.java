@@ -39,8 +39,8 @@ public class TokenService {
         this.refreshTokenKey = refreshTokenKey;
     }
 
-    public MemberTokens issue(Long userId) {
-        final Map<String, Object> tokenPayload = Map.of(tokenKey, userId);
+    public MemberTokens issue(Long memberId) {
+        final Map<String, Object> tokenPayload = Map.of(tokenKey, memberId);
         final String accessToken = JwtUtils.createToken(key, tokenPayload, accessTokenExpireTime);
         final String refreshToken = JwtUtils.createToken(key, tokenPayload, refreshTokenExpireTime);
         return new MemberTokens(accessToken, refreshToken);
@@ -53,19 +53,19 @@ public class TokenService {
         final String refreshToken = getRefreshTokenFromHeader(request);
         JwtUtils.validate(key, refreshToken);
 
-        final Long userId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
+        final Long memberId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
 
-        if (!userId.equals(JwtUtils.tokenValue(key, tokenKey, refreshToken))) {
+        if (!memberId.equals(JwtUtils.tokenValue(key, tokenKey, refreshToken))) {
             throw new TokenException(TOKEN_006);
         }
 
-        return issue(userId);
+        return issue(memberId);
     }
 
     public Long memberInfoByAccessToken(HttpServletRequest request) {
         final String accessToken = getAccessTokenFromHeader(request);
-        final Long userId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
-        return userId;
+        final Long memberId = JwtUtils.tokenValue(key, tokenKey, accessToken, true);
+        return memberId;
     }
 
     public void validateToken(String token) {

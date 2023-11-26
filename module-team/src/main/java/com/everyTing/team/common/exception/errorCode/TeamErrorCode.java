@@ -33,6 +33,7 @@ public enum TeamErrorCode implements ApplicationErrorCode {
     TEAM_026("팀장은 팀을 나갈 수 없습니다.", HttpStatus.BAD_REQUEST),
     TEAM_027("팀원이 남아있어 팀을 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
     TEAM_028("팀장은 상대팀에 좋아요를 할 수 없습니다.", HttpStatus.FORBIDDEN),
+    TEAM_029("유효하지 않은 미팅입니다.", HttpStatus.NOT_FOUND)
     ;
 
     private String message;

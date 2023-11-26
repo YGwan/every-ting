@@ -8,3 +8,7 @@ service:
   team:
     name: team-module
     url: ${TEAM_MODULE_URL}
+
+  notification:
+    name: notification-module
+    url: ${MEMBER_MODULE_URL}

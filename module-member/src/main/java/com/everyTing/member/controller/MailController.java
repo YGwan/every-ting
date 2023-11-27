@@ -5,7 +5,6 @@ import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.dto.request.AuthCodeSendForResetPasswordRequest;
 import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.request.EmailAuthCodeValidateRequest;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.service.MemberService;
 import com.everyTing.member.service.mail.MailVerificationService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +26,8 @@ public class MailController {
 
     @PostMapping("/signUp/send")
     public Response<Void> authCodeSendForSignUp(@RequestBody AuthCodeSendForSignUpRequest request) {
-        final var validatedRequest = ValidatedAuthCodeSendForSignUpRequest.from(request);
-
-        memberService.throwIfAlreadyExistedEmail(validatedRequest.getUniversityEmail());
-        mailVerificationService.sendAuthCodeForSignUp(validatedRequest);
+        memberService.throwIfAlreadyExistedEmail(request.universityEmailEntity());
+        mailVerificationService.sendAuthCodeForSignUp(request);
         return Response.success();
     }
 

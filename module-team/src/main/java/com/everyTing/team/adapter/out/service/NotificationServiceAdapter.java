@@ -27,7 +27,6 @@ public class NotificationServiceAdapter implements NotificationPort {
 
     @Override
     public void sendNotification(List<Long> memberIds, NotificationForm notificationForm) {
-
         for (Long memberId: memberIds) {
             final NotificationAddRequest request = NotificationAddRequest.of(memberId,
                 notificationForm.getTitle(), notificationForm.getBody(),

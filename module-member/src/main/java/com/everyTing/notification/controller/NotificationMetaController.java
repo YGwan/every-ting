@@ -4,7 +4,6 @@ import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
 import com.everyTing.notification.dto.request.NotificationMetaRequest;
-import com.everyTing.notification.dto.validatedDto.ValidatedNotificationMetaRequest;
 import com.everyTing.notification.service.NotificationMetaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,7 @@ public class NotificationMetaController {
     @PostMapping
     public Response<Void> notificationMetaSave(@LoginMember LoginMemberInfo memberInfo,
                                               @RequestBody NotificationMetaRequest request) {
-        final var validatedRequest = ValidatedNotificationMetaRequest.from(request);
-        notificationMetaService.saveNotificationMeta(memberInfo.getId(), validatedRequest);
+        notificationMetaService.saveNotificationMeta(memberInfo.getId(), request);
         return Response.success();
     }
 

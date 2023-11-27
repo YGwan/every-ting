@@ -93,8 +93,6 @@ public class NotificationService {
         final Object[] args = joinPoint.getArgs();
         final TeamRequest request = (TeamRequest) args[0];
 
-        System.out.println("Sending notification for rejected team request: " + request.getId());
-
         final Team rejectedTeam = teamPort.findTeamById(request.getFromTeamId());
         final Long rejectedTeamLeaderId = teamMemberPort.findTeamLeader(request.getFromTeamId())
                                                         .getMemberId();

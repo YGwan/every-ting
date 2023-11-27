@@ -11,6 +11,8 @@ public abstract class NotificationForm {
 
     public abstract String getTitle();
     public abstract String getBody();
-    public abstract Long getTargetId();
+    public Long getTargetId() {
+        return (long) -1; // targetId 가 불필요한 알림의 경우 -1을 반환
+    }
     public abstract NotificationType getNotificationType();
 }

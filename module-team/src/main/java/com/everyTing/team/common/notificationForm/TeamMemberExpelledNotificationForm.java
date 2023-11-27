@@ -34,11 +34,6 @@ public class TeamMemberExpelledNotificationForm extends NotificationForm {
     }
 
     @Override
-    public Long getTargetId() {
-        return null;
-    }
-
-    @Override
     public NotificationType getNotificationType() {
         return notificationType;
     }

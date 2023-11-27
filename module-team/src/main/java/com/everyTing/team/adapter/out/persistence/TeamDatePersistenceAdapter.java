@@ -1,8 +1,12 @@
 package com.everyTing.team.adapter.out.persistence;
 
+import static com.everyTing.team.common.exception.errorCode.TeamErrorCode.TEAM_029;
+
+import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.team.adapter.out.persistence.entity.TeamDateEntity;
 import com.everyTing.team.adapter.out.persistence.repository.TeamDateEntityRepository;
 import com.everyTing.team.application.port.out.TeamDatePort;
+import com.everyTing.team.domain.TeamDateWithGender;
 import com.everyTing.team.domain.TeamDates;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +39,14 @@ public class TeamDatePersistenceAdapter implements TeamDatePort {
     @Override
     public Boolean existsTeamDate(Long womenTeamId, Long menTeamId) {
         return teamDateEntityRepository.existsByWomenTeamIdAndMenTeamId(womenTeamId, menTeamId);
+    }
+
+    @Override
+    public TeamDateWithGender findTeamDate(Long dateId) {
+        final TeamDateEntity teamDateEntity =
+            teamDateEntityRepository.findById(dateId)
+                                    .orElseThrow(() -> new TingApplicationException(TEAM_029));
+        return TeamDateWithGender.from(teamDateEntity);
     }
 
     @Override

@@ -9,6 +9,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
 
+import com.everyTing.team.adapter.out.persistence.entity.TeamMemberEntity;
 import com.everyTing.team.adapter.out.persistence.entity.TeamRequestEntity;
 import com.everyTing.team.application.port.in.command.TeamRequestCountCommand;
 import com.everyTing.team.application.port.in.command.TeamRequestRemoveCommand;
@@ -16,9 +17,12 @@ import com.everyTing.team.application.port.in.command.TeamRequestSaveCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
+import com.everyTing.team.application.service.internal.TeamRequestInternalService;
 import com.everyTing.team.domain.Team;
+import com.everyTing.team.domain.TeamMember;
 import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.utils.BaseTest;
+import com.everyTing.team.utils.TeamMemberEntityFixture;
 import com.everyTing.team.utils.TeamRequestEntityFixture;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.DisplayName;
@@ -29,6 +33,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("팀 요청 service test")
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +50,8 @@ class TeamRequestServiceTest extends BaseTest {
     private TeamPort teamPort;
     @Mock
     private RedissonClient redissonClient;
+    @Mock
+    private TeamRequestInternalService teamRequestInternalService;
 
     private TeamRequestEntity teamRequestEntity = TeamRequestEntityFixture.get();
 
@@ -90,19 +98,21 @@ class TeamRequestServiceTest extends BaseTest {
     @Test
     void removeTeamRequest() {
         TeamRequestRemoveCommand command = TeamRequestRemoveCommand.of(1L, 2L);
+        TeamMemberEntity fromTeamLeaderEntity = TeamMemberEntityFixture.get(1L);
+        ReflectionTestUtils.setField(fromTeamLeaderEntity, "memberId", command.getMemberId());
 
         // given
         given(teamRequestPort.findTeamRequest(any())).willReturn(
             TeamRequest.from(teamRequestEntity));
         given(teamMemberPort.existsTeamLeaderByTeamIdAndMemberId(any(), any())).willReturn(true)
                                                                                .willReturn(false);
-        willDoNothing().given(teamRequestPort).removeTeamRequest(any());
+        given(teamMemberPort.findTeamLeader(any())).willReturn(TeamMember.from(fromTeamLeaderEntity));
+        willDoNothing().given(teamRequestInternalService).removeTeamRequest(any());
 
         // when
         Throwable t = catchThrowable(() -> sut.removeTeamRequest(command));
 
         // then
         assertThat(t).doesNotThrowAnyException();
-        then(teamRequestPort).should().removeTeamRequest(command.getRequestId());
     }
 }

@@ -21,6 +21,7 @@ import com.everyTing.team.application.port.in.command.TeamRequestsFindCommand;
 import com.everyTing.team.application.port.out.TeamMemberPort;
 import com.everyTing.team.application.port.out.TeamPort;
 import com.everyTing.team.application.port.out.TeamRequestPort;
+import com.everyTing.team.application.service.internal.TeamRequestInternalService;
 import com.everyTing.team.domain.Team;
 import com.everyTing.team.domain.TeamRequest;
 import com.everyTing.team.domain.TeamRequests;
@@ -37,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class TeamRequestService implements TeamRequestUseCase {
 
+    private final TeamRequestInternalService teamRequestInternalService;
     private final TeamRequestPort teamRequestPort;
     private final TeamPort teamPort;
     private final TeamMemberPort teamMemberPort;
@@ -45,8 +47,10 @@ public class TeamRequestService implements TeamRequestUseCase {
     @Value("${team.request.lock.key.prefix}")
     private String lockKeyPrefix;
 
-    public TeamRequestService(TeamRequestPort teamRequestPort, TeamPort teamPort,
-        TeamMemberPort teamMemberPort, RedissonClient redissonClient) {
+    public TeamRequestService(TeamRequestInternalService teamRequestInternalService,
+        TeamRequestPort teamRequestPort, TeamPort teamPort, TeamMemberPort teamMemberPort,
+        RedissonClient redissonClient) {
+        this.teamRequestInternalService = teamRequestInternalService;
         this.teamRequestPort = teamRequestPort;
         this.teamPort = teamPort;
         this.teamMemberPort = teamMemberPort;
@@ -74,11 +78,18 @@ public class TeamRequestService implements TeamRequestUseCase {
     @Override
     @Transactional
     public void removeTeamRequest(TeamRequestRemoveCommand command) {
-        TeamRequest request = teamRequestPort.findTeamRequest(command.getRequestId());
+        final TeamRequest request = teamRequestPort.findTeamRequest(command.getRequestId());
         validateMemberIsTeamLeader(request.getFromTeamId(), request.getToTeamId(),
             command.getMemberId());
 
-        teamRequestPort.removeTeamRequest(command.getRequestId());
+        final Long fromTeamLeaderMemberId = teamMemberPort.findTeamLeader(request.getFromTeamId())
+                                                        .getMemberId();
+
+        if (command.getMemberId() == fromTeamLeaderMemberId) {
+            teamRequestInternalService.removeTeamRequest(request);
+        } else {
+            teamRequestInternalService.rejectTeamRequest(request);
+        }
     }
 
     private void validateMemberIsTeamLeader(Long fromTeamId, Long toTeamId, Long memberId) {

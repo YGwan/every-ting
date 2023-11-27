@@ -22,6 +22,10 @@ service:
     name: team-module
     url: team-url
 
+  notification:
+    name: notification-module
+    url: notification-url
+
 name:
   length:
     min: 1

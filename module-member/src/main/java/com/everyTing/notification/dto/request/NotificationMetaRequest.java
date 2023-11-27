@@ -1,5 +1,6 @@
 package com.everyTing.notification.dto.request;
 
+import com.everyTing.notification.domain.data.PushToken;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -20,5 +21,9 @@ public class NotificationMetaRequest {
     public NotificationMetaRequest(String pushToken, Boolean notificationEnabled) {
         this.pushToken = pushToken;
         this.notificationEnabled = notificationEnabled;
+    }
+
+    public PushToken pushTokenEntity() {
+        return PushToken.from(pushToken);
     }
 }

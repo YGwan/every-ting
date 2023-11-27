@@ -4,14 +4,15 @@ import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.cache.EmailAuthCodeCache;
 import com.everyTing.member.cache.EmailAuthCodeCacheRepository;
 import com.everyTing.member.domain.data.UniversityEmail;
-import com.everyTing.member.dto.validatedDto.ValidatedAuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.form.ResetPasswordForm;
 import com.everyTing.member.dto.form.SignUpForm;
+import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
 import com.everyTing.member.utils.RandomCodeUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.everyTing.member.errorCode.MemberErrorCode.*;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_011;
+import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_012;
 
 @Transactional
 @Service
@@ -25,9 +26,9 @@ public class MailVerificationService {
         this.emailAuthCodeCacheRepository = emailAuthCodeCacheRepository;
     }
 
-    public void sendAuthCodeForSignUp(ValidatedAuthCodeSendForSignUpRequest request) {
-        final String username = request.getUsernameValue();
-        final String universityEmail = request.getUniversityEmailValue();
+    public void sendAuthCodeForSignUp(AuthCodeSendForSignUpRequest request) {
+        final String username = request.getUsername();
+        final String universityEmail = request.getUniversityEmail();
         final String emailAuthCode = RandomCodeUtils.generate();
 
         emailAuthCodeCacheRepository.save(new EmailAuthCodeCache(universityEmail, emailAuthCode));

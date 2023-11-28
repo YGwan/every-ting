@@ -8,6 +8,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
+import com.everyTing.member.service.EncryptService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +23,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberQueryService memberQueryService;
     private final MemberModificationService memberModificationService;
+    private final EncryptService encryptService;
 
-    public MemberService(MemberRepository memberRepository, MemberQueryService memberQueryService, MemberModificationService memberModificationService) {
+    public MemberService(MemberRepository memberRepository, MemberQueryService memberQueryService, MemberModificationService memberModificationService, EncryptService encryptService) {
         this.memberRepository = memberRepository;
         this.memberQueryService = memberQueryService;
         this.memberModificationService = memberModificationService;
+        this.encryptService = encryptService;
     }
 
     @Transactional(readOnly = true)
@@ -114,7 +117,7 @@ public class MemberService {
                 new TingApplicationException(MEMBER_014)
         );
 
-        final String enterPassword = request.getPassword();
+        final var enterPassword = encryptService.encryptedPassword(request.getPassword(), member.getSalt());
 
         if (!member.isSamePassword(enterPassword)) {
             throw new TingApplicationException(MEMBER_016);

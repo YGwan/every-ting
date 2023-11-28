@@ -54,14 +54,13 @@ public class SignUpRequest {
         return KakaoId.from(kakaoId);
     }
 
-    public Member toEntity() {
-        final Password encryptedPassword = Password.encryptedPassword(password);
+    public Member withPassword(Password password) {
         return Member.of(
                 Username.from(username),
                 gender,
                 BirthYear.from(birth),
                 UniversityEmail.from(universityEmail),
-                encryptedPassword,
+                password,
                 University.from(university),
                 Major.from(major),
                 KakaoId.from(kakaoId),

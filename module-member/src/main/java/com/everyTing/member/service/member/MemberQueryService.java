@@ -2,11 +2,13 @@ package com.everyTing.member.service.member;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
+import com.everyTing.member.service.EncryptService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -22,16 +24,25 @@ public class MemberQueryService {
 
     private final MemberRepository memberRepository;
     private final MemberDataDeleteService memberDataDeleteService;
+    private final EncryptService encryptService;
 
-    public MemberQueryService(MemberRepository memberRepository, MemberDataDeleteService memberDataDeleteService) {
+    public MemberQueryService(MemberRepository memberRepository, MemberDataDeleteService memberDataDeleteService, EncryptService encryptService) {
         this.memberRepository = memberRepository;
         this.memberDataDeleteService = memberDataDeleteService;
+        this.encryptService = encryptService;
     }
 
     public Long signUp(SignUpRequest request) {
-        final var memberEntity = request.toEntity();
+        System.out.println(request.getPassword());
+        final var password = getPassword(request.getPassword());
+        final var memberEntity = request.withPassword(password);
         final var newMember = memberRepository.save(memberEntity);
         return newMember.getId();
+    }
+
+    private Password getPassword(String password) {
+        final var salt = encryptService.issueSalt();
+        return encryptService.encryptedPassword(password, salt);
     }
 
     public Long signIn(SignInRequest request) {
@@ -39,8 +50,9 @@ public class MemberQueryService {
         final Member member = memberRepository.findByUniversityEmail(universityEntity)
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
 
-        final String enterPassword = request.getPassword();
-        if (!member.isSamePassword(enterPassword)) {
+        final var password = encryptService.encryptedPassword(request.getPassword(), member.getSalt());
+
+        if (!member.isSamePassword(password)) {
             throw new TingApplicationException(MEMBER_010);
         }
 

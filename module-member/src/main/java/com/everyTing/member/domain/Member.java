@@ -84,7 +84,11 @@ public class Member extends AuditingFields {
         this.profilePhoto = profilePhoto;
     }
 
-    public boolean isSamePassword(String enterPassword) {
-        return password.isSame(enterPassword);
+    public boolean isSamePassword(Password enterPassword) {
+        return this.password.isSame(enterPassword);
+    }
+
+    public String getSalt() {
+        return password.getSalt();
     }
 }

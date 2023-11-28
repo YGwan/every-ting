@@ -1,8 +1,7 @@
 package com.everyTing.member.domain.data;
 
 import com.everyTing.core.exception.TingApplicationException;
-import com.everyTing.member.utils.PasswordEncoder;
-import com.everyTing.member.utils.RandomCodeUtils;
+import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,6 +12,7 @@ import java.util.regex.Pattern;
 import static com.everyTing.member.domain.data.constraints.MemberConstraints.PASSWORD_PATTERN;
 import static com.everyTing.member.errorCode.MemberErrorCode.MEMBER_009;
 
+@Getter
 @Embeddable
 public class Password {
 
@@ -31,25 +31,16 @@ public class Password {
         this.salt = salt;
     }
 
-    public static Password encryptedPassword(String originalPassword) {
-        final String passwordTrim = originalPassword.trim();
-        validate(passwordTrim);
-
-        final String salt = RandomCodeUtils.getSalt();
-        final String encryptedPassword = PasswordEncoder.passwordEncoder(originalPassword, salt);
-        return new Password(encryptedPassword, salt);
-    }
-
     public static void validate(String originalPassword) {
+        final var password = originalPassword.trim();
         final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-        final Matcher matcher = pattern.matcher(originalPassword);
+        final Matcher matcher = pattern.matcher(password);
         if (!matcher.matches()) {
             throw new TingApplicationException(MEMBER_009);
         }
     }
 
-    public boolean isSame(String enterPassword) {
-        final String EncryptedEnterPassword = PasswordEncoder.passwordEncoder(enterPassword, salt);
-        return encryptedPassword.equals(EncryptedEnterPassword);
+    public boolean isSame(Password enterPassword) {
+        return this.encryptedPassword.equals(enterPassword.encryptedPassword);
     }
 }

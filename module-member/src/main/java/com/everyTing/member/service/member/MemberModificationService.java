@@ -8,6 +8,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.PasswordModifyRequest;
 import com.everyTing.member.dto.request.PasswordResetRequest;
 import com.everyTing.member.repository.MemberRepository;
+import com.everyTing.member.service.EncryptService;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ public class MemberModificationService {
 
     private final MemberQueryService memberQueryService;
     private final MemberRepository memberRepository;
+    private final EncryptService encryptService;
 
-    public MemberModificationService(MemberQueryService memberQueryService, MemberRepository memberRepository) {
+    public MemberModificationService(MemberQueryService memberQueryService, MemberRepository memberRepository, EncryptService encryptService) {
         this.memberQueryService = memberQueryService;
         this.memberRepository = memberRepository;
+        this.encryptService = encryptService;
     }
 
     @CachePut(value = "member", key = "#memberId")
@@ -61,8 +64,13 @@ public class MemberModificationService {
     }
 
     private void modifyPassword(Member member, String enterPassword) {
-        final Password encryptedPassword = Password.encryptedPassword(enterPassword);
+        final Password encryptedPassword = getPassword(enterPassword);
         member.modifyPassword(encryptedPassword);
         memberRepository.save(member);
+    }
+
+    private Password getPassword(String password) {
+        final var salt = encryptService.issueSalt();
+        return encryptService.encryptedPassword(password, salt);
     }
 }

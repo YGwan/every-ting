@@ -1,4 +1,4 @@
-package com.everyTing.member.service;
+package com.everyTing.member.service.member;
 
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;

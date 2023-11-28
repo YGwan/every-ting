@@ -1,4 +1,4 @@
-package com.everyTing.member.service;
+package com.everyTing.member.service.member;
 
 import com.everyTing.notification.service.NotificationMetaService;
 import com.everyTing.notification.service.NotificationService;

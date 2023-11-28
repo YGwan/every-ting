@@ -5,7 +5,7 @@ import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.dto.request.AuthCodeSendForResetPasswordRequest;
 import com.everyTing.member.dto.request.AuthCodeSendForSignUpRequest;
 import com.everyTing.member.dto.request.EmailAuthCodeValidateRequest;
-import com.everyTing.member.service.MemberService;
+import com.everyTing.member.service.member.MemberService;
 import com.everyTing.member.service.mail.MailVerificationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,4 +1,4 @@
-package com.everyTing.member.service;
+package com.everyTing.member.service.member;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;

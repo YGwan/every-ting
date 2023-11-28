@@ -3,7 +3,7 @@ package com.everyTing.photo.controller;
 import com.everyTing.core.dto.Response;
 import com.everyTing.core.resolver.LoginMember;
 import com.everyTing.core.resolver.LoginMemberInfo;
-import com.everyTing.member.service.MemberService;
+import com.everyTing.member.service.member.MemberService;
 import com.everyTing.photo.domain.data.PhotoRequestStatus;
 import com.everyTing.photo.dto.request.PhotoRequestModifyRequest;
 import com.everyTing.photo.dto.response.PhotoRequestResponse;

@@ -1,6 +1,6 @@
 package com.everyTing;
 
-import com.everyTing.member.service.MemberService;
+import com.everyTing.member.service.member.MemberService;
 import com.everyTing.member.utils.dummy.MemberDummyData;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

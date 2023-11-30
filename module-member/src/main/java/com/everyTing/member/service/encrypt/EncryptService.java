@@ -44,7 +44,6 @@ public class EncryptService {
     }
 
     public Password encryptedPassword(String password, String salt) {
-        Password.validate(password);
         final String encryptedPassword = passwordDigest.encrypt(password, salt);
         return new Password(encryptedPassword, salt);
     }

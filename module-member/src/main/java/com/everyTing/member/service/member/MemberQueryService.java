@@ -33,16 +33,12 @@ public class MemberQueryService {
     }
 
     public Long signUp(SignUpRequest request) {
-        System.out.println(request.getPassword());
-        final var password = getPassword(request.getPassword());
+        final var salt = encryptService.issueSalt();
+        final var password = password(request.getPassword(), salt);
+
         final var memberEntity = request.withPassword(password);
         final var newMember = memberRepository.save(memberEntity);
         return newMember.getId();
-    }
-
-    private Password getPassword(String password) {
-        final var salt = encryptService.issueSalt();
-        return encryptService.encryptedPassword(password, salt);
     }
 
     public Long signIn(SignInRequest request) {
@@ -50,13 +46,19 @@ public class MemberQueryService {
         final Member member = memberRepository.findByUniversityEmail(universityEntity)
                 .orElseThrow(() -> new TingApplicationException(MEMBER_010));
 
-        final var password = encryptService.encryptedPassword(request.getPassword(), member.getSalt());
+        final var memberSalt = member.getSalt();
+        final var password = password(request.getPassword(), memberSalt);
 
         if (!member.isSamePassword(password)) {
             throw new TingApplicationException(MEMBER_010);
         }
 
         return member.getId();
+    }
+
+    public Password password(String password, String salt) {
+        Password.validate(password);
+        return encryptService.encryptedPassword(password, salt);
     }
 
     public List<MemberInfoResponse> findMembersInfo(List<Long> memberIds) {

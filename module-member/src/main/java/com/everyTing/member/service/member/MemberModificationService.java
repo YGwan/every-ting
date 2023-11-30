@@ -1,14 +1,9 @@
 package com.everyTing.member.service.member;
 
 import com.everyTing.member.domain.Member;
-import com.everyTing.member.domain.data.KakaoId;
-import com.everyTing.member.domain.data.Password;
-import com.everyTing.member.domain.data.ProfilePhoto;
-import com.everyTing.member.domain.data.Username;
-import com.everyTing.member.dto.request.PasswordModifyRequest;
-import com.everyTing.member.dto.request.PasswordResetRequest;
+import com.everyTing.member.domain.data.*;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.member.service.encrypt.EncryptService;
+import com.everyTing.core.encrypt.service.EncryptService;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +12,10 @@ public class MemberModificationService {
 
     private final MemberQueryService memberQueryService;
     private final MemberRepository memberRepository;
-    private final EncryptService encryptService;
 
-    public MemberModificationService(MemberQueryService memberQueryService, MemberRepository memberRepository, EncryptService encryptService) {
+    public MemberModificationService(MemberQueryService memberQueryService, MemberRepository memberRepository) {
         this.memberQueryService = memberQueryService;
         this.memberRepository = memberRepository;
-        this.encryptService = encryptService;
     }
 
     @CachePut(value = "member", key = "#memberId")
@@ -50,27 +43,20 @@ public class MemberModificationService {
         return member;
     }
 
-    public Member modifyPassword(Long memberId, PasswordModifyRequest request) {
+    public Member modifyPassword(Long memberId, Password newPassword) {
         final Member member = memberQueryService.findMemberById(memberId);
-        modifyPassword(member, request.getPassword());
+        modifyPassword(member, newPassword);
         return member;
     }
 
-    public Member resetPassword(PasswordResetRequest request) {
-        final var universityEmail = request.universityEmailEntity();
+    public Member resetPassword(UniversityEmail universityEmail, Password newPassword) {
         final Member member = memberQueryService.findMemberByEmail(universityEmail);
-        modifyPassword(member, request.getPassword());
+        modifyPassword(member, newPassword);
         return member;
     }
 
-    private void modifyPassword(Member member, String enterPassword) {
-        final Password encryptedPassword = getPassword(enterPassword);
-        member.modifyPassword(encryptedPassword);
+    private void modifyPassword(Member member, Password password) {
+        member.modifyPassword(password);
         memberRepository.save(member);
-    }
-
-    private Password getPassword(String password) {
-        final var salt = encryptService.issueSalt();
-        return encryptService.encryptedPassword(password, salt);
     }
 }

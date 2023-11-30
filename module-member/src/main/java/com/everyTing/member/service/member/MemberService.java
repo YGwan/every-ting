@@ -3,6 +3,7 @@ package com.everyTing.member.service.member;
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
@@ -74,7 +75,8 @@ public class MemberService {
     }
 
     public Long modifyPassword(Long memberId, PasswordModifyRequest request) {
-        final var member = memberModificationService.modifyPassword(memberId, request);
+        final var password = password(request.getPassword());
+        final var member = memberModificationService.modifyPassword(memberId, password);
         return member.getId();
     }
 
@@ -84,7 +86,9 @@ public class MemberService {
     }
 
     public Long resetPassword(PasswordResetRequest request) {
-        final var member = memberModificationService.resetPassword(request);
+        final var university = request.universityEmailEntity();
+        final var password = password(request.getPassword());
+        final var member = memberModificationService.resetPassword(university, password);
         return member.getId();
     }
 
@@ -117,10 +121,21 @@ public class MemberService {
                 new TingApplicationException(MEMBER_014)
         );
 
-        final var enterPassword = encryptService.encryptedPassword(request.getPassword(), member.getSalt());
+        final var enterPassword = password(request.getPassword(), member.getSalt());
 
         if (!member.isSamePassword(enterPassword)) {
             throw new TingApplicationException(MEMBER_016);
         }
+    }
+
+    public Password password(String enterPassword, String salt) {
+        Password.validate(enterPassword);
+        return encryptService.encryptedPassword(enterPassword, salt);
+    }
+
+    public Password password(String enterPassword) {
+        Password.validate(enterPassword);
+        final var salt = encryptService.issueSalt();
+        return encryptService.encryptedPassword(enterPassword, salt);
     }
 }

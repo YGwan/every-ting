@@ -9,11 +9,11 @@ import org.springframework.context.ApplicationContext;
 
 @EnableCaching
 @SpringBootApplication
-public class MemberApplication {
+public class EveryTingApplication {
 
     public static void main(String[] args) {
         System.setProperty("spring.config.name", "application, application-core");
-        ApplicationContext context = SpringApplication.run(MemberApplication.class, args);
+        ApplicationContext context = SpringApplication.run(EveryTingApplication.class, args);
 
         MemberService memberService = context.getBean(MemberService.class);
         MemberDummyData memberDummyData = new MemberDummyData(memberService);

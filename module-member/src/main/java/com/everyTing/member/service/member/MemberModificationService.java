@@ -3,7 +3,6 @@ package com.everyTing.member.service.member;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.*;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.core.encrypt.service.EncryptService;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 

@@ -8,7 +8,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.PasswordModifyRequest;
 import com.everyTing.member.dto.request.PasswordResetRequest;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.member.service.EncryptService;
+import com.everyTing.member.service.encrypt.EncryptService;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 

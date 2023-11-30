@@ -1,4 +1,4 @@
-package com.everyTing.member.service;
+package com.everyTing.member.service.encrypt;
 
 import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.utils.RandomCodeUtils;

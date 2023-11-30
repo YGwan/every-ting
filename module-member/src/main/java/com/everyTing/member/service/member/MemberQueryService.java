@@ -8,7 +8,7 @@ import com.everyTing.member.dto.request.SignInRequest;
 import com.everyTing.member.dto.request.SignUpRequest;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.member.service.EncryptService;
+import com.everyTing.member.service.encrypt.EncryptService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

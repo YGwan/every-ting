@@ -1,6 +1,6 @@
 package com.everyTing.member.domain.converter;
 
-import com.everyTing.member.service.EncryptService;
+import com.everyTing.member.service.encrypt.EncryptService;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

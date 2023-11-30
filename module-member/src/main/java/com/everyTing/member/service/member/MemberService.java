@@ -8,7 +8,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
-import com.everyTing.member.service.EncryptService;
+import com.everyTing.member.service.encrypt.EncryptService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

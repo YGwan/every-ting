@@ -55,6 +55,12 @@ subprojects {
         // querydsl
         implementation 'com.querydsl:querydsl-jpa:5.0.0'
         annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+
+        // actuator
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+        // prometheus
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     }
 
     dependencyManagement {

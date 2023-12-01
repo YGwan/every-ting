@@ -1,0 +1,17 @@
+# actuator enable
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info,beans,conditions,env,metrics,threaddump,prometheus
+    prometheus:
+      enabled: true
+  # actuator health
+  endpoint:
+    health:
+      status:
+        http-mapping:
+          UP: 200
+          DOWN: 503

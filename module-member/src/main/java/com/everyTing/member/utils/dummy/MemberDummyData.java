@@ -2,7 +2,7 @@ package com.everyTing.member.utils.dummy;
 
 import com.everyTing.core.domain.Gender;
 import com.everyTing.member.dto.request.SignUpRequest;
-import com.everyTing.member.service.MemberService;
+import com.everyTing.member.service.member.MemberService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

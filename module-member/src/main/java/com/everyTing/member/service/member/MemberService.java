@@ -1,13 +1,15 @@
-package com.everyTing.member.service;
+package com.everyTing.member.service.member;
 
 import com.everyTing.core.exception.TingApplicationException;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.KakaoId;
+import com.everyTing.member.domain.data.Password;
 import com.everyTing.member.domain.data.UniversityEmail;
 import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.repository.MemberRepository;
+import com.everyTing.member.service.encrypt.EncryptService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +24,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberQueryService memberQueryService;
     private final MemberModificationService memberModificationService;
+    private final EncryptService encryptService;
 
-    public MemberService(MemberRepository memberRepository, MemberQueryService memberQueryService, MemberModificationService memberModificationService) {
+    public MemberService(MemberRepository memberRepository, MemberQueryService memberQueryService, MemberModificationService memberModificationService, EncryptService encryptService) {
         this.memberRepository = memberRepository;
         this.memberQueryService = memberQueryService;
         this.memberModificationService = memberModificationService;
+        this.encryptService = encryptService;
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +75,8 @@ public class MemberService {
     }
 
     public Long modifyPassword(Long memberId, PasswordModifyRequest request) {
-        final var member = memberModificationService.modifyPassword(memberId, request);
+        final var password = password(request.getPassword());
+        final var member = memberModificationService.modifyPassword(memberId, password);
         return member.getId();
     }
 
@@ -81,7 +86,9 @@ public class MemberService {
     }
 
     public Long resetPassword(PasswordResetRequest request) {
-        final var member = memberModificationService.resetPassword(request);
+        final var university = request.universityEmailEntity();
+        final var password = password(request.getPassword());
+        final var member = memberModificationService.resetPassword(university, password);
         return member.getId();
     }
 
@@ -114,10 +121,21 @@ public class MemberService {
                 new TingApplicationException(MEMBER_014)
         );
 
-        final String enterPassword = request.getPassword();
+        final var enterPassword = password(request.getPassword(), member.getSalt());
 
         if (!member.isSamePassword(enterPassword)) {
             throw new TingApplicationException(MEMBER_016);
         }
+    }
+
+    public Password password(String enterPassword, String salt) {
+        Password.validate(enterPassword);
+        return encryptService.encryptedPassword(enterPassword, salt);
+    }
+
+    public Password password(String enterPassword) {
+        Password.validate(enterPassword);
+        final var salt = encryptService.issueSalt();
+        return encryptService.encryptedPassword(enterPassword, salt);
     }
 }

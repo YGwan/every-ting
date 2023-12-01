@@ -10,7 +10,7 @@ import com.everyTing.member.domain.data.Username;
 import com.everyTing.member.dto.request.*;
 import com.everyTing.member.dto.response.MemberInfoResponse;
 import com.everyTing.member.dto.response.MemberTokensResponse;
-import com.everyTing.member.service.MemberService;
+import com.everyTing.member.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

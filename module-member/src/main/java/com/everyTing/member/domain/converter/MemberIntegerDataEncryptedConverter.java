@@ -1,6 +1,6 @@
 package com.everyTing.member.domain.converter;
 
-import com.everyTing.member.utils.MemberDataEncoder;
+import com.everyTing.member.service.encrypt.EncryptService;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -8,14 +8,21 @@ import javax.persistence.Converter;
 @Converter
 public class MemberIntegerDataEncryptedConverter implements AttributeConverter<Integer, String> {
 
-    @Override
-    public String convertToDatabaseColumn(Integer plain) {
-        final var plainText = Integer.toString(plain);
-        return MemberDataEncoder.encrypt(plainText);
+    private final EncryptService encryptService;
+
+    public MemberIntegerDataEncryptedConverter(EncryptService encryptService) {
+        this.encryptService = encryptService;
     }
 
     @Override
-    public Integer convertToEntityAttribute(String encryptedText) {
-        return Integer.parseInt(MemberDataEncoder.decrypt(encryptedText));
+    public String convertToDatabaseColumn(Integer plain) {
+        final var plainText = Integer.toString(plain);
+        return encryptService.encryptedMemberData(plainText);
+    }
+
+    @Override
+    public Integer convertToEntityAttribute(String cipherText) {
+        String memberData = encryptService.decryptedMemberData(cipherText);
+        return Integer.parseInt(memberData);
     }
 }

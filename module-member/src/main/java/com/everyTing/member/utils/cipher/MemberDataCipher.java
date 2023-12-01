@@ -38,7 +38,7 @@ public class MemberDataCipher {
     }
 
     public String encrypt(String plain) {
-        var encrypted = encrypt(plain.getBytes(StandardCharsets.UTF_8));
+        final var encrypted = encrypt(plain.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(encrypted);
     }
 
@@ -51,7 +51,7 @@ public class MemberDataCipher {
     }
 
     public String decrypt(String encrypted) {
-        var plain = decrypt((Base64.getDecoder().decode(encrypted)));
+        final var plain = decrypt((Base64.getDecoder().decode(encrypted)));
         return new String(plain);
     }
 

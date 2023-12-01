@@ -31,10 +31,10 @@ public class PasswordDigest {
     }
 
     private String byteToHex(byte[] bytes) {
-        final StringBuilder sb = new StringBuilder();
+        final var hexSb = new StringBuilder();
         for (byte b : bytes) {
-            sb.append(String.format("%02x", b));
+            hexSb.append(String.format("%02x", b));
         }
-        return sb.toString();
+        return hexSb.toString();
     }
 }

@@ -35,8 +35,11 @@ public class TokenFilter extends OncePerRequestFilter {
     public static final Map<String, List<HttpMethod>> EXCLUDE_URL_PATTERNS_WITH_METHODS = new HashMap<>();
 
     static {
+        EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/*/api-docs/**", List.of(HttpMethod.GET));
+        EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/swagger-ui/**", List.of(HttpMethod.GET));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/signUp", List.of(HttpMethod.POST));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/info", List.of(HttpMethod.GET));
+        EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/*/info", List.of(HttpMethod.GET));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/signIn", List.of(HttpMethod.POST));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/username/check", List.of(HttpMethod.GET));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/members/kakaoId/check", List.of(HttpMethod.GET));
@@ -46,6 +49,7 @@ public class TokenFilter extends OncePerRequestFilter {
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/notifications", List.of(HttpMethod.POST));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/generated-photos", List.of(HttpMethod.POST));
         EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/profile-photos/requests", List.of(HttpMethod.PUT));
+        EXCLUDE_URL_PATTERNS_WITH_METHODS.put("/api/*/my/teams/exists", List.of(HttpMethod.GET));
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenFilter.class);

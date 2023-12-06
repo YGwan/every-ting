@@ -11,23 +11,19 @@ import static com.everyTing.member.errorCode.MemberServerErrorCode.MSER_001;
 @Slf4j
 public class PasswordDigest {
 
-    private final MessageDigest messageDigest;
+    public String encrypt(String algorithm, String password, String salt) {
+        return encrypt(algorithm, password + salt);
+    }
 
-    public PasswordDigest(String algorithm) {
+    private String encrypt(String algorithm, String plain) {
         try {
-            this.messageDigest = MessageDigest.getInstance(algorithm);
+            final var messageDigest = MessageDigest.getInstance(algorithm);
+            messageDigest.update(plain.getBytes());
+            return byteToHex(messageDigest.digest());
+
         } catch (NoSuchAlgorithmException e) {
             throw new TingServerException(MSER_001);
         }
-    }
-
-    public String encrypt(String password, String salt) {
-        return encrypt(password + salt);
-    }
-
-    private String encrypt(String plain) {
-        messageDigest.update(plain.getBytes());
-        return byteToHex(messageDigest.digest());
     }
 
     private String byteToHex(byte[] bytes) {

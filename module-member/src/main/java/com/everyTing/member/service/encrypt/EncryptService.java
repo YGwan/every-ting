@@ -14,12 +14,13 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class EncryptService {
 
+    @Value("${password.encryption.algorithm}")
+    String passwordEncryptionAlgorithm;
+
     private final MemberDataCipher memberDataCipher;
     private final PasswordDigest passwordDigest;
 
     public EncryptService(
-            @Value("${password.encryption.algorithm}")
-            String passwordEncryptionAlgorithm,
             @Value("${member.encryption.algorithm}")
             String memberDataEncryptionAlgorithm,
             @Value("${member.encryption.key.algorithm}")
@@ -32,7 +33,7 @@ public class EncryptService {
                 new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), keyAlgorithm),
                 new IvParameterSpec(key.substring(0, 16).getBytes()));
 
-        this.passwordDigest = new PasswordDigest(passwordEncryptionAlgorithm);
+        this.passwordDigest = new PasswordDigest();
     }
 
     public String encryptedMemberData(String plainText) {
@@ -44,7 +45,7 @@ public class EncryptService {
     }
 
     public Password encryptedPassword(String password, String salt) {
-        final String encryptedPassword = passwordDigest.encrypt(password, salt);
+        final String encryptedPassword = passwordDigest.encrypt(passwordEncryptionAlgorithm, password, salt);
         return new Password(encryptedPassword, salt);
     }
 

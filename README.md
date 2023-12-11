@@ -19,7 +19,8 @@
 
 <br>
 
-<img width="559" alt="스크린샷 2023-12-10 오후 11 59 12" src="https://github.com/YGwan/every-ting/assets/50222603/dbf6232c-c9b7-46fc-9d97-4d2340148576">
+<img width="833" alt="구조도" src="https://github.com/YGwan/every-ting/assets/50222603/44bec780-522c-470f-9947-29c2abccc338">
+
 
 <br>
 

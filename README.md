@@ -19,8 +19,9 @@
 
 <br>
 
-<img width="833" alt="구조도" src="https://github.com/YGwan/every-ting/assets/50222603/44bec780-522c-470f-9947-29c2abccc338">
-
+<p align="center">
+<img width="840" alt="구조도" src="https://github.com/YGwan/every-ting/assets/50222603/0e683af5-e9bc-4a6d-9727-ceff00d6a0d1">
+</p>
 
 <br>
 

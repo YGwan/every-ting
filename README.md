@@ -29,7 +29,7 @@
 
 <br>
 
-### 백엔드
+## 백엔드
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=FCM&logoColor=white)
@@ -49,11 +49,18 @@
 
 <br>
 
-### 머신러닝
+## 머신러닝
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
-### 프론트
+<br>
+
+- 생성 AI인 StyleGAN 알고리즘을 통한 프로필 이미지 생성
+- FLASK 사용하여 사진 관련 API 구현
+
+<br>
+
+## 프론트
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 
 <br>

@@ -1,19 +1,15 @@
 package com.everyTing.team.adapter.out.persistence.entity;
 
-import com.everyTing.core.domain.AuditingFields;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import com.everyTing.core.domain.CreatedDateFields;
+
+import javax.persistence.*;
 
 @Table(name = "team_date",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = {"womenTeamId", "menTeamId"})
     })
 @Entity
-public class TeamDateEntity extends AuditingFields {
+public class TeamDateEntity extends CreatedDateFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

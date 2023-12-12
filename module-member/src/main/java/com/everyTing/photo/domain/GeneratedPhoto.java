@@ -1,5 +1,6 @@
 package com.everyTing.photo.domain;
 
+import com.everyTing.core.domain.CreatedDateFields;
 import com.everyTing.photo.domain.data.GeneratedImgUrls;
 import com.everyTing.photo.dto.request.GeneratedPhotoAddRequest;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(indexes = @Index(name = "generated_photo_index_memberId", columnList = "memberId"))
 @Entity
-public class GeneratedPhoto {
+public class GeneratedPhoto extends CreatedDateFields {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

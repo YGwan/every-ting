@@ -1,5 +1,6 @@
 package com.everyTing.team.adapter.out.persistence.entity;
 
+import com.everyTing.core.domain.CreatedDateFields;
 import com.everyTing.team.adapter.out.persistence.entity.data.Region;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Table(name = "team_region")
 @Entity
-public class TeamRegionEntity {
+public class TeamRegionEntity extends CreatedDateFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

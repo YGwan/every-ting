@@ -29,13 +29,23 @@
 
 ## 사용 기술
 
+<br>
+
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
-<img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+<img src="https://img.shields.io/badge/firebase FCM-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+<img src="https://img.shields.io/badge/SMTP-1A73E8?style=for-the-badge&logo=gmail&logoColor=white">
+<img src="https://img.shields.io/badge/Encryption-003A70?style=for-the-badge&logo=letsencrypt&logoColor=white">
+<img src="https://img.shields.io/badge/Cache-ED321?style=for-the-badge&logo=cachet&logoColor=white">
+![AWS](https://img.shields.io/badge/AWS-S3-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
+<br>
+
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![nVIDIA](https://img.shields.io/badge/nVIDIA-StyleGAN-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 
 <br>

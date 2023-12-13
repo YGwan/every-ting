@@ -1,4 +1,4 @@
 rootProject.name = 'everyTing'
-include 'module-member'
+include 'module-common'
 include 'module-team'
 include 'module-core'

@@ -17,8 +17,47 @@
 
 ## 사용 기술 정리
 
+<br>
 
-* DB 데이터 암호화 - [DB 안 데이터는 개발자인 나조차도 모르게 저장해야한다.](https://swmobenz.tistory.com/30)
+- ### 캐시
+  - Redis를 사용해서 전역 캐시 기법으로 캐시를 사용했습니다.
+  - 읽기 전략은 **Look aside** 방식, 쓰기 전략은 **Write around** 방식을 사용했습니다.
+ 
+<br>
+
+- ### 메일 인증
+  - Spring Mail & Google SMTP를 통해 메일 서비스를 구현했습니다.
+  - 인증코드는 SecureRandom 클래스를 통해 구현하였고 인증 코드를 Redis에 ttl 설정을 두어 저장 & 인증시 Redis 값과 비교하는 식으로 인증 로직을 구현했습니다.
+  - [Spring Mail 인증 비동기 처리 & 비동기 retry 정책 적용](https://swmobenz.tistory.com/31)
+ 
+<br>
+
+- ### 푸시 알림
+  - 앱의 푸시 알림 구현을 위해 Firebase에서 제공하는 FCM(Firebase Cloud Messaging) 서비스를 사용했습니다. 
+ 
+<br>
+
+- ### 멀티 모듈
+  - 백엔드 Springboot 서버를 멀티모듈로 구현했고 부하분산 처리 & 트래픽 관리 등을 용의하게 하기 위해 Common DB와 Team DB 서버를 따로 두었습니다.
+  - 모듈간의 데이터 통신은 Foreign Client를 통해 통신하였습니다.
+ 
+<br>
+
+- ### 사진 처리
+  - 사진 이미지는 AWS의 S3 버킷에 저장했습니다.
+ 
+<br>
+
+- ### JWT 토큰
+  - 토큰은 JWT Token을 사용하였고 기본적으로는 AccessToken을 프론트에서 해더에 보내 인증처리하는 식으로 구현하였고 자동 로그인 & 엑세스 토큰 만료시에는 RefreshToken을 사용해 처리하도록 개발하였습니다.
+  - RefreshToken은 1회성을 보장하여 가장 최근에 생성된 RefreshToken값만 사용할 수 있도록 구현하여 보안을 강화했습니다.
+ 
+<br>
+
+- ### 암호화
+  - 패스워드는 SHA256을 통해 단방향 암호화 처리를 진행하였고 salt을 매번 임의의 난수로 생성하여 레인보우 테이블 문제를 해결하였습니다. 로그인시 이에 대한 정보를 조합하여 인증 처리를 진행합니다.
+  - 사용자 개인 데이터는 AES를 통한 양방향 암호화 처리로 진행했습니다. converter를 통해 DB에 저장될때는 암호화를 DB에서 조회될때는 복호화를 처리하여 데이터를 관리했습니다.
+  - [DB 안 데이터는 개발자인 나조차도 모르게 저장해야한다.](https://swmobenz.tistory.com/30)
 
 
 <br>
@@ -52,22 +91,6 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![nVIDIA](https://img.shields.io/badge/nVIDIA-StyleGAN-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white)
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
-
-<br>
-
-## 백엔드
-
-<br>
-
-- 캐시 처리 & 인증 처리 등을 위해 Redis, SMTP(Simple Mail Transfer Protocol)를 사용했습니다.
-- DB는 MariaDB를 사용했고 JPA를 사용하여 개발을 진행했습니다.
-- 앱의 푸시 알림 구현을 위해 Firebase에서 제공하는 FCM(Firebase Cloud Messaging) 서비스를 사용했습니다.
-- 백엔드 서버는 SpringBoot을 통해 개발하였고 멀티 모듈 방식으로 개발하였습니다.
-- 모듈간의 데이터 통신은 Foreign Client를 통해 통신하였습니다.
-- 사진 이미지는 AWS의 S3 버킷을 통해 저장하였고 서버 배포 또한 AWS를 통해 배포를 진행했습니다.
-- 토큰은 JWT Token을 사용하였고 기본적으로는 AccessToken을 프론트에서 해더에 보내 인증처리하는 식으로 구현하였고 자동 로그인 & 엑세스 토큰 만료시에는 RefreshToken을 사용해 처리하도록 개발하였습니다.
-- 패스워드는 SHA256을 통해 단방향 암호화 처리를 진행하였고 salt을 매번 임의의 난수로 생성하여 레인보우 테이블 문제를 해결하였습니다. 로그인시 이에 대한 정보를 조합하여 인증 처리를 진행합니다.
-- 사용자 개인 데이터는 AES를 통한 양방향 암호화 처리로 진행했습니다. converter를 통해 DB에 저장될때는 암호화를 DB에서 조회될때는 복호화를 처리하여 데이터를 관리했습니다.
 
 <br>
 

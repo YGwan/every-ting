@@ -12,3 +12,11 @@ service:
   notification:
     name: notification-module
     url: ${MEMBER_MODULE_URL}
+
+# feignClient 장애 대비를 위한 env
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000

@@ -28,6 +28,7 @@
 - ### 메일 인증
   - Spring Mail & Google SMTP를 통해 메일 서비스를 구현했습니다.
   - 인증코드는 SecureRandom 클래스를 통해 구현하였고 인증 코드를 Redis에 ttl 설정을 두어 저장 & 인증시 Redis 값과 비교하는 식으로 인증 로직을 구현했습니다.
+  - 메일 전송 로직을 비동기로 처리해 사용자 응답 시간을 단축하였고 비동기 처리시 생길 수 있는 장애를 대비 & 처리하기 위해 비동기 retry정책을 사용해 이를 구현했습니다.
   - [Spring Mail 인증 비동기 처리 & 비동기 retry 정책 적용](https://swmobenz.tistory.com/31)
  
 <br>
@@ -38,9 +39,15 @@
 <br>
 
 - ### 멀티 모듈
-  - 백엔드 Springboot 서버를 멀티모듈로 구현했고 부하분산 처리 & 트래픽 관리 등을 용의하게 하기 위해 Common DB와 Team DB 서버를 따로 두었습니다.
-  - 모듈간의 데이터 통신은 Foreign Client를 통해 통신하였습니다.
+  - 백엔드 Springboot 서버를 멀티모듈로 구현했고 부하분산 처리 & 트래픽 관리 등을 용이하게 하기 위해 Common DB와 Team DB 서버를 따로 두었습니다.
  
+<br>
+
+- ### 모듈 간 통신
+  - 모듈 간 통신은 FeignClient을 사용해서 통신하였습니다.
+  - 통신 시에 장애를 대비하기 위해 Connection-timeout과 Read-timeout값을 설정해 이를 대비했습니다.
+  - [외부 API 사용 :: 마지막까지 깔끔하게](https://swmobenz.tistory.com/33)
+
 <br>
 
 - ### 사진 처리

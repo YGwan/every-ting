@@ -45,7 +45,7 @@
 
 - ### 모듈 간 통신
   - 모듈 간 통신은 FeignClient을 사용해서 통신하였습니다.
-  - 통신 시에 장애를 대비하기 위해 Connection-timeout과 Read-timeout값을 설정해 이를 대비했습니다.
+  - 통신 시에 장애를 대비하기 위해 Connection-timeout과 Read-timeout(response-timeout)값을 설정해 이를 대비했습니다.
   - [외부 API 사용 :: 마지막까지 깔끔하게](https://swmobenz.tistory.com/33)
 
 <br>

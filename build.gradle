@@ -55,6 +55,9 @@ subprojects {
         // querydsl
         implementation 'com.querydsl:querydsl-jpa:5.0.0'
         annotationProcessor 'com.querydsl:querydsl-apt:5.0.0'
+
+        //slack
+        implementation group: 'com.slack.api', name: 'slack-api-client', version: '1.30.0'
     }
 
     dependencyManagement {

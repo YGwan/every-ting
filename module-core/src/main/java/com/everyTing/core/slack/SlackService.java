@@ -5,8 +5,6 @@ import com.slack.api.webhook.Payload;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
 @Service
 public class SlackService {
 
@@ -22,8 +20,7 @@ public class SlackService {
         final Payload payload = Payload.builder().text(message).build();
         try {
             slackClient.send(webhookUrl, payload);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }

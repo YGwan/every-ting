@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TingServerException.class)
     public ResponseEntity<?> handleInternalServerException(TingServerException e) {
         slackService.send(e.getMessage());
+        log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .build();
     }
@@ -51,6 +52,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handlerException(Exception e) {
         slackService.send(e.getMessage());
+        log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                              .build();
     }

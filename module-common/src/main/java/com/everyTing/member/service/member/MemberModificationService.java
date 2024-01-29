@@ -3,7 +3,7 @@ package com.everyTing.member.service.member;
 import com.everyTing.member.domain.Member;
 import com.everyTing.member.domain.data.*;
 import com.everyTing.member.repository.MemberRepository;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +17,7 @@ public class MemberModificationService {
         this.memberRepository = memberRepository;
     }
 
-    @CachePut(value = "member", key = "#memberId")
+    @CacheEvict(value = "member", key = "#memberId")
     public Member modifyUsername(Long memberId, Username newUsername) {
         final Member member = memberQueryService.findMemberById(memberId);
         member.modifyUsername(newUsername);
@@ -25,7 +25,7 @@ public class MemberModificationService {
         return member;
     }
 
-    @CachePut(value = "member", key = "#memberId")
+    @CacheEvict(value = "member", key = "#memberId")
     public Member modifyKakaoId(Long memberId, KakaoId newValidateKakaoId) {
         final Member member = memberQueryService.findMemberById(memberId);
         member.modifyKakaoId(newValidateKakaoId);
@@ -33,7 +33,7 @@ public class MemberModificationService {
         return member;
     }
 
-    @CachePut(value = "member", key = "#memberId")
+    @CacheEvict(value = "member", key = "#memberId")
     public Member modifyProfilePhoto(Long memberId, String url) {
         final var profilePhoto = ProfilePhoto.from(url);
         final Member member = memberQueryService.findMemberById(memberId);

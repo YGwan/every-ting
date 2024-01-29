@@ -11,6 +11,7 @@
 <br>
 
 - 생성 AI를 이용한 대학생 전용 과팅 & 소개팅 어플리케이션
+- Backend, Frontend, ML, Designer, PM으로 이루어진 팀 프로젝트 진행
 - 대학교 이메일 인증을 통한 인증 처리, 생성 AI 모델인 styleGAN 알고리즘을 통한 프로필 사진 생성
 
 <br>

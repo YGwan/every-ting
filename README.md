@@ -26,8 +26,8 @@
   - 캐시 정책은 maxmemory(200MB), maxmemory-policy(LRU), backup down(RDB X, AOF X)
   - [조회 성능 향상을 위한 캐시 처리 with Redis](https://swmobenz.tistory.com/36)
   - Ngrinder을 통해 확인해 본 결과 성능 향상은 캐시 전과 후가 아래와 같이 향상된 것을 확인할 수 있습니다. (TPS 수치가 높고 Mean Test Time이 낮을수록 성능이 좋다.)
-    - 테스트 환경 (50명 유저가 1분동안 1 ~ 200까지의 랜덤한 유저 데이터 조회 (총 1000명의 유저, 최근 방문한 데이터는 이중 20%인 1 ~ 200명까지로 가정)
-      <img width="1345" alt="nGrinder test" src="https://github.com/YGwan/every-ting/assets/50222603/78422498-df39-45ff-80c8-4d554ee7bf52">
+    <img width="1387" alt="nGrinder test" src="https://github.com/YGwan/every-ting/assets/50222603/e6e238c7-752a-4326-b7ab-4b49064919c6">
+
 
 
  

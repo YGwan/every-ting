@@ -25,6 +25,9 @@
   - 읽기 전략은 **Look aside** 방식, 쓰기 전략은 **Write around** 방식을 사용했습니다.
   - 캐시 정책은 maxmemory(200MB), maxmemory-policy(LRU), backup down(RDB X, AOF X)
   - [조회 성능 향상을 위한 캐시 처리 with Redis](https://swmobenz.tistory.com/36)
+  - Ngrinder을 통해 확인해 본 결과 성능 향상은 캐시 전과 후가 아래와 같이 향상된 것을 확인할 수 있습니다. (TPS 수치가 높고 Mean Test Time이 낮을수록 성능이 좋다.)
+      <img width="1305" alt="스크린샷 2024-02-10 오후 11 09 32" src="https://github.com/YGwan/every-ting/assets/50222603/c7a06d1a-4be2-4915-81ec-581c5ceef6f5">
+
  
 <br>
 

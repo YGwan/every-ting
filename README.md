@@ -23,6 +23,8 @@
 - ### 캐시
   - Redis를 사용해서 전역 캐시 기법으로 캐시를 사용했습니다.
   - 읽기 전략은 **Look aside** 방식, 쓰기 전략은 **Write around** 방식을 사용했습니다.
+  - 캐시 정책은 maxmemory(200MB), maxmemory-policy(LRU), backup down(RDB X, AOF X)
+  - [조회 성능 향상을 위한 캐시 처리 with Redis](https://swmobenz.tistory.com/36)
  
 <br>
 

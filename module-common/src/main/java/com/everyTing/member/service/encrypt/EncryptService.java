@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class EncryptService {
 
     @Value("${password.encryption.algorithm}")
-    String passwordEncryptionAlgorithm;
+    private String passwordEncryptionAlgorithm;
 
     private final MemberDataCipher memberDataCipher;
     private final PasswordDigest passwordDigest;

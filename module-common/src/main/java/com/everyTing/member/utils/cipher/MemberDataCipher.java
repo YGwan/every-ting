@@ -15,52 +15,55 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-import static com.everyTing.member.errorCode.MemberServerErrorCode.*;
+import static com.everyTing.member.errorCode.MemberServerErrorCode.MSER_002;
+import static com.everyTing.member.errorCode.MemberServerErrorCode.MSER_003;
 
 @Slf4j
 public class MemberDataCipher {
 
-    private final Cipher encryptCipher;
-    private final Cipher decryptCipher;
+    private final String memberDataEncryptionAlgorithm;
+    private final SecretKeySpec keySpec;
+    private final IvParameterSpec ivParamSpec;
 
-    public MemberDataCipher(String algorithm, SecretKeySpec keySec, IvParameterSpec ivParamSpec) {
+    public MemberDataCipher(String memberDataEncryptionAlgorithm, SecretKeySpec keySpec, IvParameterSpec ivParamSpec) {
+        this.memberDataEncryptionAlgorithm = memberDataEncryptionAlgorithm;
+        this.keySpec = keySpec;
+        this.ivParamSpec = ivParamSpec;
+    }
+
+    public String encrypt(String plainText) {
+        byte[] encryptBytes = encrypt(plainText.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(encryptBytes);
+    }
+
+    private byte[] encrypt(byte[] plainBytes) {
         try {
-            this.encryptCipher = Cipher.getInstance(algorithm);
-            this.encryptCipher.init(Cipher.ENCRYPT_MODE, keySec, ivParamSpec);
+            final Cipher cipher = Cipher.getInstance(memberDataEncryptionAlgorithm);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
+            return cipher.doFinal(plainBytes);
 
-            this.decryptCipher = Cipher.getInstance(algorithm);
-            this.decryptCipher.init(Cipher.DECRYPT_MODE, keySec, ivParamSpec);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException |
-                 InvalidKeyException e) {
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
             log.error(e.getMessage());
             throw new TingServerException(MSER_002);
         }
     }
 
-    public String encrypt(String plain) {
-        final var encrypted = encrypt(plain.getBytes(StandardCharsets.UTF_8));
-        return Base64.getEncoder().encodeToString(encrypted);
-    }
-
-    public byte[] encrypt(byte[] plain) {
-        try {
-            return encryptCipher.doFinal(plain);
-        } catch (BadPaddingException | IllegalBlockSizeException e) {
-            throw new TingServerException(MSER_003);
-        }
-    }
-
-    public String decrypt(String encrypted) {
-        final var plain = decrypt((Base64.getDecoder().decode(encrypted)));
+    public String decrypt(String encryptText) {
+        final var plain = decrypt((Base64.getDecoder().decode(encryptText)));
         return new String(plain);
     }
 
-    public byte[] decrypt(byte[] encrypted) {
+    private byte[] decrypt(byte[] encryptBytes) {
         try {
-            return decryptCipher.doFinal(encrypted);
-        } catch (BadPaddingException | IllegalBlockSizeException e) {
+            final Cipher cipher = Cipher.getInstance(memberDataEncryptionAlgorithm);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParamSpec);
+            return cipher.doFinal(encryptBytes);
+
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidAlgorithmParameterException |
+                 InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
             log.error(e.getMessage());
-            throw new TingServerException(MSER_004);
+            throw new TingServerException(MSER_003);
         }
     }
 }

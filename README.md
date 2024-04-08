@@ -48,6 +48,7 @@
 
 - ### 멀티 모듈
   - 백엔드 Springboot 서버를 멀티모듈로 구현했고 부하분산 처리 & 트래픽 관리 등을 용이하게 하기 위해 Common DB와 Team DB 서버를 따로 두었습니다.
+  - 팀원 간의 Conflict 발생을 최소화하기 위해 모듈 별 작업을 분담하여 진행했습니다.
  
 <br>
 
@@ -73,6 +74,14 @@
   - 패스워드는 SHA256을 통해 단방향 암호화 처리를 진행하였고 salt을 매번 임의의 난수로 생성하여 레인보우 테이블 문제를 해결하였습니다. 로그인시 이에 대한 정보를 조합하여 인증 처리를 진행합니다.
   - 사용자 개인 데이터는 AES를 통한 양방향 암호화 처리로 진행했습니다. converter를 통해 DB에 저장될때는 암호화를 DB에서 조회될때는 복호화를 처리하여 데이터를 관리했습니다.
   - [DB 안 데이터는 개발자인 나조차도 모르게 저장해야한다.](https://swmobenz.tistory.com/30)
+ 
+<br>
+
+- ### 모니터링
+  - 장애를 대비하기 위한 모니터링 시스템을 구축했습니다.
+  - Spring Actuator, Prometheus, Grafana를 사용하여 모니터링 시스템을 구축했습니다.
+ 
+    <img width="1435" alt="스크린샷 2024-04-08 오후 5 36 46" src="https://github.com/YGwan/every-ting/assets/50222603/7a004414-8955-4df6-a906-8f21e97ac8d2">
 
 
 <br>
@@ -93,19 +102,7 @@
 
 <br>
 
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-<img src="https://img.shields.io/badge/firebase FCM-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
-<img src="https://img.shields.io/badge/SMTP-1A73E8?style=for-the-badge&logo=gmail&logoColor=white">
-<img src="https://img.shields.io/badge/Encryption-003A70?style=for-the-badge&logo=letsencrypt&logoColor=white">
-<img src="https://img.shields.io/badge/Cache-ED321?style=for-the-badge&logo=cachet&logoColor=white">
-![AWS](https://img.shields.io/badge/AWS-S3-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![nVIDIA](https://img.shields.io/badge/nVIDIA-StyleGAN-%2376B900.svg?style=for-the-badge&logo=nVIDIA&logoColor=white)
-![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+Redis, MariaDB, JWT, Firebase FCM, SMTP, Encryption, Cache, AWS-S3, Flask, nVIDIA-StyleGAN, Flutter, SpringBoot, Actuator, Grafana, Prometheus
 
 <br>
 

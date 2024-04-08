@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s     # How frequently to scrape targets by default. (default = 1m)
+  scrape_timeout: 15s      # How long until a scrape request times out. (default = 10s)
+  evaluation_interval: 2m  #  How frequently to evaluate rules. (default = 1m)
+
+## 로그 기록
+#  external_labels:
+#    monitor: 'monitor-query-log'
+#  query_log_file: query_log_file.log
+
+# A list of scrape configurations.
+scrape_configs:
+  - job_name: 'monitoring-system'
+    metrics_path: '/actuator/prometheus'     # 옵션 - prometheus가 metrics를 얻기위해 참조하는 URI를 변경할 수 있음 | default = /metrics
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['host.docker.internal:8080']

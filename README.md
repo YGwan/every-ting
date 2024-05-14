@@ -16,6 +16,20 @@
 
 <br>
 
+## 사용 기술
+
+<br>
+
+- Back-end : Java 11, SpringBoot 2.7.3, JPA, AWS-S3
+- Front-end : Flutter
+- ML : Flask, nVIDIA-StyleGAN
+- DB : Redis, MariaDB, Cache(Redis)
+- Security : JWT, Encryption(SHA256 & SALT, AES)
+- Monitoring : Actuator, Grafana, Prometheus
+- Mail Service & notification :SMTP, Firebase FCM
+
+<br>
+
 ## 사용 기술 정리
 
 <br>
@@ -95,14 +109,6 @@
 </p>
 
 <br>
-
-<br>
-
-## 사용 기술
-
-<br>
-
-Redis, MariaDB, JWT, Firebase FCM, SMTP, Encryption, Cache, AWS-S3, Flask, nVIDIA-StyleGAN, Flutter, SpringBoot, Actuator, Grafana, Prometheus
 
 <br>
 

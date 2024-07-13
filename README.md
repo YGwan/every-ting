@@ -20,13 +20,14 @@
 
 <br>
 
-- Back-end : Java 11, SpringBoot 2.7.3, JPA, AWS-S3
+- Back-end : Java 11, SpringBoot 2.7.3, JUnit5, JPA, AWS-S3
 - Front-end : Flutter
 - ML : Flask, nVIDIA-StyleGAN
 - DB : Redis, MariaDB, Cache(Redis)
 - Security : JWT, Encryption(SHA256 & SALT, AES)
 - Monitoring : Actuator, Grafana, Prometheus
-- Mail Service & notification :SMTP, Firebase FCM
+- Mail Service & notification : SMTP, Firebase FCM
+- etc : ngrinder, Redisson, Notion, Slack
 
 <br>
 
@@ -40,10 +41,10 @@
   - 캐시 정책은 maxmemory(200MB), maxmemory-policy(LRU), backup down(RDB X, AOF X)
   - [조회 성능 향상을 위한 캐시 처리 with Redis](https://swmobenz.tistory.com/36)
   - Ngrinder을 통해 확인해 본 결과 성능 향상은 캐시 전과 후가 아래와 같이 향상된 것을 확인할 수 있습니다. (TPS 수치가 높고 Mean Test Time이 낮을수록 성능이 좋다.)
+ 
+  <br>
+  
     <img width="1387" alt="nGrinder test" src="https://github.com/YGwan/every-ting/assets/50222603/e6e238c7-752a-4326-b7ab-4b49064919c6">
-
-
-
  
 <br>
 
@@ -55,8 +56,15 @@
  
 <br>
 
+- ### 동시성 처리
+  - 과팅 시, 매칭 최대 횟수와 과팅 요청(보낸 것, 받은 것) 최대 횟수가 각각 존재했습니다.
+  - 이 때 각각의 최대값에 근접했을때, 동시에 매칭 & 요청이 성사되면 동시성 문제가 발생하는 것을 확인했습니다.
+  - 따라서, 이러한 문제를 해결하기 위해 Redis에서 제공하는 분산락(Redisson) 방식을 사용하여 분삭락 방식으로 동시성 문제를 해결했습니다.
+
+<br>
+
 - ### 푸시 알림
-  - 앱의 푸시 알림 구현을 위해 Firebase에서 제공하는 FCM(Firebase Cloud Messaging) 서비스를 사용했습니다. 
+  - 앱의 푸시 알림 구현을 위해 Firebase에서 제공하는 FCM(Firebase Cloud Messaging) 서비스를 사용했습니다.
  
 <br>
 
@@ -75,6 +83,7 @@
 
 - ### 사진 처리
   - 사진 이미지는 AWS의 S3 버킷에 저장했습니다.
+  - 그 후, 해당 S3 버킷 경로를 서버의 profile_photo로 저장하여 사진 파일을 관리했습니다.
  
 <br>
 

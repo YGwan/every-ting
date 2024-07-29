@@ -68,14 +68,8 @@
  
 <br>
 
-- ### 멀티 모듈
-  - 백엔드 Springboot 서버를 멀티모듈로 구현했고 부하분산 처리 & 트래픽 관리 등을 용이하게 하기 위해 Common DB와 Team DB 서버를 따로 두었습니다.
-  - 팀원 간의 Conflict 발생을 최소화하기 위해 모듈 별 작업을 분담하여 진행했습니다.
- 
-<br>
-
-- ### 모듈 간 통신
-  - 모듈 간 통신은 FeignClient을 사용해서 통신하였습니다.
+- ### 외부 API 통신
+  - 외부 API 통신은 FeignClient을 사용해서 통신하였습니다.
   - 통신 시에 장애를 대비하기 위해 Connection-timeout과 Read-timeout(response-timeout)값을 설정해 이를 대비했습니다.
   - [외부 API 사용 :: 마지막까지 깔끔하게](https://swmobenz.tistory.com/33)
 

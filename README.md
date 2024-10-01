@@ -107,7 +107,7 @@
 
 <br>
 
-![structure.png](..%2F..%2FDesktop%2Fstructure.png)
+<img width="678" alt="structure" src="https://github.com/user-attachments/assets/3eed1b55-e699-45a7-9b4e-9b67ccdb84b4">
 
 <br>
 

@@ -107,9 +107,7 @@
 
 <br>
 
-<p align="center">
-<img width="840" alt="구조도" src="https://github.com/YGwan/every-ting/assets/50222603/0e683af5-e9bc-4a6d-9727-ceff00d6a0d1">
-</p>
+![structure.png](..%2F..%2FDesktop%2Fstructure.png)
 
 <br>
 
